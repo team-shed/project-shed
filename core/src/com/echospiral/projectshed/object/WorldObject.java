@@ -53,7 +53,6 @@ public abstract class WorldObject {
 
     // TODO: fixme, this should be called update or update move
     public void tick(float delta) {
-
         if (!isHorizontallyBlocked())
             setX(getX() + (int) round((double) dx * delta));
 
