@@ -5,16 +5,13 @@ import com.echospiral.projectshed.object.Player;
 /**
  * Created by Rudi on 1/24/2015.
  */
-public class ItemEffectIncreaseSpeed extends ItemEffect{
+public class ItemEffectIncreaseSpeed extends ItemEffectLimitedTime {
 
     private int speedModifier;
-    private float lastsInSeconds;
-    private float currentTimeSeconds;
 
     public ItemEffectIncreaseSpeed(int speedMod, float lastsInSeconds) {
+        super(lastsInSeconds);
         this.speedModifier = speedMod;
-        this.lastsInSeconds = lastsInSeconds;
-        this.currentTimeSeconds = 0;
     }
 
     @Override
@@ -29,12 +26,4 @@ public class ItemEffectIncreaseSpeed extends ItemEffect{
         return true;
     }
 
-    @Override
-    public boolean tick(float delta) {
-        currentTimeSeconds += delta;
-        if (currentTimeSeconds >= lastsInSeconds){
-            return true;
-        }
-        return false;
-    }
 }

@@ -43,6 +43,9 @@ public abstract class WorldObject {
     // Position of previous frame
     private Rectangle cachedRectangle;
 
+    // By default this is true, can be false to emulate stuff lik dizziness or paralysis
+    private boolean doesMove;
+
     private boolean hasCollidedRight;
     private boolean hasCollidedLeft;
     private boolean hasCollidedTop;
@@ -59,6 +62,8 @@ public abstract class WorldObject {
         hasCollidedRight = false;
         hasCollidedTop = false;
         hasCollidedBottom = false;
+
+        doesMove = true;
     }
 
     protected void preUpdate() {
@@ -67,7 +72,8 @@ public abstract class WorldObject {
 
     public void tick(float delta) {
         preUpdate();
-        updateMove(delta);
+        if (doesMove)
+            updateMove(delta);
     }
 
     protected void updateMove(float delta) {
@@ -223,4 +229,12 @@ public abstract class WorldObject {
     public abstract void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer);
 
     public abstract Rectangle getRelativeBounds(int dx, int dy);
+
+    public void stopMovement() {
+        doesMove = false;
+    }
+
+    public void activateMovement() {
+        doesMove = true;
+    }
 }
