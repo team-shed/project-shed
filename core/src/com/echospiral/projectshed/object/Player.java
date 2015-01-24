@@ -1,5 +1,6 @@
 package com.echospiral.projectshed.object;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -59,12 +60,10 @@ public class Player extends WorldObject {
         if (controller != null) {
             float x = controller.getLeftAxisX();
             float y = controller.getLeftAxisY();
-            
+
             //Ignore joy-stick deadzone.
-            Vector2 v = new Vector2(x, y);
-            if(v.len2() < 0.1f) {
-                x = 0; y = 0;
-            }
+            if(x < 0.2f && x > -0.2f) x = 0;
+            if(y < 0.2f && x > -0.2f) y = 0;
 
             setDx((int) round((double)movementSpeed * signum(x)));
             setDy(-(int) round((double)movementSpeed * signum(y)));
