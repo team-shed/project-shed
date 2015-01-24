@@ -5,12 +5,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import static java.lang.Math.round;
-import com.echospiral.projectshed.controllers.MappedController;
 import com.echospiral.projectshed.Direction;
+import com.echospiral.projectshed.controllers.MappedController;
 import com.echospiral.projectshed.world.World;
 
 import static com.echospiral.projectshed.Direction.DOWN;
+import static java.lang.Math.round;
 
 public class Player extends WorldObject {
     private MappedController controller;
@@ -53,12 +53,6 @@ public class Player extends WorldObject {
     @Override
     public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
         spriteBatch.draw(getAnimation().getKeyFrame(stateTime), getX(), getY());
-    }
-
-    @Override
-    public void tick(float delta) {
-        super.tick(delta);
-        if (getDx() != 0 || getDy() != 0) stateTime += delta;
     }
 
     private Animation getAnimation() {
