@@ -6,11 +6,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.echospiral.projectshed.Direction;
+import com.echospiral.projectshed.Role;
 import com.echospiral.projectshed.controllers.MappedController;
 import com.echospiral.projectshed.object.item.Item;
 import com.echospiral.projectshed.world.World;
 
 import static com.echospiral.projectshed.Direction.DOWN;
+import static com.echospiral.projectshed.Role.PLAYER;
 import static java.lang.Math.round;
 
 public class Player extends WorldObject {
@@ -24,6 +26,7 @@ public class Player extends WorldObject {
     private Animation moveDownAnimation;
     private Direction direction;
     private float stateTime;
+    private Role role;
 
     public Player(World world, int x, int y, Animation moveUpAnimation, Animation moveLeftAnimation, Animation moveRightAnimation, Animation moveDownAnimation) {
         super(world, x, y);
@@ -33,6 +36,7 @@ public class Player extends WorldObject {
         this.moveLeftAnimation = moveLeftAnimation;
         this.moveRightAnimation = moveRightAnimation;
         this.moveDownAnimation = moveDownAnimation;
+        role = PLAYER;
     }
 
     public void setController(MappedController controller) {
@@ -105,4 +109,11 @@ public class Player extends WorldObject {
         return new Rectangle(getX() + dx, getY() + dy, frame.getRegionWidth(), frame.getRegionHeight());
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 }

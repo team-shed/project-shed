@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.echospiral.projectshed.PlayerManager;
 import com.echospiral.projectshed.ProjectShed;
 import com.echospiral.projectshed.world.World;
 
@@ -13,10 +14,16 @@ public class GameScreen extends ScreenAdapter {
 
     private ProjectShed game;
     private World world;
+    private PlayerManager playerManager;
 
     public GameScreen(ProjectShed game) {
         this.game = game;
         world = new World();
+        playerManager = new PlayerManager();
+    }
+
+    public PlayerManager getPlayerManager() {
+        return playerManager;
     }
 
     @Override
