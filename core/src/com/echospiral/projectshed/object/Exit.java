@@ -27,7 +27,7 @@ public class Exit extends WorldObject {
         super(world, x, y);
         stateTime = 0F;
         this.flag = new Texture("flagGreen.png");
-        this.animation = new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(flag, 0, 0, 66, 92)); }} );
+        this.animation = new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(flag, 0, 0, 70, 70)); }} );
     }
 
     @Override
