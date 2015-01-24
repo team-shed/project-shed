@@ -20,8 +20,8 @@ public class ProjectShed extends Game {
         spriteBatch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
 
-        Sprite splashImage = new Sprite(new Texture("badlogic.jpg"));
-        splashImage.setCenter(512, 384);
+        Sprite splashImage = new Sprite(new Texture("teamshed.png"));
+        splashImage.setCenter(400, 300);
 
         GameScreen gameScreen = new GameScreen(this);
 
@@ -31,9 +31,9 @@ public class ProjectShed extends Game {
             this.setScreen(inputSetupScreen);
         } else {
             gameScreen.addPlayerController(new KeyboardMappedController());
-            this.setScreen(gameScreen);
+            //this.setScreen(gameScreen);
         }
-        //this.setScreen(new SplashScreen(this, inputSetupScreen, splashImage, 0.5f, 1.5f, 2.0f));
+        this.setScreen(new SplashScreen(this, gameScreen, splashImage, 0.5f, 1.5f, 2.0f));
 	}
 
     public SpriteBatch getSpriteBatch() {

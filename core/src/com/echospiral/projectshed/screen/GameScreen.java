@@ -33,7 +33,7 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen(ProjectShed game) {
         this.game = game;
         playerManager = new PlayerManager();
-        world = new World("worlds/world1_1.csv");
+        world = new World("worlds/world1_2.csv");
 
         for(WorldObject o : world.getObjects().select(new Predicate<WorldObject>() {
             @Override
