@@ -69,11 +69,12 @@ public class BuilderPlayer extends Player {
                 if (object == this) continue;
                 if (object instanceof BreakableWall) {
                     BreakableWall wall = (BreakableWall) object;
-                    if (getX() > object.getX()
-                            && getY() > object.getY()
+                    if (getX() + (COLUMN_WIDTH / 2) > object.getX()
+                            && getY() + (ROW_HEIGHT / 2) > object.getY()
                             && getX() < object.getX() + COLUMN_WIDTH
                             && getY() < object.getY() + ROW_HEIGHT) {
                         wall.setBuilding(true);
+                        posFree = false;
                     } else {
                         wall.setBuilding(false);
                     }
@@ -85,7 +86,7 @@ public class BuilderPlayer extends Player {
                 }
             }
             if (posFree) {
-                BreakableWall wall = new BreakableWall(getWorld(), (getX() / ROW_HEIGHT) * ROW_HEIGHT, (getY() / COLUMN_WIDTH) * COLUMN_WIDTH, 0);
+                BreakableWall wall = new BreakableWall(getWorld(), ((getX() + (COLUMN_WIDTH / 2)) / COLUMN_WIDTH) * COLUMN_WIDTH, ((getY() + (ROW_HEIGHT / 2)) / ROW_HEIGHT) * ROW_HEIGHT, 0);
                 wall.setBuilding(true);
                 getWorld().addObject(wall);
             }
