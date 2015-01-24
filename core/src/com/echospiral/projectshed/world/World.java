@@ -58,7 +58,7 @@ public class World {
                         new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(playerTexture, 0, 0, 66, 92)); }} ),
                         new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(playerTexture, 0, 0, 66, 92)); }} ),
                         new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(playerTexture, 0, 0, 66, 92)); }} ));
-                player.setController(new KeyboardMappedController());
+                //player.setController(new KeyboardMappedController());
                 this.player = player;
                 return player;
             case 'x': // exit
