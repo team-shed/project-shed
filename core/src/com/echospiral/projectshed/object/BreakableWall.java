@@ -31,17 +31,22 @@ public class BreakableWall extends Block {
         this.wood = new Texture(Gdx.files.internal("wood.png"));
 
         this.animation = new Animation(1f, new Array<TextureRegion>() {{ add(new TextureRegion(wood, 0, 0, 64, 64)); }} );
-        animation.setPlayMode(NORMAL);
+        this.animation.setPlayMode(NORMAL);
+        this.building = false;
+        this.destroying = false;
     }
 
     @Override
     public void tick(float delta) {
         super.tick(delta);
         if (isBuilding() && stateTime < 7F) stateTime += Math.min(delta, 7F - stateTime);
-        if (isDestroying() && stateTime > 0F)
-            stateTime -= Math.min(delta, stateTime);
-        else
-            getWorld().removeObject(this);
+        if (isDestroying()) {
+            if (stateTime > 0F) {
+                stateTime -= Math.min(delta, stateTime);
+            } else {
+                getWorld().removeObject(this);
+            }
+        }
     }
 
     @Override
