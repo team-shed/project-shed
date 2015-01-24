@@ -36,7 +36,7 @@ public abstract class WorldObject {
         public abstract Boolean call();
     }
 
-    private World world;
+    protected World world;
     private int x;
     private int y;
     private int dx;
