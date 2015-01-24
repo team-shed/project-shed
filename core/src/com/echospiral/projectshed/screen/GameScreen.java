@@ -16,7 +16,8 @@ public class GameScreen extends ScreenAdapter {
 
     public GameScreen(ProjectShed game) {
         this.game = game;
-        world = new World();
+        world = new World("worlds/world1_1.csv");
+
     }
 
     @Override
@@ -26,12 +27,12 @@ public class GameScreen extends ScreenAdapter {
         SpriteBatch spriteBatch = game.getSpriteBatch();
         ShapeRenderer shapeRenderer = game.getShapeRenderer();
         spriteBatch.begin();
-        shapeRenderer.begin();
+        //shapeRenderer.begin();
         if (world != null) {
             world.tick(delta);
             world.render(spriteBatch, shapeRenderer);
         }
-        shapeRenderer.end();
+//        shapeRenderer.end();
         spriteBatch.end();
     }
 }

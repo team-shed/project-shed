@@ -3,6 +3,7 @@ package com.echospiral.projectshed;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.echospiral.projectshed.screen.GameScreen;
 
 public class ProjectShed extends Game {
 
@@ -11,8 +12,9 @@ public class ProjectShed extends Game {
 	
 	@Override
 	public void create () {
-		spriteBatch = new SpriteBatch();
+        spriteBatch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
+        screen = new GameScreen(this);
 	}
 
     public SpriteBatch getSpriteBatch() {
