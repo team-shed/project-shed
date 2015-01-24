@@ -2,6 +2,7 @@ package com.echospiral.projectshed.object;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.echospiral.projectshed.world.World;
 
@@ -41,6 +42,8 @@ public abstract class WorldObject {
     private int y;
     private int dx;
     private int dy;
+    // Position of previous frame
+    private Rectangle cachedRectangle;
 
     private boolean hasCollidedRight;
     private boolean hasCollidedLeft;
@@ -52,17 +55,24 @@ public abstract class WorldObject {
         this.x = x;
         this.y = y;
 
+        this.cachedRectangle = new Rectangle();
+
         hasCollidedLeft = false;
         hasCollidedRight = false;
         hasCollidedTop = false;
         hasCollidedBottom = false;
     }
 
+    protected void preUpdate() {
+        // Save previous coordinates, useful for collisions
+    }
+
     public void tick(float delta) {
+        preUpdate();
         updateMove(delta);
     }
 
-    public void updateMove(float delta) {
+    protected void updateMove(float delta) {
         if (!isHorizontallyBlocked())
             setX(getX() + (int) round((double) dx * delta));
 
@@ -88,24 +98,45 @@ public abstract class WorldObject {
     }
 
     public boolean collideWith(WorldObject object) {
-        return  collideWith(object, null);
+        return collideWith(object, null);
     }
 
     public <T extends WorldObjectsOnCollisionCallback> boolean collideWith(WorldObject object, T toCall) {
         boolean anyCollision = false;
-        if (dx != 0) {
-            if (getRelativeBounds(dx, 0).overlaps(object.getRelativeBounds(0, 0))) {
-                hasCollidedLeft = dx < 0 || hasCollidedLeft;
-                hasCollidedRight = dx > 0 || hasCollidedRight;
-                anyCollision = true;
-            }
-        }
 
-        if (dy != 0) {
-            if (getRelativeBounds(0, dy).overlaps(object.getRelativeBounds(0, 0))) {
-                hasCollidedBottom = dy < 0 || hasCollidedBottom;
-                hasCollidedTop = dy > 0 || hasCollidedTop;
-                anyCollision = true;
+        if (dx != 0 || dy != 0) {
+            if (Intersector.intersectRectangles(
+                    getRelativeBounds(dx, 0),
+                    object.getRelativeBounds(0, 0),
+                    cachedRectangle)) {
+                if (cachedRectangle.width > 0) {
+                    if (dx < 0) {
+                        hasCollidedLeft = true;
+                        object.hasCollidedRight = true;
+                        this.x += cachedRectangle.width;
+                        anyCollision = true;
+                    }
+                    else if (dx > 0) {
+                        hasCollidedRight = true;
+                        object.hasCollidedLeft = true;
+                        this.x -= cachedRectangle.width;
+                        anyCollision = true;
+                    }
+                }
+                if (cachedRectangle.height > 0) {
+                    if (dy < 0) {
+                        hasCollidedBottom = true;
+                        object.hasCollidedTop = true;
+                        this.y += cachedRectangle.height;
+                        anyCollision = true;
+                    }
+                    else if (dy > 0) {
+                        hasCollidedTop = true;
+                        object.hasCollidedBottom = true;
+                        this.y -= cachedRectangle.height;
+                        anyCollision = true;
+                    }
+                }
             }
         }
 
