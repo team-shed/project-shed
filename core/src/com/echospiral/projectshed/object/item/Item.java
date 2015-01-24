@@ -12,11 +12,18 @@ public abstract class Item extends WorldObject {
 
     private Animation animation;
     private float stateTime;
+    public ItemEffect effect;
 
     public Item(World world, int x, int y, Animation animation) {
         super(world, x, y);
         this.animation = animation;
         stateTime = 0F;
+        // TODO: subclass will create the right item effect?
+        this.effect = null;
+    }
+
+    public void setItemEffect(ItemEffect effect) {
+        this.effect = effect;
     }
 
     @Override

@@ -9,6 +9,7 @@ import com.echospiral.projectshed.Direction;
 import com.echospiral.projectshed.Role;
 import com.echospiral.projectshed.controllers.MappedController;
 import com.echospiral.projectshed.object.item.Item;
+import com.echospiral.projectshed.object.item.ItemEffect;
 import com.echospiral.projectshed.world.World;
 
 import static com.echospiral.projectshed.Direction.DOWN;
@@ -17,8 +18,11 @@ import static java.lang.Math.round;
 
 public class Player extends WorldObject {
     private MappedController controller;
+
     // TODO: PlayTest movement speed
     private int movementSpeed = 5;
+
+    private ItemEffect currentItemEffect;
 
     private Animation moveUpAnimation;
     private Animation moveLeftAnimation;
@@ -28,7 +32,8 @@ public class Player extends WorldObject {
     private float stateTime;
     private Role role;
 
-    public Player(World world, int x, int y, Animation moveUpAnimation, Animation moveLeftAnimation, Animation moveRightAnimation, Animation moveDownAnimation) {
+    public Player(World world, int x, int y, Animation moveUpAnimation, Animation moveLeftAnimation,
+                  Animation moveRightAnimation, Animation moveDownAnimation) {
         super(world, x, y);
         stateTime = 0F;
         direction = DOWN;
@@ -37,6 +42,8 @@ public class Player extends WorldObject {
         this.moveRightAnimation = moveRightAnimation;
         this.moveDownAnimation = moveDownAnimation;
         role = PLAYER;
+
+        currentItemEffect = null;
     }
 
     public void setController(MappedController controller) {
@@ -50,8 +57,31 @@ public class Player extends WorldObject {
         }
     }
 
+    public boolean pickUpItem(Item i) {
+        if (i == null) return false;
+        dropCurrentItem();
+        currentItemEffect = i.effect;
+        return currentItemEffect.applyEffectToObject(this);
+    }
+
+    public boolean dropCurrentItem() {
+        if (currentItemEffect != null) {
+            currentItemEffect.unApplyEffectToObject(this);
+            currentItemEffect = null;
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void tick(float delta) {
+        // Do item effect check
+        if (currentItemEffect != null) {
+            if (currentItemEffect.tick(delta)) {
+                dropCurrentItem();
+            }
+        }
+
         handleInput();
         handleCollisions();
         handleAnimations(delta);
@@ -117,5 +147,17 @@ public class Player extends WorldObject {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public int getMovementSpeed() {
+        return movementSpeed;
+    }
+
+    public void setMovementSpeed(int movementSpeed) {
+        this.movementSpeed = movementSpeed;
+    }
+
+    public void addToMovementSpeed(int modifier) {
+        this.movementSpeed += modifier;
     }
 }
