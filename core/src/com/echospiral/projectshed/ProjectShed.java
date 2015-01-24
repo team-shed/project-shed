@@ -15,7 +15,7 @@ public class ProjectShed extends Game {
 	
 	@Override
 	public void create () {
-		spriteBatch = new SpriteBatch();
+        spriteBatch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
 
         Sprite splashImage = new Sprite(new Texture("badlogic.jpg"));

@@ -18,8 +18,9 @@ public class GameScreen extends ScreenAdapter {
 
     public GameScreen(ProjectShed game) {
         this.game = game;
-        world = new World();
         playerManager = new PlayerManager();
+        world = new World("worlds/world1_1.csv");
+
     }
 
     public PlayerManager getPlayerManager() {
@@ -39,7 +40,6 @@ public class GameScreen extends ScreenAdapter {
             world.tick(delta);
             world.render(spriteBatch, shapeRenderer);
         }
-        shapeRenderer.end();
         spriteBatch.end();
     }
 }
