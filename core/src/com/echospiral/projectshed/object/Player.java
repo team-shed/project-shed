@@ -152,7 +152,10 @@ public class Player extends WorldObject {
     @Override
     public Rectangle getRelativeBounds(int dx, int dy) {
         TextureRegion frame = getAnimation().getKeyFrame(stateTime);
-        return new Rectangle(getX() + dx, getY() + dy, 64, 64);
+        return new Rectangle(getX() + dx, getY() + dy, frame.getRegionWidth(), frame.getRegionHeight());
+
+        //TextureRegion frame = getAnimation().getKeyFrame(stateTime);
+        //return new Rectangle(getX() + dx, getY() + dy, 64, 64);
     }
 
     public Role getRole() {
