@@ -1,6 +1,8 @@
 package com.echospiral.projectshed;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
+import com.echospiral.projectshed.controllers.MappedController;
 import com.echospiral.projectshed.object.Player;
 
 import static com.echospiral.projectshed.Role.*;
@@ -16,7 +18,15 @@ public class PlayerManager {
     public Array<Player> getPlayers() {
         return players;
     }
-
+    
+    public void assignPlayerController(MappedController controller) {
+        for(Player player : players) {
+            if(player.getController() == null) {
+                player.setController(controller);
+            }
+        }
+    }
+    
     public void addPlayer(Player player) {
         getPlayers().add(player);
     }

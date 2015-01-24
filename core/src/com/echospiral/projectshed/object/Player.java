@@ -39,6 +39,7 @@ public class Player extends WorldObject {
         role = PLAYER;
     }
 
+    public MappedController getController() { return this.controller; }
     public void setController(MappedController controller) {
         this.controller = controller;
     }
