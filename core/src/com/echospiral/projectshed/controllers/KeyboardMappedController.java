@@ -48,4 +48,7 @@ public class KeyboardMappedController implements MappedController {
     public boolean getActionButton() {
         return Gdx.input.isKeyJustPressed(Input.Keys.E);
     }
+
+    @Override
+    public boolean getStartButton() { return Gdx.input.isKeyJustPressed(Input.Keys.ENTER); }
 }
