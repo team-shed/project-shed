@@ -8,10 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-import com.echospiral.projectshed.object.Block;
-import com.echospiral.projectshed.object.Player;
-import com.echospiral.projectshed.object.WorldObject;
-import com.echospiral.projectshed.object.WorldObjectsGroup;
+import com.echospiral.projectshed.object.*;
 import com.echospiral.projectshed.object.item.Item;
 
 import java.io.BufferedReader;
@@ -82,22 +79,7 @@ public class World {
                         new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(playerTexture, 0, 0, 66, 92)); }} ));
 
             case 'x': // exit
-                return new WorldObject(world, x, y) {
-                    @Override
-                    public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
-
-                    }
-
-                    @Override
-                    public Rectangle getRelativeBounds(int dx, int dy) {
-                        return null;
-                    }
-
-                    @Override
-                    public String toString() {
-                        return "EXIT";
-                    }
-                };
+                return new Exit(world, x, y);
             default:
                 return new Block(world, x, y);
 
