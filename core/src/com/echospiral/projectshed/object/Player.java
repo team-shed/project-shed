@@ -60,6 +60,7 @@ public class Player extends WorldObject {
                 if (object2 instanceof Item) {
                     Item item = (Item) object2;
                     item.activate();
+                    getWorld().removeObject(item);
                 }
                 return true;
             }

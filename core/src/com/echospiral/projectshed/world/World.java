@@ -38,6 +38,12 @@ public class World {
         if (object instanceof Item) items.add((Item) object);
     }
 
+    public void removeObject(WorldObject object) {
+        getObjects().removeValue(object, true);
+        if (object instanceof Block) blocks.remove((Block) object);
+        if (object instanceof Item) items.remove((Item) object);
+    }
+
     public void tick(float delta) {
         for (WorldObject object : getObjects()) {
             object.tick(delta);

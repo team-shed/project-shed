@@ -18,6 +18,11 @@ public class WorldObjectsGroup<T extends WorldObject> {
         return this;
     }
 
+    public WorldObjectsGroup remove(T object) {
+        groupObjects.removeValue(object, true);
+        return this;
+    }
+
     public Array<T> getGroupObjects() {
         return groupObjects;
     }
