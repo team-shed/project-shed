@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+import com.echospiral.projectshed.controllers.KeyboardMappedController;
 import com.echospiral.projectshed.object.*;
 import com.echospiral.projectshed.object.item.Item;
 
@@ -20,6 +20,7 @@ public class World {
     private WorldObjectsGroup<Block> blocks;
     private WorldObjectsGroup<Item> items;
     private Texture playerTexture;
+    private Player player;
 
     public World() {
         objects = new Array<>();
@@ -53,11 +54,13 @@ public class World {
     private WorldObject generateWorldObject(String obj, World world, int x, int y) {
         switch(obj.charAt(0)) { // for now assume everything is single char
             case 'o': // our player
-                return new Player(world, x * COLUMN_WIDTH, y * ROW_HEIGHT, new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(playerTexture, 0, 0, 66, 92)); }} ),
+                Player player = new Player(world, x * COLUMN_WIDTH, y * ROW_HEIGHT, new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(playerTexture, 0, 0, 66, 92)); }} ),
                         new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(playerTexture, 0, 0, 66, 92)); }} ),
                         new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(playerTexture, 0, 0, 66, 92)); }} ),
                         new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(playerTexture, 0, 0, 66, 92)); }} ));
-
+                player.setController(new KeyboardMappedController());
+                this.player = player;
+                return player;
             case 'x': // exit
                 return new Exit(world, x * COLUMN_WIDTH, y * ROW_HEIGHT);
             default:
@@ -101,6 +104,10 @@ public class World {
         for (WorldObject object : getObjects()) {
             object.render(spriteBatch, shapeRenderer);
         }
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
 }
