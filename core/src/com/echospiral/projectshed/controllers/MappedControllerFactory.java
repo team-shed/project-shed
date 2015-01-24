@@ -14,8 +14,8 @@ public class MappedControllerFactory {
         } else if(controllerName.equals(Ouya.ID)) {
             return new OuyaMappedController(controller);
         } else {
-            Gdx.app.log("Controllers", "Unrecognized controller: " + controllerName);
-            return null;
+            Gdx.app.log("Controllers", "Unrecognized controller: " + controllerName + ".  Using XBox 360 mapping.");
+            return new XBoxMappedController(controller);
         }
     }
 }
