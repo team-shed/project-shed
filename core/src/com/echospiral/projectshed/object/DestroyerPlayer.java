@@ -3,6 +3,9 @@ package com.echospiral.projectshed.object;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.echospiral.projectshed.world.World;
 
+import static com.echospiral.projectshed.world.World.COLUMN_WIDTH;
+import static com.echospiral.projectshed.world.World.ROW_HEIGHT;
+
 /**
  * A Player that disables most collisions and can destroy walls.
  */
@@ -28,6 +31,26 @@ public class DestroyerPlayer extends Player {
             }
 */
 
+        }
+    }
+
+    @Override
+    public void handleInput() {
+        super.handleInput();
+        if (getController().getActionButton()) {
+            for (WorldObject object : getWorld().getObjects()) {
+                if (object instanceof BreakableWall) {
+                    BreakableWall wall = (BreakableWall) object;
+                    if (getX() - object.getX() <= COLUMN_WIDTH
+                            && getY() - object.getY() <= ROW_HEIGHT
+                            && getX() < object.getX() + COLUMN_WIDTH
+                            && getY() < object.getY() + ROW_HEIGHT) {
+                        wall.setDestroying(true);
+                    } else {
+                        wall.setDestroying(false);
+                    }
+                }
+            }
         }
     }
 }

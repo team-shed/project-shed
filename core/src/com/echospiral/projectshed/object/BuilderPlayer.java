@@ -1,9 +1,10 @@
 package com.echospiral.projectshed.object;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.echospiral.projectshed.object.Player;
-import com.echospiral.projectshed.object.item.Item;
 import com.echospiral.projectshed.world.World;
+
+import static com.echospiral.projectshed.world.World.COLUMN_WIDTH;
+import static com.echospiral.projectshed.world.World.ROW_HEIGHT;
 
 /**
  * A Player that disables most collisions and can build walls.
@@ -29,6 +30,26 @@ public class BuilderPlayer extends Player {
                 }
             }
 */
+        }
+    }
+
+    @Override
+    public void handleInput() {
+        super.handleInput();
+        if (getController().getActionButton()) {
+            for (WorldObject object : getWorld().getObjects()) {
+                if (object instanceof BreakableWall) {
+                    BreakableWall wall = (BreakableWall) object;
+                    if (getX() - object.getX() <= COLUMN_WIDTH
+                            && getY() - object.getY() <= ROW_HEIGHT
+                            && getX() < object.getX() + COLUMN_WIDTH
+                            && getY() < object.getY() + ROW_HEIGHT) {
+                        wall.setBuilding(true);
+                    } else {
+                        wall.setBuilding(false);
+                    }
+                }
+            }
         }
     }
 }
