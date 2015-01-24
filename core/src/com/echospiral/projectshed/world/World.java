@@ -64,7 +64,7 @@ public class World {
                 return player;
             case 'x': // exit
                 return new Exit(world, x * COLUMN_WIDTH, y * ROW_HEIGHT);
-            case 'b':
+            case 'b': // initial block
                 return new Block(world, x * COLUMN_WIDTH, y * ROW_HEIGHT);
             default:
                 return null;

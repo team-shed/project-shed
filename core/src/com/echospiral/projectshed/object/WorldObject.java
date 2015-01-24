@@ -40,8 +40,8 @@ public abstract class WorldObject {
     protected World world;
     private int x;
     private int y;
-    private int dx;
-    private int dy;
+    protected int dx;
+    protected int dy;
     // Position of previous frame
     private Rectangle cachedRectangle;
 
@@ -52,6 +52,10 @@ public abstract class WorldObject {
     private boolean hasCollidedLeft;
     private boolean hasCollidedTop;
     private boolean hasCollidedBottom;
+
+    protected boolean freeX;
+    protected boolean freeY;
+
     private float stateTime, moveTime;
 
     public WorldObject(World world, int x, int y) {
@@ -71,12 +75,24 @@ public abstract class WorldObject {
 
     protected void preUpdate() {
         // Save previous coordinates, useful for collisions
+        freeX = true;
+        freeY = true;
     }
 
     public void tick(float delta) {
         preUpdate();
-        if (doesMove)
-            updateMove(delta);
+
+        stateTime += delta;
+        if (stateTime - moveTime >= 0.05) {
+            moveTime += 0.05;
+            doCollisions();
+            if (doesMove)
+                updateMove(delta);
+        }
+    }
+
+    protected void doCollisions() {
+
     }
 
     protected void updateMove(float delta) {
@@ -87,24 +103,12 @@ public abstract class WorldObject {
 //            setY(getY() + dy);
 //
 //        resetCollisionFlags();
-        stateTime += Gdx.graphics.getDeltaTime();
-        if (stateTime - moveTime >= 0.05) {
-            moveTime += 0.05;
-            if (getDx() != 0 || getDy() != 0) {
-                boolean freeX = true, freeY = true;
-                for (WorldObject other : new Array<>(world.getObjects())) {
-                    if (other.isSolid() && other != this && getRelativeBounds(getDx(), 0).overlaps(other.getRelativeBounds(0, 0)))
-                        freeX = false;
-                    if (other.isSolid() && other != this && getRelativeBounds(0, getDy()).overlaps(other.getRelativeBounds(0, 0)))
-                        freeY = false;
-                }
-                if (freeX) {
-                    setX(getX() + getDx());
-                }
-                if (freeY) {
-                    setY(getY() + getDy());
-                }
-            }
+
+        if (freeX && dx != 0) {
+            setX(getX() + getDx());
+        }
+        if (freeY && dy != 0) {
+            setY(getY() + getDy());
         }
     }
 

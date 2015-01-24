@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.echospiral.projectshed.Direction;
 import com.echospiral.projectshed.Role;
 import com.echospiral.projectshed.controllers.MappedController;
@@ -96,11 +97,41 @@ public class Player extends WorldObject {
         }
 
         handleInput();
-        handleCollisions();
         handleAnimations(delta);
         super.tick(delta);
     }
 
+    @Override
+    protected void doCollisions() {
+        if (dx != 0 || dy != 0) {
+            // Collide with blocks
+            boolean hasCollisionHappened = false;
+
+            for (Block b : world.getBlocks().getGroupObjects()) {
+                if (getRelativeBounds(getDx(), 0).overlaps(b.getRelativeBounds(0, 0))) {
+                    freeX = false;
+                }
+                if (getRelativeBounds(0, getDy()).overlaps(b.getRelativeBounds(0, 0))) {
+                    freeY = false;
+                }
+            }
+
+            for (Item i : world.getItems().getGroupObjects()) {
+                if (getRelativeBounds(getDx(), 0).overlaps(i.getRelativeBounds(0, 0))) {
+                    hasCollisionHappened = true;
+                }
+                else if (getRelativeBounds(0, getDy()).overlaps(i.getRelativeBounds(0, 0))) {
+                    hasCollisionHappened = true;
+                }
+                if (hasCollisionHappened) {
+                    this.pickUpItem(i);
+                    world.removeObject(i);
+                }
+            }
+        }
+    }
+
+    /*
     private void handleCollisions() {
         collideWith(getWorld().getItems(), new WorldObjectsOnCollisionCallback() {
             @Override
@@ -115,6 +146,7 @@ public class Player extends WorldObject {
             }
         });
     }
+    */
 
     private void handleAnimations(float delta) {
         if (getDx() != 0 || getDy() != 0) stateTime += delta;
