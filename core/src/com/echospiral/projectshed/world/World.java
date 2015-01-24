@@ -25,14 +25,16 @@ public class World {
     private WorldObjectsGroup<Item> items;
     private Texture playerTexture;
     private Player player;
-    private Texture handTexture;
+    private Texture handBuildTexture;
+    private Texture handDestroyTexture;
 
     public World() {
         objects = new Array<>();
         blocks = new WorldObjectsGroup<>();
         items = new WorldObjectsGroup<>();
         playerTexture = new Texture(Gdx.files.internal("player_spritesheet.png"));
-        handTexture = new Texture(Gdx.files.internal("player_hand.png"));
+        handBuildTexture = new Texture(Gdx.files.internal("hand_build.png"));
+        handDestroyTexture = new Texture(Gdx.files.internal("hand_destroy.png"));
     }
 
     public World(String filename) { // load from .csv file
@@ -61,35 +63,35 @@ public class World {
         Random random = new Random();
         if(numPlayers > 1) {
             BuilderPlayer player2 = new BuilderPlayer(this,
-                    random.nextInt(9) * COLUMN_WIDTH, random.nextInt(9) * ROW_HEIGHT,
+                    3 + random.nextInt(3) * COLUMN_WIDTH, 3 + random.nextInt(3) * ROW_HEIGHT,
                     new Animation(0.0f, new Array<TextureRegion>() {{
-                        add(new TextureRegion(handTexture, 4, 2, 56, 60));
+                        add(new TextureRegion(handBuildTexture, 4, 2, 56, 60));
                     }}),
                     new Animation(0.0f, new Array<TextureRegion>() {{
-                        add(new TextureRegion(handTexture, 4, 2, 56, 60));
+                        add(new TextureRegion(handBuildTexture, 4, 2, 56, 60));
                     }}),
                     new Animation(0.0f, new Array<TextureRegion>() {{
-                        add(new TextureRegion(handTexture, 4, 2, 56, 60));
+                        add(new TextureRegion(handBuildTexture, 4, 2, 56, 60));
                     }}),
                     new Animation(0.0f, new Array<TextureRegion>() {{
-                        add(new TextureRegion(handTexture, 4, 2, 56, 60));
+                        add(new TextureRegion(handBuildTexture, 4, 2, 56, 60));
                     }}));
             addObject(player2);
         }
         if(numPlayers > 2) {
             DestroyerPlayer player3 = new DestroyerPlayer(this,
-                    random.nextInt(9) * COLUMN_WIDTH, random.nextInt(9) * ROW_HEIGHT,
+                    3 + random.nextInt(3) * COLUMN_WIDTH, 3 + random.nextInt(3) * ROW_HEIGHT,
                     new Animation(0.0f, new Array<TextureRegion>() {{
-                        add(new TextureRegion(handTexture, 4, 2, 56, 60));
+                        add(new TextureRegion(handDestroyTexture, 4, 2, 56, 60));
                     }}),
                     new Animation(0.0f, new Array<TextureRegion>() {{
-                        add(new TextureRegion(handTexture, 4, 2, 56, 60));
+                        add(new TextureRegion(handDestroyTexture, 4, 2, 56, 60));
                     }}),
                     new Animation(0.0f, new Array<TextureRegion>() {{
-                        add(new TextureRegion(handTexture, 4, 2, 56, 60));
+                        add(new TextureRegion(handDestroyTexture, 4, 2, 56, 60));
                     }}),
                     new Animation(0.0f, new Array<TextureRegion>() {{
-                        add(new TextureRegion(handTexture, 4, 2, 56, 60));
+                        add(new TextureRegion(handDestroyTexture, 4, 2, 56, 60));
                     }}));
             addObject(player3);
         }
