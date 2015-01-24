@@ -1,5 +1,6 @@
 package com.echospiral.projectshed.world;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,22 +16,20 @@ import com.echospiral.projectshed.object.item.Item;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class World {
 
     private Array<WorldObject> objects;
     private WorldObjectsGroup<Block> blocks;
     private WorldObjectsGroup<Item> items;
+    private Texture playerTexture;
 
     public World() {
         objects = new Array<>();
         blocks = new WorldObjectsGroup<>();
         items = new WorldObjectsGroup<>();
+        playerTexture = new Texture(Gdx.files.internal("pl_front.png"));
     }
 
     public World(String filename) { // load from .csv file
@@ -77,7 +76,6 @@ public class World {
     private WorldObject generateWorldObject(String obj, World world, int x, int y) {
         switch(obj.charAt(0)) { // for now assume everything is single char
             case 'o': // our player
-                Texture playerTexture = new Texture("p1_front.png");
                 return new Player(world, x, y, new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(playerTexture, 0, 0, 66, 92)); }} ),
                         new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(playerTexture, 0, 0, 66, 92)); }} ),
                         new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(playerTexture, 0, 0, 66, 92)); }} ),
