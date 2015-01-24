@@ -26,7 +26,7 @@ public class World {
         objects = new Array<>();
         blocks = new WorldObjectsGroup<>();
         items = new WorldObjectsGroup<>();
-        playerTexture = new Texture(Gdx.files.internal("p1_stand.png"));
+        playerTexture = new Texture(Gdx.files.internal("player_spritesheet.png"));
     }
 
     public World(String filename) { // load from .csv file
@@ -65,16 +65,16 @@ public class World {
                 case 'o': // our player
                     Player player = new Player(world, x * COLUMN_WIDTH, y * ROW_HEIGHT,
                             new Animation(0.025f, new Array<TextureRegion>() {{
-                                add(new TextureRegion(playerTexture, 0, 0, 66, 92));
+                                add(new TextureRegion(playerTexture, 4, 2, 56, 60));
                             }}),
                             new Animation(0.025f, new Array<TextureRegion>() {{
-                                add(new TextureRegion(playerTexture, 0, 0, 66, 92));
+                                add(new TextureRegion(playerTexture, 4, 2, 56, 60));
                             }}),
                             new Animation(0.025f, new Array<TextureRegion>() {{
-                                add(new TextureRegion(playerTexture, 0, 0, 66, 92));
+                                add(new TextureRegion(playerTexture, 4, 2, 56, 60));
                             }}),
                             new Animation(0.025f, new Array<TextureRegion>() {{
-                                add(new TextureRegion(playerTexture, 0, 0, 66, 92));
+                                add(new TextureRegion(playerTexture, 4, 2, 56, 60));
                             }}));
                     //player.setController(new KeyboardMappedController());
                     this.player = player;
