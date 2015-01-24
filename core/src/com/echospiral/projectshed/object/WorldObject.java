@@ -8,8 +8,6 @@ import com.echospiral.projectshed.world.World;
 
 import java.util.concurrent.Callable;
 
-import static java.lang.Math.round;
-
 public abstract class WorldObject {
 
     public static abstract class WorldObjectsOnCollisionCallback implements Callable<Boolean> {
@@ -74,10 +72,10 @@ public abstract class WorldObject {
 
     protected void updateMove(float delta) {
         if (!isHorizontallyBlocked())
-            setX(getX() + (int) round((double) dx * delta));
+            setX(getX() + dx);
 
         if (!isVerticallyBlocked())
-            setY(getY() + (int) round((double) dy * delta));
+            setY(getY() + dy);
 
         resetCollisionFlags();
     }
