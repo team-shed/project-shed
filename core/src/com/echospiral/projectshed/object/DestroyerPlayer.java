@@ -37,7 +37,7 @@ public class DestroyerPlayer extends Player {
     @Override
     public void handleInput() {
         super.handleInput();
-        if (getController().getActionButton()) {
+        if (null != getController() && getController().getActionButton()) {
             for (WorldObject object : getWorld().getObjects()) {
                 if (object instanceof BreakableWall) {
                     BreakableWall wall = (BreakableWall) object;

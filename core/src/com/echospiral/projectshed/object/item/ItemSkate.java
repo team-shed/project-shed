@@ -1,8 +1,12 @@
 package com.echospiral.projectshed.object.item;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.Array;
 import com.echospiral.projectshed.world.World;
 
 import static com.badlogic.gdx.graphics.Color.RED;
@@ -13,11 +17,21 @@ import static com.badlogic.gdx.graphics.Color.WHITE;
  */
 public class ItemSkate extends Item {
 
-    public ItemSkate(World world, int x, int y, Animation animation) {
-        super(world, x, y, animation);
+    private Texture skate;
+    private Animation animation;
+
+    public ItemSkate(World world, int x, int y) {
+        super(world, x, y, new Animation(0.025f, new Array<TextureRegion>() {{
+            add(new TextureRegion(new Texture(Gdx.files.internal("items/rollerskate.png")), 3, 0, 58, 62));
+        }}));
+
+        //this.skate = new Texture(Gdx.files.internal("items/rollerskate.png"));
+        //this.animation = new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(skate, 3, 0, 58, 62)); }} );
+
         this.setItemEffect(
                 new ItemEffectIncreaseSpeed(3, 5)
         );
+
     }
 
     @Override
@@ -31,8 +45,7 @@ public class ItemSkate extends Item {
     }
 
     public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
-        shapeRenderer.setColor(RED);
-        shapeRenderer.rect(getX(), getY(), world.COLUMN_WIDTH, world.ROW_HEIGHT);
+        spriteBatch.draw(getAnimation().getKeyFrame(stateTime), getX(), getY(), world.COLUMN_WIDTH, world.ROW_HEIGHT);
     }
 
 

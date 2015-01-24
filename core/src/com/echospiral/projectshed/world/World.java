@@ -1,6 +1,7 @@
 package com.echospiral.projectshed.world;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -27,6 +28,7 @@ public class World {
     private Player player;
     private Texture handBuildTexture;
     private Texture handDestroyTexture;
+    private Sound music;
 
     public World() {
         objects = new Array<>();
@@ -35,6 +37,9 @@ public class World {
         playerTexture = new Texture(Gdx.files.internal("player_spritesheet.png"));
         handBuildTexture = new Texture(Gdx.files.internal("hand_build.png"));
         handDestroyTexture = new Texture(Gdx.files.internal("hand_destroy.png"));
+        music = Gdx.audio.newSound(Gdx.files.internal("music/gamejammy.ogg"));
+        music.play();
+
     }
 
     public World(String filename) { // load from .csv file
@@ -103,7 +108,7 @@ public class World {
             switch (c) {
                 // items
                     case '1': // Skate, faster movements
-                        return new ItemSkate(world, x * COLUMN_WIDTH, y * ROW_HEIGHT, null);
+                        return new ItemSkate(world, x * COLUMN_WIDTH, y * ROW_HEIGHT);
 
                 // tiles/rooms/chars/environment:
                 case 'o': // our player

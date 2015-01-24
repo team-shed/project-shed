@@ -24,7 +24,7 @@ public class UnbreakableWall extends Block {
         stateTime = 0F;
         this.metal = new Texture(Gdx.files.internal("metal.png"));
 
-        this.animation = new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(metal, 0, 0, 70, 70)); }} );
+        this.animation = new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(metal, 3, 0, 58, 62)); }} );
     }
 
     @Override
@@ -39,8 +39,8 @@ public class UnbreakableWall extends Block {
     @Override
     public Rectangle getRelativeBounds(int dx, int dy) {
         TextureRegion frame = getAnimation().getKeyFrame(stateTime);
-        return new Rectangle(getX() + dx, getY() + dy, world.COLUMN_WIDTH, world.ROW_HEIGHT);
-        // return new Rectangle(getX() + dx, getY() + dy, frame.getRegionWidth(), frame.getRegionHeight());
+        //return new Rectangle(getX() + dx, getY() + dy, world.COLUMN_WIDTH, world.ROW_HEIGHT);
+        return new Rectangle(getX() + dx, getY() + dy, frame.getRegionWidth(), frame.getRegionHeight());
     }
 
 }
