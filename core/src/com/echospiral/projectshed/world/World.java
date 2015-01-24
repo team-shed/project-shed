@@ -31,21 +31,26 @@ public class World {
     public World(String filename) { // load from .csv file
         this();
         String cvsSplitBy = ",";
-        int x = 0; // 1-indexed for sanity
+        int x = 0;
         int y = 0;
         String levelString = Gdx.files.internal(filename).readString();
-        for (String line : levelString.split("\n")) {
+        Array<String> level = new Array<>(levelString.split("\n"));
+        level.reverse();
 
+        for (String line : level) {
             // use comma as separator
             Array<String> worldRow = new Array<>(line.split(cvsSplitBy));
-            y = 0;
+
             for (String col: worldRow) {
+                System.out.println("adding " + col.toLowerCase() + " at " + x + "," + y);
                 addObject(generateWorldObject(col.toLowerCase(), this, x, y));
-                y++;
+                x++;
             }
-            x++;
+            y++;
+            x = 0;
         }
-        for (WorldObject obj: objects) {
+
+        for (WorldObject obj: getObjects()) {
             System.out.println(obj.getX() + "," + obj.getY() + " " + obj.toString());
         }
     }
@@ -59,9 +64,9 @@ public class World {
                         new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(playerTexture, 0, 0, 66, 92)); }} ));
 
             case 'x': // exit
-                return new Exit(world, x, y);
+                return new Exit(world, x * COLUMN_WIDTH, y * ROW_HEIGHT);
             default:
-                return new Block(world, x, y);
+                return new Block(world, x * COLUMN_WIDTH, y * ROW_HEIGHT);
 
         }
 

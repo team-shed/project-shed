@@ -1,5 +1,6 @@
 package com.echospiral.projectshed.object;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -26,7 +27,8 @@ public class Exit extends WorldObject {
     public Exit(World world, int x, int y) {
         super(world, x, y);
         stateTime = 0F;
-        this.flag = new Texture("flagGreen.png");
+        flag = new Texture(Gdx.files.internal("flagGreen.png"));
+
         this.animation = new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(flag, 0, 0, 70, 70)); }} );
     }
 
