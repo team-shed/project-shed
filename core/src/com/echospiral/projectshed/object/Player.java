@@ -47,6 +47,12 @@ public class Player extends WorldObject {
     @Override
     public void tick(float delta) {
         handleInput();
+        handleCollisions();
+        handleAnimations(delta);
+        super.tick(delta);
+    }
+
+    private void handleCollisions() {
         collideWith(getWorld().getItems(), new WorldObjectsOnCollisionCallback() {
             @Override
             public Boolean call() {
@@ -58,7 +64,10 @@ public class Player extends WorldObject {
                 return true;
             }
         });
-        super.tick(delta);
+    }
+
+    private void handleAnimations(float delta) {
+        if (getDx() != 0 || getDy() != 0) stateTime += delta;
     }
 
     @Override
