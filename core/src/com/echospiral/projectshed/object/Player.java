@@ -181,4 +181,5 @@ public class Player extends WorldObject {
     public void addToMovementSpeed(int modifier) {
         this.movementSpeed += modifier;
     }
+
 }
