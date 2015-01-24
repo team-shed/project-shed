@@ -26,6 +26,7 @@ public class GameScreen extends ScreenAdapter {
         SpriteBatch spriteBatch = game.getSpriteBatch();
         ShapeRenderer shapeRenderer = game.getShapeRenderer();
         spriteBatch.begin();
+        shapeRenderer.setAutoShapeType(true);
         shapeRenderer.begin();
         if (world != null) {
             world.tick(delta);
