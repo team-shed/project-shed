@@ -48,7 +48,7 @@ public class Player extends WorldObject {
     public void handleInput() {
         if (controller != null) {
             setDx((int) round((double) movementSpeed * controller.getLeftAxisX()));
-            setDy((int) round((double) movementSpeed * controller.getLeftAxisY()));
+            setDy(-(int) round((double) movementSpeed * controller.getLeftAxisY()));
         }
     }
 

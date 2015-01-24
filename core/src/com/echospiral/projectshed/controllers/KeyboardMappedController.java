@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
 public class KeyboardMappedController implements MappedController {
-    public float movementMagnitude = 0.5f;
+    public float movementMagnitude = 1.0f;
 
     public KeyboardMappedController() { }
 
@@ -26,9 +26,9 @@ public class KeyboardMappedController implements MappedController {
     @Override
     public float getLeftAxisY() {
         if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-            return movementMagnitude;
-        } else if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             return -movementMagnitude;
+        } else if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            return movementMagnitude;
         }
 
         return 0;

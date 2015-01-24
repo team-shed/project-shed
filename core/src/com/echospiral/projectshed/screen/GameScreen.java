@@ -6,9 +6,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Predicate;
 import com.echospiral.projectshed.PlayerManager;
 import com.echospiral.projectshed.ProjectShed;
 import com.echospiral.projectshed.controllers.MappedController;
+import com.echospiral.projectshed.object.Player;
+import com.echospiral.projectshed.object.WorldObject;
 import com.echospiral.projectshed.world.World;
 
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
@@ -25,6 +28,16 @@ public class GameScreen extends ScreenAdapter {
         this.game = game;
         playerManager = new PlayerManager();
         world = new World("worlds/world1_1.csv");
+
+        for(WorldObject o : world.getObjects().select(new Predicate<WorldObject>() {
+            @Override
+            public boolean evaluate(WorldObject arg0) {
+                return arg0 instanceof Player;
+            }
+        })) {
+            playerManager.addPlayer((Player)o);
+        }
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 600);
     }
