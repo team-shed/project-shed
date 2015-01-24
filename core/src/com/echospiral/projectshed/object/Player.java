@@ -63,7 +63,7 @@ public class Player extends WorldObject {
 
             //Ignore joy-stick deadzone.
             if(x < 0.2f && x > -0.2f) x = 0;
-            if(y < 0.2f && x > -0.2f) y = 0;
+            if(y < 0.2f && y > -0.2f) y = 0;
 
             setDx((int) round((double)movementSpeed * signum(x)));
             setDy(-(int) round((double)movementSpeed * signum(y)));
