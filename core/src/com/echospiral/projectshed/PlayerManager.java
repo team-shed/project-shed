@@ -67,6 +67,7 @@ public class PlayerManager {
             MappedController c = controllers.random();
             controllers.removeValue(c, true);
             player.setController(c);
+            player.setDx(0); player.setDy(0);
 
             switch (player.getRole()) {
                 case PLAYER:
