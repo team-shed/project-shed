@@ -11,4 +11,23 @@ public class DestroyerPlayer extends Player {
                          Animation moveRightAnimation, Animation moveDownAnimation) {
         super(world, x, y, moveUpAnimation, moveLeftAnimation, moveRightAnimation, moveDownAnimation);
     }
+
+    @Override
+    protected void doCollisions() {
+        if (dx != 0 || dy != 0) {
+            // Collide with blocks
+            boolean hasCollisionHappened = false;
+/*
+            for (Block b : world.getBlocks().getGroupObjects()) {
+                if (getRelativeBounds(getDx(), 0).overlaps(b.getRelativeBounds(0, 0))) {
+                    freeX = false;
+                }
+                if (getRelativeBounds(0, getDy()).overlaps(b.getRelativeBounds(0, 0))) {
+                    freeY = false;
+                }
+            }
+*/
+
+        }
+    }
 }
