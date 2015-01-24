@@ -11,7 +11,7 @@ import com.echospiral.projectshed.world.World;
 public abstract class Item extends WorldObject {
 
     private Animation animation;
-    private float stateTime;
+    protected float stateTime;
     public ItemEffect effect;
 
     public Item(World world, int x, int y, Animation animation) {
@@ -39,8 +39,10 @@ public abstract class Item extends WorldObject {
 
     @Override
     public Rectangle getRelativeBounds(int dx, int dy) {
-        TextureRegion frame = getAnimation().getKeyFrame(stateTime);
-        return new Rectangle(getX() + dx, getY() + dy, frame.getRegionWidth(), frame.getRegionHeight());
+        //TextureRegion frame = getAnimation().getKeyFrame(stateTime);
+        //return new Rectangle(getX() + dx, getY() + dy, frame.getRegionWidth(), frame.getRegionHeight());
+
+        return new Rectangle(getX() + dx, getY() + dy, world.COLUMN_WIDTH, world.ROW_HEIGHT);
     }
 
     public Animation getAnimation() {

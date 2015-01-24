@@ -74,8 +74,11 @@ public class Player extends WorldObject {
     public boolean pickUpItem(Item i) {
         if (i == null) return false;
         dropCurrentItem();
-        currentItemEffect = i.effect;
-        return currentItemEffect.applyEffectToObject(this);
+        if (i.effect != null) {
+            currentItemEffect = i.effect;
+            return currentItemEffect.applyEffectToObject(this);
+        }
+        return false;
     }
 
     public boolean dropCurrentItem() {

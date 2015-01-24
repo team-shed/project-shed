@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.echospiral.projectshed.controllers.KeyboardMappedController;
 import com.echospiral.projectshed.object.*;
 import com.echospiral.projectshed.object.item.Item;
+import com.echospiral.projectshed.object.item.ItemSkate;
 
 public class World {
 
@@ -57,9 +58,8 @@ public class World {
         for (char c : obj.toCharArray()) {
             switch (c) {
                 // items
-                //     case '1': items.add(new BananaSkin(world, x, y));
-                //       break;
-
+                    case '1': // Skate, faster movements
+                        return new ItemSkate(world, x * COLUMN_WIDTH, y * ROW_HEIGHT, null);
 
                 // tiles/rooms/chars/environment:
                 case 'o': // our player
@@ -112,13 +112,13 @@ public class World {
         if (object == null) return;
         getObjects().add(object);
         if (object instanceof Block) blocks.add((Block) object);
-        if (object instanceof Item) items.add((Item) object);
+        else if (object instanceof Item) items.add((Item) object);
     }
 
     public void removeObject(WorldObject object) {
         getObjects().removeValue(object, true);
         if (object instanceof Block) blocks.remove((Block) object);
-        if (object instanceof Item) items.remove((Item) object);
+        else if (object instanceof Item) items.remove((Item) object);
     }
 
     public void tick(float delta) {

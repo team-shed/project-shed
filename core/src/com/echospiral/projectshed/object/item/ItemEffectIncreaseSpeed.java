@@ -16,13 +16,14 @@ public class ItemEffectIncreaseSpeed extends ItemEffectLimitedTime {
 
     @Override
     public boolean applyEffectToObject(Player player) {
-        player.addToMovementSpeed(speedModifier);
+        player.setMovementSpeed(player.getMovementSpeed() * speedModifier);
         return true;
     }
 
     @Override
     public boolean unApplyEffectToObject(Player player) {
-        player.addToMovementSpeed(-speedModifier);
+        player.setMovementSpeed(player.getMovementSpeed() / speedModifier);
+        System.out.println("Finished speed effect");
         return true;
     }
 
