@@ -154,8 +154,6 @@ public class Player extends WorldObject {
 
     @Override
     public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
-        shapeRenderer.setColor(Color.BLUE);
-        shapeRenderer.rect(getX(), getY(), world.COLUMN_WIDTH, world.ROW_HEIGHT);
 
         spriteBatch.draw(getAnimation().getKeyFrame(stateTime), getX(), getY());
     }

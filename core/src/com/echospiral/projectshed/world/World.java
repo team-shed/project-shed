@@ -53,24 +53,47 @@ public class World {
     }
 
     private WorldObject generateWorldObject(String obj, World world, int x, int y) {
-        switch(obj.charAt(0)) { // for now assume everything is single char
-            case 'o': // our player
-                Player player = new Player(world, x * COLUMN_WIDTH, y * ROW_HEIGHT, new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(playerTexture, 0, 0, 66, 92)); }} ),
-                        new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(playerTexture, 0, 0, 66, 92)); }} ),
-                        new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(playerTexture, 0, 0, 66, 92)); }} ),
-                        new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(playerTexture, 0, 0, 66, 92)); }} ));
-                //player.setController(new KeyboardMappedController());
-                this.player = player;
-                return player;
-            case 'x': // exit
-                return new Exit(world, x * COLUMN_WIDTH, y * ROW_HEIGHT);
-            case 'b': // initial block
-                return new Block(world, x * COLUMN_WIDTH, y * ROW_HEIGHT);
-            default:
-                return null;
+        char o;
+        for (char c : obj.toCharArray()) {
+            switch (c) {
+                // items
+                //     case '1': items.add(new BananaSkin(world, x, y));
+                //       break;
+
+
+                // tiles/rooms/chars/environment:
+                case 'o': // our player
+                    Player player = new Player(world, x * COLUMN_WIDTH, y * ROW_HEIGHT,
+                            new Animation(0.025f, new Array<TextureRegion>() {{
+                                add(new TextureRegion(playerTexture, 0, 0, 66, 92));
+                            }}),
+                            new Animation(0.025f, new Array<TextureRegion>() {{
+                                add(new TextureRegion(playerTexture, 0, 0, 66, 92));
+                            }}),
+                            new Animation(0.025f, new Array<TextureRegion>() {{
+                                add(new TextureRegion(playerTexture, 0, 0, 66, 92));
+                            }}),
+                            new Animation(0.025f, new Array<TextureRegion>() {{
+                                add(new TextureRegion(playerTexture, 0, 0, 66, 92));
+                            }}));
+                    //player.setController(new KeyboardMappedController());
+                    this.player = player;
+                    return player;
+                case 'x': // exit
+                    return new Exit(world, x * COLUMN_WIDTH, y * ROW_HEIGHT);
+                case 'm': // metal aka unbreakable wall
+                    return new UnbreakableWall(world, x * COLUMN_WIDTH, y * ROW_HEIGHT);
+                case 'w': // wood aka breakable wall
+                    return new BreakableWall(world, x * COLUMN_WIDTH, y * ROW_HEIGHT);
+                case 'b':
+                    return new Block(world, x * COLUMN_WIDTH, y * ROW_HEIGHT);
+
+                default:
+                    return null;
+            }
 
         }
-
+        return null;
     }
 
     public Array<WorldObject> getObjects() {
@@ -105,8 +128,16 @@ public class World {
     }
 
     public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
+        WorldObject player = null;
         for (WorldObject object : getObjects()) {
             object.render(spriteBatch, shapeRenderer);
+            if (object instanceof Player) {
+                player = object;
+            }
+        }
+        // grim hack to paint the player last so we can see his massive head
+        if (player != null) {
+            player.render(spriteBatch, shapeRenderer);
         }
     }
 
