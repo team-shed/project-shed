@@ -11,7 +11,7 @@ import static java.lang.Math.round;
 
 public abstract class WorldObject {
 
-    public static class WorldObjectsOnCollisionCallback implements Callable<Boolean> {
+    public static abstract class WorldObjectsOnCollisionCallback implements Callable<Boolean> {
         private WorldObject object1;
         private WorldObject object2;
 
@@ -24,9 +24,16 @@ public abstract class WorldObject {
             this.object1 = o1;
             this.object2 = o2;
         }
-        public Boolean call() {
-            return false;
+
+        public WorldObject getObject1() {
+            return object1;
         }
+
+        public WorldObject getObject2() {
+            return object2;
+        }
+
+        public abstract Boolean call();
     }
 
     private World world;
@@ -51,8 +58,11 @@ public abstract class WorldObject {
         hasCollidedBottom = false;
     }
 
-    // TODO: fixme, this should be called update or update move
     public void tick(float delta) {
+        updateMove(delta);
+    }
+
+    public void updateMove(float delta) {
         if (!isHorizontallyBlocked())
             setX(getX() + (int) round((double) dx * delta));
 
@@ -85,16 +95,16 @@ public abstract class WorldObject {
         boolean anyCollision = false;
         if (dx != 0) {
             if (getRelativeBounds(dx, 0).overlaps(object.getRelativeBounds(0, 0))) {
-                hasCollidedLeft = true;
-                hasCollidedRight = true;
+                hasCollidedLeft = dx < 0 || hasCollidedLeft;
+                hasCollidedRight = dx > 0 || hasCollidedRight;
                 anyCollision = true;
             }
         }
 
         if (dy != 0) {
             if (getRelativeBounds(0, dy).overlaps(object.getRelativeBounds(0, 0))) {
-                hasCollidedBottom = true;
-                hasCollidedTop = true;
+                hasCollidedBottom = dy < 0 || hasCollidedBottom;
+                hasCollidedTop = dy > 0 || hasCollidedTop;
                 anyCollision = true;
             }
         }
@@ -107,11 +117,11 @@ public abstract class WorldObject {
         return anyCollision;
     }
 
-    public boolean collideWith(WorldObjectsGroup group) {
+    public boolean collideWith(WorldObjectsGroup<? extends WorldObject> group) {
         return  this.collideWith(group, null);
     }
 
-    public <T extends WorldObjectsOnCollisionCallback> boolean collideWith(WorldObjectsGroup group, T toCall) {
+    public <T extends WorldObjectsOnCollisionCallback> boolean collideWith(WorldObjectsGroup<? extends WorldObject> group, T toCall) {
         boolean anyCollision = false;
         boolean anyCollisionWhole = false;
 
@@ -120,18 +130,16 @@ public abstract class WorldObject {
 
             if (dx != 0) {
                 if (getRelativeBounds(dx, 0).overlaps(o.getRelativeBounds(0, 0))) {
-                    // TODO: fixme, right direction
-                    hasCollidedLeft = true;
-                    hasCollidedRight = true;
+                    hasCollidedLeft = dx < 0 || hasCollidedLeft;
+                    hasCollidedRight = dx > 0 || hasCollidedRight;
                     anyCollision = true;
                 }
             }
 
             if (dy != 0) {
                 if (getRelativeBounds(0, dy).overlaps(o.getRelativeBounds(0, 0))) {
-                    // TODO: fixme, right direction
-                    hasCollidedBottom = true;
-                    hasCollidedTop = true;
+                    hasCollidedBottom = dy < 0 || hasCollidedBottom;
+                    hasCollidedTop = dy < 0 || hasCollidedTop;
                     anyCollision = true;
                 }
             }

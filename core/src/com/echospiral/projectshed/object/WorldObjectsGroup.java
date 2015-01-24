@@ -1,24 +1,24 @@
 package com.echospiral.projectshed.object;
 
-import java.util.ArrayList;
+import com.badlogic.gdx.utils.Array;
 
 /**
  * Created by Rudi on 1/23/2015.
  */
-public class WorldObjectsGroup {
+public class WorldObjectsGroup<T extends WorldObject> {
 
-    private ArrayList<WorldObject> groupObjects;
+    private Array<T> groupObjects;
 
     public WorldObjectsGroup() {
-        groupObjects = new ArrayList<WorldObject>();
+        groupObjects = new Array<>();
     }
 
-    public WorldObjectsGroup add(WorldObject newObject) {
+    public WorldObjectsGroup add(T newObject) {
         groupObjects.add(newObject);
         return this;
     }
 
-    public ArrayList<WorldObject> getGroupObjects() {
+    public Array<T> getGroupObjects() {
         return groupObjects;
     }
 

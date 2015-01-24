@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.echospiral.projectshed.Direction;
 import com.echospiral.projectshed.controllers.MappedController;
+import com.echospiral.projectshed.object.item.Item;
 import com.echospiral.projectshed.world.World;
 
 import static com.echospiral.projectshed.Direction.DOWN;
@@ -39,14 +40,24 @@ public class Player extends WorldObject {
     }
 
     public void handleInput() {
-        setDx((int)round((double)movementSpeed * controller.getLeftAxisX()));
-        setDy((int)round((double)movementSpeed * controller.getLeftAxisY()));
+        setDx((int) round((double) movementSpeed * controller.getLeftAxisX()));
+        setDy((int) round((double) movementSpeed * controller.getLeftAxisY()));
     }
 
     @Override
     public void tick(float delta) {
         handleInput();
-
+        collideWith(getWorld().getItems(), new WorldObjectsOnCollisionCallback() {
+            @Override
+            public Boolean call() {
+                WorldObject object2 = getObject2();
+                if (object2 instanceof Item) {
+                    Item item = (Item) object2;
+                    item.activate();
+                }
+                return true;
+            }
+        });
         super.tick(delta);
     }
 
