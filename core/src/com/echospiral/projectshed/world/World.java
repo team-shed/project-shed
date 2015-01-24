@@ -42,17 +42,12 @@ public class World {
             Array<String> worldRow = new Array<>(line.split(cvsSplitBy));
 
             for (String col: worldRow) {
-                System.out.println("adding " + col.toLowerCase() + " at " + x + "," + y);
                 addObject(generateWorldObject(col.toLowerCase(), this, x, y));
                 x++;
             }
             y++;
             x = 0;
         }
-
-        //for (WorldObject obj: getObjects()) {
-        //    System.out.println(obj.getX() + "," + obj.getY() + " " + obj.toString());
-        //}
     }
 
     private WorldObject generateWorldObject(String obj, World world, int x, int y) {
