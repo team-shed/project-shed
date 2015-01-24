@@ -58,28 +58,18 @@ public class PlayerManager {
     }
 
     public void swapRoles() {
-        Array<MappedController> controllers = new Array<>();
         for(Player player : getPlayers()) {
-            controllers.add(player.getController());
+            player.setController(null);
+            player.setDx(0); player.setDy(0);
         }
 
-        for (Player player : getPlayers()) {
-            MappedController c = controllers.random();
-            controllers.removeValue(c, true);
-            player.setController(c);
-            player.setDx(0); player.setDy(0);
+        Array<Player> players = new Array<Player>(getPlayers());
+        for (MappedController controller : participatingControllers) {
+            Player player = players.random();
+            if(player == null) break;
+            players.removeValue(player, true);
 
-            switch (player.getRole()) {
-                case PLAYER:
-                    player.setRole(BUILDER);
-                    break;
-                case BUILDER:
-                    player.setRole(DESTROYER);
-                    break;
-                case DESTROYER:
-                    player.setRole(PLAYER);
-                    break;
-            }
+            player.setController(controller);
         }
     }
 }
