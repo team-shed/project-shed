@@ -1,7 +1,9 @@
 package com.echospiral.projectshed.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -10,6 +12,8 @@ import com.badlogic.gdx.utils.Predicate;
 import com.echospiral.projectshed.PlayerManager;
 import com.echospiral.projectshed.ProjectShed;
 import com.echospiral.projectshed.controllers.MappedController;
+import com.echospiral.projectshed.object.BuilderPlayer;
+import com.echospiral.projectshed.object.DestroyerPlayer;
 import com.echospiral.projectshed.object.Player;
 import com.echospiral.projectshed.object.WorldObject;
 import com.echospiral.projectshed.world.World;
@@ -33,7 +37,7 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen(ProjectShed game) {
         this.game = game;
         playerManager = new PlayerManager();
-        world = new World("worlds/world1_2.csv");
+        world = new World("worlds/world1_2.csv", this);
 
         for(WorldObject o : world.getObjects().select(new Predicate<WorldObject>() {
             @Override
@@ -52,13 +56,15 @@ public class GameScreen extends ScreenAdapter {
         return playerManager;
     }
 
+    public Camera getCamera() { return camera; }
+
     public void addPlayerController(MappedController controller) {
         playerManager.assignPlayerController(controller);
     }
 
     public void checkSwapTimer(float delta) {
         swapTimer -= delta;
-        if(swapTimer <= 0.0f) {
+        if(swapTimer <= 0.0f || Gdx.input.isKeyJustPressed(Input.Keys.NUM_9)) {
             Gdx.app.log("GameScreen", "Swap!");
             playerManager.swapRoles();
             swapTimer = startingSwapTimer;
