@@ -31,7 +31,7 @@ public class InputSetupScreen extends ScreenAdapter implements ControllerListene
     ProjectShed game;
     GameScreen gameScreen;
 
-    int minSlots = 2;
+    int minSlots = 1;
     int maxSlots = 3;
     Set<Controller> controllerSet = new HashSet<>();
     boolean hasKeyboardPlayer = false;
@@ -105,7 +105,7 @@ public class InputSetupScreen extends ScreenAdapter implements ControllerListene
 
         // Check for start button on any registered input to load the next screen.
         for(MappedController controller : addedControllers) {
-            if (controller.getStartButton()) {
+            if (controller.getStartButton() && addedControllers.size >= minSlots){
                 loadNextScreen();
             }
         }
