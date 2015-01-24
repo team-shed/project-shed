@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Array;
 import com.echospiral.projectshed.object.*;
 import com.echospiral.projectshed.object.item.Item;
 import com.echospiral.projectshed.object.item.ItemSkate;
+import com.echospiral.projectshed.screen.GameScreen;
 
 import java.util.Random;
 
@@ -40,7 +41,7 @@ public class World {
 
     }
 
-    public World(String filename) { // load from .csv file
+    public World(String filename, GameScreen gameScreen) { // load from .csv file
         this();
         String cvsSplitBy = ",";
         int x = 0;
@@ -65,7 +66,7 @@ public class World {
 
         Random random = new Random();
         if(numPlayers > 1) {
-            BuilderPlayer player2 = new BuilderPlayer(this,
+            BuilderPlayer player2 = new BuilderPlayer(this, gameScreen,
                     3 + random.nextInt(3) * COLUMN_WIDTH, 3 + random.nextInt(3) * ROW_HEIGHT,
                     new Animation(0.0f, new Array<TextureRegion>() {{
                         add(new TextureRegion(handBuildTexture, 4, 2, 56, 60));
@@ -82,7 +83,7 @@ public class World {
             addObject(player2);
         }
         if(numPlayers > 2) {
-            DestroyerPlayer player3 = new DestroyerPlayer(this,
+            DestroyerPlayer player3 = new DestroyerPlayer(this, gameScreen,
                     3 + random.nextInt(3) * COLUMN_WIDTH, 3 + random.nextInt(3) * ROW_HEIGHT,
                     new Animation(0.0f, new Array<TextureRegion>() {{
                         add(new TextureRegion(handDestroyTexture, 4, 2, 56, 60));
