@@ -24,6 +24,12 @@ public class GameScreen extends ScreenAdapter {
     private Array<MappedController> playerControllers = new Array<>();
     private OrthographicCamera camera;
 
+    /**
+     * Countdown until player roles are swapped.
+     */
+    private float startingSwapTimer = 5.0f;
+    private float swapTimer = 5.0f;
+
     public GameScreen(ProjectShed game) {
         this.game = game;
         playerManager = new PlayerManager();
@@ -50,6 +56,14 @@ public class GameScreen extends ScreenAdapter {
         playerManager.assignPlayerController(controller);
     }
 
+    public void checkSwapTimer(float delta) {
+        swapTimer -= delta;
+        if(swapTimer <= 0.0f) {
+            playerManager.swapRoles();
+            swapTimer = startingSwapTimer;
+        }
+    }
+
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -58,7 +72,10 @@ public class GameScreen extends ScreenAdapter {
             world.tick(delta);
             camera.position.set(world.getPlayer().getX(), world.getPlayer().getY(), 0);
         }
+
+        checkSwapTimer(delta);
         camera.update();
+
         SpriteBatch spriteBatch = game.getSpriteBatch();
         ShapeRenderer shapeRenderer = game.getShapeRenderer();
         spriteBatch.begin();
