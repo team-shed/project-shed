@@ -127,7 +127,10 @@ public class InputSetupScreen extends ScreenAdapter implements ControllerListene
         if(!controllerSet.contains(controller)) {
             Gdx.app.log("InputSetup", "Adding controller " + controller.hashCode() + ": " + controller.getName());
             controllerSet.add(controller);
-            addPlayer(MappedControllerFactory.getController(controller));
+            MappedController mc = MappedControllerFactory.getController(controller);
+            if(mc != null) {
+                addPlayer(mc);
+            }
         }
     }
 
