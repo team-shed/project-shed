@@ -41,8 +41,8 @@ public class DestroyerPlayer extends Player {
             for (WorldObject object : getWorld().getObjects()) {
                 if (object instanceof BreakableWall) {
                     BreakableWall wall = (BreakableWall) object;
-                    if (getX() - object.getX() <= COLUMN_WIDTH
-                            && getY() - object.getY() <= ROW_HEIGHT
+                    if (getX() + (ROW_HEIGHT / 2) > object.getX()
+                            && getY() + (COLUMN_WIDTH / 2) > object.getY()
                             && getX() < object.getX() + COLUMN_WIDTH
                             && getY() < object.getY() + ROW_HEIGHT) {
                         wall.setDestroying(true);

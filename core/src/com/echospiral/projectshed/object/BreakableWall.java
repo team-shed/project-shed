@@ -28,12 +28,19 @@ public class BreakableWall extends Block {
     public BreakableWall(World world, int x, int y, int stage) {
         super(world, x, y);
         stateTime = stage;
-        this.wood = new Texture(Gdx.files.internal("wood.png"));
+        this.wood = new Texture(Gdx.files.internal("wood_build.png"));
 
-        this.animation = new Animation(1f, new Array<TextureRegion>() {{ add(new TextureRegion(wood, 0, 0, 64, 64)); }} );
-        this.animation.setPlayMode(NORMAL);
-        this.building = false;
-        this.destroying = false;
+        this.animation = new Animation(1f, new Array<TextureRegion>() {{
+            add(new TextureRegion(wood, 0, 0, 64, 64));
+            add(new TextureRegion(wood, 64, 0, 64, 64));
+            add(new TextureRegion(wood, 128, 0, 64, 64));
+            add(new TextureRegion(wood, 192, 0, 64, 64));
+            add(new TextureRegion(wood, 256, 0, 64, 64));
+            add(new TextureRegion(wood, 320, 0, 64, 64));
+            add(new TextureRegion(wood, 384, 0, 64, 64));
+            add(new TextureRegion(wood, 448, 0, 64, 64));
+        }} );
+        animation.setPlayMode(NORMAL);
     }
 
     @Override

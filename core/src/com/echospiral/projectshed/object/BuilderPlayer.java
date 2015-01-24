@@ -39,25 +39,28 @@ public class BuilderPlayer extends Player {
         if (null != getController() && getController().getActionButton()) {
             boolean posFree = true;
             for (WorldObject object : getWorld().getObjects()) {
+                if (object == this) continue;
                 if (object instanceof BreakableWall) {
                     BreakableWall wall = (BreakableWall) object;
-                    if (getX() - object.getX() <= COLUMN_WIDTH
-                            && getY() - object.getY() <= ROW_HEIGHT
+                    if (getX() > object.getX()
+                            && getY() > object.getY()
                             && getX() < object.getX() + COLUMN_WIDTH
                             && getY() < object.getY() + ROW_HEIGHT) {
                         wall.setBuilding(true);
                     } else {
                         wall.setBuilding(false);
                     }
-                } else if (getX() - object.getX() <= COLUMN_WIDTH
-                        && getY() - object.getY() <= ROW_HEIGHT
+                } else if (getX() + (COLUMN_WIDTH / 2) > object.getX()
+                        && getY() + (ROW_HEIGHT / 2) > object.getY()
                         && getX() < object.getX() + COLUMN_WIDTH
                         && getY() < object.getY() + ROW_HEIGHT) {
                     posFree = false;
                 }
             }
             if (posFree) {
-                getWorld().addObject(new BreakableWall(getWorld(), (getX() / World.ROW_HEIGHT) * World.ROW_HEIGHT, (getY() / COLUMN_WIDTH) * COLUMN_WIDTH, 0));
+                BreakableWall wall = new BreakableWall(getWorld(), (getX() / ROW_HEIGHT) * ROW_HEIGHT, (getY() / COLUMN_WIDTH) * COLUMN_WIDTH, 0);
+                wall.setBuilding(true);
+                getWorld().addObject(wall);
             }
         }
     }
