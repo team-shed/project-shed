@@ -62,7 +62,7 @@ public class Player extends WorldObject {
             
             //Ignore joy-stick deadzone.
             Vector2 v = new Vector2(x, y);
-            if(v.len2() < 0.015f) {
+            if(v.len2() < 0.1f) {
                 x = 0; y = 0;
             }
 

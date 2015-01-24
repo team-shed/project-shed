@@ -13,6 +13,8 @@ import com.echospiral.projectshed.object.BuilderPlayer;
 import com.echospiral.projectshed.object.item.Item;
 import com.echospiral.projectshed.object.item.ItemSkate;
 
+import java.util.Random;
+
 public class World {
 
     public static final int ROW_HEIGHT = 64;
@@ -38,6 +40,7 @@ public class World {
         String cvsSplitBy = ",";
         int x = 0;
         int y = 0;
+        int numPlayers = 3;
         String levelString = Gdx.files.internal(filename).readString();
         Array<String> level = new Array<>(levelString.split("\n"));
         level.reverse();
@@ -55,8 +58,10 @@ public class World {
             x = 0;
         }
 
+        Random random = new Random();
         if(numPlayers > 1) {
-            BuilderPlayer player2 = new BuilderPlayer(this, x, y,
+            BuilderPlayer player2 = new BuilderPlayer(this,
+                    random.nextInt(9) * COLUMN_WIDTH, random.nextInt(9) * ROW_HEIGHT,
                     new Animation(0.0f, new Array<TextureRegion>() {{
                         add(new TextureRegion(handTexture, 4, 2, 56, 60));
                     }}),
@@ -72,7 +77,8 @@ public class World {
             addObject(player2);
         }
         if(numPlayers > 2) {
-            DestroyerPlayer player3 = new DestroyerPlayer(this, x, y,
+            DestroyerPlayer player3 = new DestroyerPlayer(this,
+                    random.nextInt(9) * COLUMN_WIDTH, random.nextInt(9) * ROW_HEIGHT,
                     new Animation(0.0f, new Array<TextureRegion>() {{
                         add(new TextureRegion(handTexture, 4, 2, 56, 60));
                     }}),

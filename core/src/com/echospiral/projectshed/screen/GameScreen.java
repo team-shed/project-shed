@@ -27,13 +27,13 @@ public class GameScreen extends ScreenAdapter {
     /**
      * Countdown until player roles are swapped.
      */
-    private float startingSwapTimer = 5.0f;
-    private float swapTimer = 5.0f;
+    private float startingSwapTimer = 10.0f;
+    private float swapTimer = 10.0f;
 
     public GameScreen(ProjectShed game) {
         this.game = game;
         playerManager = new PlayerManager();
-        world = new World("worlds/world1_1.csv", 3);
+        world = new World("worlds/world1_1.csv");
 
         for(WorldObject o : world.getObjects().select(new Predicate<WorldObject>() {
             @Override
@@ -59,6 +59,7 @@ public class GameScreen extends ScreenAdapter {
     public void checkSwapTimer(float delta) {
         swapTimer -= delta;
         if(swapTimer <= 0.0f) {
+            Gdx.app.log("GameScreen", "Swap!");
             playerManager.swapRoles();
             swapTimer = startingSwapTimer;
         }
