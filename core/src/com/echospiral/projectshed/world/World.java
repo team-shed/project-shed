@@ -11,11 +11,10 @@ import com.badlogic.gdx.utils.Array;
 import com.echospiral.projectshed.object.*;
 import com.echospiral.projectshed.object.item.Item;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-
 public class World {
+
+    public static final int ROW_HEIGHT = 64;
+    public static final int COLUMN_WIDTH = 64;
 
     private Array<WorldObject> objects;
     private WorldObjectsGroup<Block> blocks;
@@ -26,44 +25,25 @@ public class World {
         objects = new Array<>();
         blocks = new WorldObjectsGroup<>();
         items = new WorldObjectsGroup<>();
-        playerTexture = new Texture(Gdx.files.internal("pl_front.png"));
+        playerTexture = new Texture(Gdx.files.internal("p1_stand.png"));
     }
 
     public World(String filename) { // load from .csv file
-
-        objects = new Array<>();
-
-        BufferedReader br = null;
-        String line = "";
+        this();
         String cvsSplitBy = ",";
+        int x = 0; // 1-indexed for sanity
+        int y = 0;
+        String levelString = Gdx.files.internal(filename).readString();
+        for (String line : levelString.split("\n")) {
 
-        int x = 1; // 1-indexed for sanity
-        int y = 1;
-
-        try {
-            br = new BufferedReader(new FileReader(filename));
-            while ((line = br.readLine()) != null) {
-
-                // use comma as separator
-                String[] worldRow = line.split(cvsSplitBy);
-                y = 0;
-                for (String col: worldRow) {
-                    objects.add(generateWorldObject(col.toLowerCase(), this, x, y));
-
-                    y++;
-                }
-                x++;
+            // use comma as separator
+            Array<String> worldRow = new Array<>(line.split(cvsSplitBy));
+            y = 0;
+            for (String col: worldRow) {
+                addObject(generateWorldObject(col.toLowerCase(), this, x, y));
+                y++;
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            x++;
         }
         for (WorldObject obj: objects) {
             System.out.println(obj.getX() + "," + obj.getY() + " " + obj.toString());
@@ -73,7 +53,7 @@ public class World {
     private WorldObject generateWorldObject(String obj, World world, int x, int y) {
         switch(obj.charAt(0)) { // for now assume everything is single char
             case 'o': // our player
-                return new Player(world, x, y, new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(playerTexture, 0, 0, 66, 92)); }} ),
+                return new Player(world, x * COLUMN_WIDTH, y * ROW_HEIGHT, new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(playerTexture, 0, 0, 66, 92)); }} ),
                         new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(playerTexture, 0, 0, 66, 92)); }} ),
                         new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(playerTexture, 0, 0, 66, 92)); }} ),
                         new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(playerTexture, 0, 0, 66, 92)); }} ));
