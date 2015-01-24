@@ -91,4 +91,9 @@ public class GameScreen extends ScreenAdapter {
         shapeRenderer.end();
         spriteBatch.end();
     }
+
+    @Override
+    public void dispose() {
+        world.dispose();
+    }
 }

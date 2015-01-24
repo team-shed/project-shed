@@ -188,6 +188,10 @@ public class World {
         }
     }
 
+    public void dispose() {
+        music.dispose();
+    }
+
     public Player getPlayer() {
         return player;
     }

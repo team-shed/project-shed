@@ -14,6 +14,7 @@ public class ProjectShed extends Game {
 
 	private SpriteBatch spriteBatch;
     private ShapeRenderer shapeRenderer;
+    private GameScreen gameScreen;
 	
 	@Override
 	public void create () {
@@ -23,7 +24,7 @@ public class ProjectShed extends Game {
         Sprite splashImage = new Sprite(new Texture("teamshed.png"));
         splashImage.setCenter(400, 300);
 
-        GameScreen gameScreen = new GameScreen(this);
+        gameScreen = new GameScreen(this);
 
         boolean useInputSetup = false;
         if(useInputSetup) {
@@ -35,6 +36,11 @@ public class ProjectShed extends Game {
         }
         this.setScreen(new SplashScreen(this, gameScreen, splashImage, 0.5f, 1.5f, 2.0f));
 	}
+
+    @Override
+    public void dispose() {
+        gameScreen.dispose();
+    }
 
     public SpriteBatch getSpriteBatch() {
         return spriteBatch;
