@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.echospiral.projectshed.controllers.KeyboardMappedController;
 import com.echospiral.projectshed.object.*;
+import com.echospiral.projectshed.object.BuilderPlayer;
 import com.echospiral.projectshed.object.item.Item;
 import com.echospiral.projectshed.object.item.ItemSkate;
 
@@ -22,12 +23,14 @@ public class World {
     private WorldObjectsGroup<Item> items;
     private Texture playerTexture;
     private Player player;
+    private Texture handTexture;
 
     public World() {
         objects = new Array<>();
         blocks = new WorldObjectsGroup<>();
         items = new WorldObjectsGroup<>();
         playerTexture = new Texture(Gdx.files.internal("player_spritesheet.png"));
+        handTexture = new Texture(Gdx.files.internal("player_hand.png"));
     }
 
     public World(String filename) { // load from .csv file
@@ -50,6 +53,39 @@ public class World {
             }
             y++;
             x = 0;
+        }
+
+        if(numPlayers > 1) {
+            BuilderPlayer player2 = new BuilderPlayer(this, x, y,
+                    new Animation(0.0f, new Array<TextureRegion>() {{
+                        add(new TextureRegion(handTexture, 4, 2, 56, 60));
+                    }}),
+                    new Animation(0.0f, new Array<TextureRegion>() {{
+                        add(new TextureRegion(handTexture, 4, 2, 56, 60));
+                    }}),
+                    new Animation(0.0f, new Array<TextureRegion>() {{
+                        add(new TextureRegion(handTexture, 4, 2, 56, 60));
+                    }}),
+                    new Animation(0.0f, new Array<TextureRegion>() {{
+                        add(new TextureRegion(handTexture, 4, 2, 56, 60));
+                    }}));
+            addObject(player2);
+        }
+        if(numPlayers > 2) {
+            DestroyerPlayer player3 = new DestroyerPlayer(this, x, y,
+                    new Animation(0.0f, new Array<TextureRegion>() {{
+                        add(new TextureRegion(handTexture, 4, 2, 56, 60));
+                    }}),
+                    new Animation(0.0f, new Array<TextureRegion>() {{
+                        add(new TextureRegion(handTexture, 4, 2, 56, 60));
+                    }}),
+                    new Animation(0.0f, new Array<TextureRegion>() {{
+                        add(new TextureRegion(handTexture, 4, 2, 56, 60));
+                    }}),
+                    new Animation(0.0f, new Array<TextureRegion>() {{
+                        add(new TextureRegion(handTexture, 4, 2, 56, 60));
+                    }}));
+            addObject(player3);
         }
     }
 
