@@ -2,7 +2,6 @@ package com.echospiral.projectshed.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerListener;
@@ -30,17 +29,22 @@ import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
  */
 public class InputSetupScreen extends ScreenAdapter implements ControllerListener {
     ProjectShed game;
-    Screen nextScreen;
+    GameScreen gameScreen;
 
     int minSlots = 2;
     int maxSlots = 3;
-    Set<Controller> controllerSet = new HashSet<Controller>();
+    Set<Controller> controllerSet = new HashSet<>();
     boolean hasKeyboardPlayer = false;
-    Array<MappedController> addedControllers = new Array<MappedController>();
+    Array<MappedController> addedControllers = new Array<>();
 
-    public InputSetupScreen(ProjectShed game, Screen nextScreen) {
+    /**
+     * Creates a new InputSetupScreen to discover inputs and hand them to the {@Link GameScreen}.
+     * @param game
+     * @param gameScreen The GameScreen to load after inputs are configured.
+     */
+    public InputSetupScreen(ProjectShed game, GameScreen gameScreen) {
         this.game = game;
-        this.nextScreen = nextScreen;
+        this.gameScreen = gameScreen;
 
         Controllers.addListener(this);
     }
@@ -99,9 +103,10 @@ public class InputSetupScreen extends ScreenAdapter implements ControllerListene
 
         // once we have enough, prompt on the right that it's time to play (and play a sound?)
 
+        // Check for start button on any registered input to load the next screen.
         for(MappedController controller : addedControllers) {
-            if(controller.getStartButton()) {
-                game.setScreen(nextScreen);
+            if (controller.getStartButton()) {
+                loadNextScreen();
             }
         }
     }
@@ -109,6 +114,7 @@ public class InputSetupScreen extends ScreenAdapter implements ControllerListene
     private void addPlayer(MappedController controller) {
         //Gdx.app.log("InputSetup", "Player found!" + controller);
         addedControllers.add(controller);
+        gameScreen.addPlayerController(controller);
     }
 
     private void addAllControllers() {
@@ -123,6 +129,10 @@ public class InputSetupScreen extends ScreenAdapter implements ControllerListene
             controllerSet.add(controller);
             addPlayer(MappedControllerFactory.getController(controller));
         }
+    }
+
+    private void loadNextScreen() {
+        game.setScreen(gameScreen);
     }
 
     @Override
