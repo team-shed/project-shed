@@ -4,8 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Predicate;
 import com.echospiral.projectshed.PlayerManager;
 import com.echospiral.projectshed.ProjectShed;
+import com.echospiral.projectshed.controllers.MappedController;
+import com.echospiral.projectshed.object.Player;
+import com.echospiral.projectshed.object.WorldObject;
 import com.echospiral.projectshed.world.World;
 
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
@@ -15,6 +20,7 @@ public class GameScreen extends ScreenAdapter {
     private ProjectShed game;
     private World world;
     private PlayerManager playerManager;
+    private Array<MappedController> playerControllers = new Array<>();
 
     public GameScreen(ProjectShed game) {
         this.game = game;
@@ -25,6 +31,10 @@ public class GameScreen extends ScreenAdapter {
 
     public PlayerManager getPlayerManager() {
         return playerManager;
+    }
+
+    public void addPlayerController(MappedController controller) {
+        playerManager.assignPlayerController(controller);
     }
 
     @Override

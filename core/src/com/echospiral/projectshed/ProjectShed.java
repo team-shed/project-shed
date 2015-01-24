@@ -23,7 +23,8 @@ public class ProjectShed extends Game {
         splashImage.setCenter(512, 384);
 
         GameScreen gameScreen = new GameScreen(this);
-        //this.setScreen(new SplashScreen(this, gameScreen, splashImage, 0.5f, 1.5f, 2.0f));
+        //InputSetupScreen inputSetupScreen = new InputSetupScreen(this, gameScreen);
+        //this.setScreen(new SplashScreen(this, inputSetupScreen, splashImage, 0.5f, 1.5f, 2.0f));
         this.setScreen(gameScreen);
 	}
 

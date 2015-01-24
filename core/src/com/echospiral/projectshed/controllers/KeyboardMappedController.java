@@ -16,7 +16,7 @@ public class KeyboardMappedController implements MappedController {
     public float getLeftAxisX() {
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             return -movementMagnitude;
-        } else if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+        } else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             return movementMagnitude;
         }
 
