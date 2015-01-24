@@ -33,4 +33,7 @@ public class XBoxMappedController implements MappedController {
     public boolean getActionButton() {
         return controller.getButton(XBox360Pad.BUTTON_A);
     }
+
+    @Override
+    public boolean getStartButton() { return controller.getButton(XBox360Pad.BUTTON_START);}
 }

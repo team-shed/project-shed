@@ -34,4 +34,7 @@ public class OuyaMappedController implements MappedController{
     public boolean getActionButton() {
         return controller.getButton(Ouya.BUTTON_A);
     }
+
+    @Override
+    public boolean getStartButton() { return controller.getButton(Ouya.BUTTON_MENU); }
 }

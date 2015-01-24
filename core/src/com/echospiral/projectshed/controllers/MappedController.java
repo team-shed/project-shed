@@ -10,4 +10,5 @@ public interface MappedController {
     public float getRightAxisY();
 
     public boolean getActionButton();
+    public boolean getStartButton();
 }
