@@ -20,6 +20,7 @@ public class World {
     public static final int ROW_HEIGHT = 64;
     public static final int COLUMN_WIDTH = 64;
 
+    private Texture backgroundTexture;
     private Array<WorldObject> objects;
     private WorldObjectsGroup<Block> blocks;
     private WorldObjectsGroup<Item> items;
@@ -30,6 +31,7 @@ public class World {
     private Sound music;
 
     public World() {
+        backgroundTexture = new Texture(Gdx.files.internal("background_1.png"));
         objects = new Array<>();
         blocks = new WorldObjectsGroup<>();
         items = new WorldObjectsGroup<>();
@@ -176,6 +178,7 @@ public class World {
     }
 
     public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
+        spriteBatch.draw(backgroundTexture, 0, 0);
         WorldObject player = null;
         for (WorldObject object : getObjects()) {
             object.render(spriteBatch, shapeRenderer);
