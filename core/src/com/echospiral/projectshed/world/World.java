@@ -67,6 +67,7 @@ public class World {
                     new Animation(0.0f, new Array<TextureRegion>() {{
                         add(new TextureRegion(handTexture, 4, 2, 56, 60));
                     }}));
+            addObject(player2);
         }
         if(numPlayers > 2) {
             DestroyerPlayer player3 = new DestroyerPlayer(this, x, y,
@@ -82,6 +83,7 @@ public class World {
                     new Animation(0.0f, new Array<TextureRegion>() {{
                         add(new TextureRegion(handTexture, 4, 2, 56, 60));
                     }}));
+            addObject(player3);
         }
     }
 

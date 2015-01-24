@@ -12,6 +12,4 @@ public class BuilderPlayer extends Player {
                   Animation moveRightAnimation, Animation moveDownAnimation) {
         super(world, x, y, moveUpAnimation, moveLeftAnimation, moveRightAnimation, moveDownAnimation);
     }
-
-
 }
