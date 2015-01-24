@@ -8,9 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
-import com.echospiral.projectshed.controllers.KeyboardMappedController;
 import com.echospiral.projectshed.object.*;
-import com.echospiral.projectshed.object.BuilderPlayer;
 import com.echospiral.projectshed.object.item.Item;
 import com.echospiral.projectshed.object.item.ItemSkate;
 
@@ -171,7 +169,7 @@ public class World {
     }
 
     public void tick(float delta) {
-        for (WorldObject object : getObjects()) {
+        for (WorldObject object : new Array<>(getObjects())) {
             object.tick(delta);
         }
     }

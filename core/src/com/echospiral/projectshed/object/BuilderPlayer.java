@@ -37,6 +37,7 @@ public class BuilderPlayer extends Player {
     public void handleInput() {
         super.handleInput();
         if (null != getController() && getController().getActionButton()) {
+            boolean posFree = true;
             for (WorldObject object : getWorld().getObjects()) {
                 if (object instanceof BreakableWall) {
                     BreakableWall wall = (BreakableWall) object;
@@ -48,7 +49,15 @@ public class BuilderPlayer extends Player {
                     } else {
                         wall.setBuilding(false);
                     }
+                } else if (getX() - object.getX() <= COLUMN_WIDTH
+                        && getY() - object.getY() <= ROW_HEIGHT
+                        && getX() < object.getX() + COLUMN_WIDTH
+                        && getY() < object.getY() + ROW_HEIGHT) {
+                    posFree = false;
                 }
+            }
+            if (posFree) {
+                getWorld().addObject(new BreakableWall(getWorld(), (getX() / World.ROW_HEIGHT) * World.ROW_HEIGHT, (getY() / COLUMN_WIDTH) * COLUMN_WIDTH, 0));
             }
         }
     }
