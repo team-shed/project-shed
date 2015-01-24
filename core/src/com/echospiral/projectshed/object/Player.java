@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.echospiral.projectshed.Direction;
 import com.echospiral.projectshed.Role;
 import com.echospiral.projectshed.controllers.MappedController;
@@ -54,8 +55,16 @@ public class Player extends WorldObject {
 
     public void handleInput() {
         if (controller != null) {
-            setDx((int) round((double) movementSpeed * controller.getLeftAxisX()));
-            setDy(-(int) round((double) movementSpeed * controller.getLeftAxisY()));
+            float x = controller.getLeftAxisX();
+            float y = controller.getLeftAxisY();
+
+            Vector2 v = new Vector2(x, y);
+            if(v.len2() < 0.015f) {
+                x = 0; y = 0;
+            }
+
+            setDx((int)(movementSpeed * x));
+            setDy((int)(-movementSpeed * y));
         }
     }
 

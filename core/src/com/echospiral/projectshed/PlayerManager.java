@@ -23,6 +23,7 @@ public class PlayerManager {
         for(Player player : players) {
             if(player.getController() == null) {
                 player.setController(controller);
+                return;
             }
         }
     }
