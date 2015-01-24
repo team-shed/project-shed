@@ -1,5 +1,6 @@
 package com.echospiral.projectshed.object;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -80,6 +81,9 @@ public class Player extends WorldObject {
 
     @Override
     public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(Color.BLUE);
+        shapeRenderer.rect(getX(), getY(), world.COLUMN_WIDTH, world.ROW_HEIGHT);
+
         spriteBatch.draw(getAnimation().getKeyFrame(stateTime), getX(), getY());
     }
 

@@ -50,6 +50,7 @@ public class GameScreen extends ScreenAdapter {
             world.tick(delta);
             world.render(spriteBatch, shapeRenderer);
         }
+        spriteBatch.flush();
         shapeRenderer.end();
         spriteBatch.end();
     }

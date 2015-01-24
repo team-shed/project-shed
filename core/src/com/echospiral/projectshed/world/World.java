@@ -50,9 +50,9 @@ public class World {
             x = 0;
         }
 
-        for (WorldObject obj: getObjects()) {
-            System.out.println(obj.getX() + "," + obj.getY() + " " + obj.toString());
-        }
+        //for (WorldObject obj: getObjects()) {
+        //    System.out.println(obj.getX() + "," + obj.getY() + " " + obj.toString());
+        //}
     }
 
     private WorldObject generateWorldObject(String obj, World world, int x, int y) {

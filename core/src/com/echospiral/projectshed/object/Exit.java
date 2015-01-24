@@ -1,6 +1,7 @@
 package com.echospiral.projectshed.object;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -27,13 +28,15 @@ public class Exit extends WorldObject {
     public Exit(World world, int x, int y) {
         super(world, x, y);
         stateTime = 0F;
-        flag = new Texture(Gdx.files.internal("flagGreen.png"));
+        this.flag = new Texture(Gdx.files.internal("flagGreen.png"));
 
         this.animation = new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(flag, 0, 0, 70, 70)); }} );
     }
 
     @Override
     public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(Color.RED);
+        shapeRenderer.rect(getX(), getY(), world.COLUMN_WIDTH, world.ROW_HEIGHT);
         spriteBatch.draw(getAnimation().getKeyFrame(stateTime), getX(), getY());
     }
 
