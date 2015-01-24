@@ -21,11 +21,6 @@ public class PlayerManager {
         return players;
     }
 
-    public MappedController getControllerForRole(Role role) {
-        int i = role.ordinal() % participatingControllers.size;
-        return participatingControllers.get(i);
-    }
-
     public void assignPlayerController(MappedController controller) {
         for(Player player : players) {
             if(player.getController() == null) {
@@ -63,19 +58,25 @@ public class PlayerManager {
     }
 
     public void swapRoles() {
+        Array<MappedController> controllers = new Array<>();
+        for(Player player : getPlayers()) {
+            controllers.add(player.getController());
+        }
+
         for (Player player : getPlayers()) {
+            MappedController c = controllers.random();
+            controllers.removeValue(c, true);
+            player.setController(c);
+
             switch (player.getRole()) {
                 case PLAYER:
                     player.setRole(BUILDER);
-                    player.setController(getControllerForRole(BUILDER));
                     break;
                 case BUILDER:
                     player.setRole(DESTROYER);
-                    player.setController(getControllerForRole(DESTROYER));
                     break;
                 case DESTROYER:
                     player.setRole(PLAYER);
-                    player.setController(getControllerForRole(PLAYER));
                     break;
             }
         }
