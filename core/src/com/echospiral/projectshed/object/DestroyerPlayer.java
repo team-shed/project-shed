@@ -53,13 +53,11 @@ public class DestroyerPlayer extends Player {
         if(getRelativeBounds(0, getDy()).overlaps(top)) {
             freeY = false;
             setY((int) (screen_rect.y + screen_rect.height - bounds.height));
-            Gdx.app.log("collide", "top");
         }
 
         if(getRelativeBounds(0, getDy()).overlaps(bottom)) {
             freeY = false;
             setY((int) (screen_rect.y));
-            Gdx.app.log("collide", "bottom");
         }
     }
 
