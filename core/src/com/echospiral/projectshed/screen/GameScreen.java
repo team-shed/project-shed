@@ -41,7 +41,10 @@ public class GameScreen extends ScreenAdapter {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL_COLOR_BUFFER_BIT);
-        camera.position.set(world.getPlayer().getX(), world.getPlayer().getY(), 0);
+        if (world != null) {
+            world.tick(delta);
+            camera.position.set(world.getPlayer().getX(), world.getPlayer().getY(), 0);
+        }
         camera.update();
         SpriteBatch spriteBatch = game.getSpriteBatch();
         ShapeRenderer shapeRenderer = game.getShapeRenderer();
@@ -51,7 +54,6 @@ public class GameScreen extends ScreenAdapter {
         shapeRenderer.setAutoShapeType(true);
         shapeRenderer.begin();
         if (world != null) {
-            world.tick(delta);
             world.render(spriteBatch, shapeRenderer);
         }
         spriteBatch.flush();

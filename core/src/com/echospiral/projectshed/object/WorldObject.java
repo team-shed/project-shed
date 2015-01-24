@@ -1,9 +1,11 @@
 package com.echospiral.projectshed.object;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 import com.echospiral.projectshed.world.World;
 
 import java.util.concurrent.Callable;
@@ -47,6 +49,7 @@ public abstract class WorldObject {
     private boolean hasCollidedLeft;
     private boolean hasCollidedTop;
     private boolean hasCollidedBottom;
+    private float stateTime, moveTime;
 
     public WorldObject(World world, int x, int y) {
         this.world = world;
@@ -71,13 +74,32 @@ public abstract class WorldObject {
     }
 
     protected void updateMove(float delta) {
-        if (!isHorizontallyBlocked())
-            setX(getX() + dx);
-
-        if (!isVerticallyBlocked())
-            setY(getY() + dy);
-
-        resetCollisionFlags();
+//        if (!isHorizontallyBlocked())
+//            setX(getX() + dx);
+//
+//        if (!isVerticallyBlocked())
+//            setY(getY() + dy);
+//
+//        resetCollisionFlags();
+        stateTime += Gdx.graphics.getDeltaTime();
+        if (stateTime - moveTime >= 0.05) {
+            moveTime += 0.05;
+            if (getDx() != 0 || getDy() != 0) {
+                boolean freeX = true, freeY = true;
+                for (WorldObject other : new Array<>(world.getObjects())) {
+                    if (other.isSolid() && other != this && getRelativeBounds(getDx(), 0).overlaps(other.getRelativeBounds(0, 0)))
+                        freeX = false;
+                    if (other.isSolid() && other != this && getRelativeBounds(0, getDy()).overlaps(other.getRelativeBounds(0, 0)))
+                        freeY = false;
+                }
+                if (freeX) {
+                    setX(getX() + getDx());
+                }
+                if (freeY) {
+                    setY(getY() + getDy());
+                }
+            }
+        }
     }
 
     protected boolean isHorizontallyBlocked() {
@@ -223,4 +245,6 @@ public abstract class WorldObject {
     public abstract void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer);
 
     public abstract Rectangle getRelativeBounds(int dx, int dy);
+
+    public abstract boolean isSolid();
 }
