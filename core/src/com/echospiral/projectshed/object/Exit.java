@@ -9,15 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-import com.echospiral.projectshed.Direction;
-import com.echospiral.projectshed.Role;
-import com.echospiral.projectshed.controllers.MappedController;
-import com.echospiral.projectshed.object.item.Item;
 import com.echospiral.projectshed.world.World;
-
-import static com.echospiral.projectshed.Direction.DOWN;
-import static com.echospiral.projectshed.Role.PLAYER;
-import static java.lang.Math.round;
 
 public class Exit extends WorldObject {
 
@@ -48,5 +40,10 @@ public class Exit extends WorldObject {
     public Rectangle getRelativeBounds(int dx, int dy) {
         TextureRegion frame = getAnimation().getKeyFrame(stateTime);
         return new Rectangle(getX() + dx, getY() + dy, frame.getRegionWidth(), frame.getRegionHeight());
+    }
+
+    @Override
+    public boolean isSolid() {
+        return true;
     }
 }

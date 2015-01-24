@@ -24,4 +24,8 @@ public class Block extends WorldObject {
         return new Rectangle(getX() + dx, getY() + dy, world.COLUMN_WIDTH, world.ROW_HEIGHT);
     }
 
+    @Override
+    public boolean isSolid() {
+        return true;
+    }
 }

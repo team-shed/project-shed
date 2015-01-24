@@ -43,7 +43,8 @@ public class World {
             Array<String> worldRow = new Array<>(line.split(cvsSplitBy));
 
             for (String col: worldRow) {
-                addObject(generateWorldObject(col.toLowerCase(), this, x, y));
+                WorldObject object = generateWorldObject(col.toLowerCase(), this, x, y);
+                if (object != null) addObject(object);
                 x++;
             }
             y++;
@@ -63,8 +64,10 @@ public class World {
                 return player;
             case 'x': // exit
                 return new Exit(world, x * COLUMN_WIDTH, y * ROW_HEIGHT);
-            default:
+            case 'b':
                 return new Block(world, x * COLUMN_WIDTH, y * ROW_HEIGHT);
+            default:
+                return null;
 
         }
 
@@ -83,6 +86,7 @@ public class World {
     }
 
     public void addObject(WorldObject object) {
+        if (object == null) return;
         getObjects().add(object);
         if (object instanceof Block) blocks.add((Block) object);
         if (object instanceof Item) items.add((Item) object);

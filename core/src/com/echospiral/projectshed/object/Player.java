@@ -16,12 +16,13 @@ import com.echospiral.projectshed.world.World;
 import static com.echospiral.projectshed.Direction.DOWN;
 import static com.echospiral.projectshed.Role.PLAYER;
 import static java.lang.Math.round;
+import static java.lang.Math.signum;
 
 public class Player extends WorldObject {
     private MappedController controller;
 
     // TODO: PlayTest movement speed
-    private int movementSpeed = 5;
+    private int movementSpeed = 4;
 
     private ItemEffect currentItemEffect;
 
@@ -54,8 +55,8 @@ public class Player extends WorldObject {
 
     public void handleInput() {
         if (controller != null) {
-            setDx((int) round((double) movementSpeed * controller.getLeftAxisX()));
-            setDy(-(int) round((double) movementSpeed * controller.getLeftAxisY()));
+            setDx((int) round((double) movementSpeed * signum(controller.getLeftAxisX())));
+            setDy(-(int) round((double) movementSpeed * signum(controller.getLeftAxisY())));
         }
     }
 
@@ -143,7 +144,7 @@ public class Player extends WorldObject {
     @Override
     public Rectangle getRelativeBounds(int dx, int dy) {
         TextureRegion frame = getAnimation().getKeyFrame(stateTime);
-        return new Rectangle(getX() + dx, getY() + dy, frame.getRegionWidth(), frame.getRegionHeight());
+        return new Rectangle(getX() + dx, getY() + dy, 64, 64);
     }
 
     public Role getRole() {
@@ -152,6 +153,11 @@ public class Player extends WorldObject {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    @Override
+    public boolean isSolid() {
+        return false;
     }
 
     public int getMovementSpeed() {
