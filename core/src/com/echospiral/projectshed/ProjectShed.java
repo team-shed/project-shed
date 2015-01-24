@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.echospiral.projectshed.controllers.KeyboardMappedController;
 import com.echospiral.projectshed.screen.GameScreen;
 import com.echospiral.projectshed.screen.InputSetupScreen;
 import com.echospiral.projectshed.screen.SplashScreen;
@@ -25,6 +26,8 @@ public class ProjectShed extends Game {
         GameScreen gameScreen = new GameScreen(this);
         //InputSetupScreen inputSetupScreen = new InputSetupScreen(this, gameScreen);
         //this.setScreen(new SplashScreen(this, inputSetupScreen, splashImage, 0.5f, 1.5f, 2.0f));
+
+        gameScreen.addPlayerController(new KeyboardMappedController());
         this.setScreen(gameScreen);
 	}
 
