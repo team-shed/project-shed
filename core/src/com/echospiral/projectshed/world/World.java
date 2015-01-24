@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
-import com.echospiral.projectshed.controllers.KeyboardMappedController;
 import com.echospiral.projectshed.object.*;
+import com.echospiral.projectshed.object.BuilderPlayer;
 import com.echospiral.projectshed.object.item.Item;
 
 public class World {
@@ -21,15 +21,17 @@ public class World {
     private WorldObjectsGroup<Item> items;
     private Texture playerTexture;
     private Player player;
+    private Texture handTexture;
 
     public World() {
         objects = new Array<>();
         blocks = new WorldObjectsGroup<>();
         items = new WorldObjectsGroup<>();
         playerTexture = new Texture(Gdx.files.internal("p1_stand.png"));
+        handTexture = new Texture(Gdx.files.internal("player_hand.png"));
     }
 
-    public World(String filename) { // load from .csv file
+    public World(String filename, int numPlayers) { // load from .csv file
         this();
         String cvsSplitBy = ",";
         int x = 0;
@@ -50,27 +52,81 @@ public class World {
             y++;
             x = 0;
         }
+
+        if(numPlayers > 1) {
+            BuilderPlayer player2 = new BuilderPlayer(this, x, y,
+                    new Animation(0.0f, new Array<TextureRegion>() {{
+                        add(new TextureRegion(handTexture, 4, 2, 56, 60));
+                    }}),
+                    new Animation(0.0f, new Array<TextureRegion>() {{
+                        add(new TextureRegion(handTexture, 4, 2, 56, 60));
+                    }}),
+                    new Animation(0.0f, new Array<TextureRegion>() {{
+                        add(new TextureRegion(handTexture, 4, 2, 56, 60));
+                    }}),
+                    new Animation(0.0f, new Array<TextureRegion>() {{
+                        add(new TextureRegion(handTexture, 4, 2, 56, 60));
+                    }}));
+        }
+        if(numPlayers > 2) {
+            DestroyerPlayer player3 = new DestroyerPlayer(this, x, y,
+                    new Animation(0.0f, new Array<TextureRegion>() {{
+                        add(new TextureRegion(handTexture, 4, 2, 56, 60));
+                    }}),
+                    new Animation(0.0f, new Array<TextureRegion>() {{
+                        add(new TextureRegion(handTexture, 4, 2, 56, 60));
+                    }}),
+                    new Animation(0.0f, new Array<TextureRegion>() {{
+                        add(new TextureRegion(handTexture, 4, 2, 56, 60));
+                    }}),
+                    new Animation(0.0f, new Array<TextureRegion>() {{
+                        add(new TextureRegion(handTexture, 4, 2, 56, 60));
+                    }}));
+        }
     }
 
     private WorldObject generateWorldObject(String obj, World world, int x, int y) {
-        switch(obj.charAt(0)) { // for now assume everything is single char
-            case 'o': // our player
-                Player player = new Player(world, x * COLUMN_WIDTH, y * ROW_HEIGHT, new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(playerTexture, 0, 0, 66, 92)); }} ),
-                        new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(playerTexture, 0, 0, 66, 92)); }} ),
-                        new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(playerTexture, 0, 0, 66, 92)); }} ),
-                        new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(playerTexture, 0, 0, 66, 92)); }} ));
-                //player.setController(new KeyboardMappedController());
-                this.player = player;
-                return player;
-            case 'x': // exit
-                return new Exit(world, x * COLUMN_WIDTH, y * ROW_HEIGHT);
-            case 'b':
-                return new Block(world, x * COLUMN_WIDTH, y * ROW_HEIGHT);
-            default:
-                return null;
+        char o;
+        for (char c : obj.toCharArray()) {
+            switch (c) {
+                // items
+                //     case '1': items.add(new BananaSkin(world, x, y));
+                //       break;
+
+
+                // tiles/rooms/chars/environment:
+                case 'o': // our player
+                    Player player = new Player(world, x * COLUMN_WIDTH, y * ROW_HEIGHT,
+                            new Animation(0.025f, new Array<TextureRegion>() {{
+                                add(new TextureRegion(playerTexture, 4, 2, 56, 60));
+                            }}),
+                            new Animation(0.025f, new Array<TextureRegion>() {{
+                                add(new TextureRegion(playerTexture, 4, 2, 56, 60));
+                            }}),
+                            new Animation(0.025f, new Array<TextureRegion>() {{
+                                add(new TextureRegion(playerTexture, 4, 2, 56, 60));
+                            }}),
+                            new Animation(0.025f, new Array<TextureRegion>() {{
+                                add(new TextureRegion(playerTexture, 4, 2, 56, 60));
+                            }}));
+                    //player.setController(new KeyboardMappedController());
+                    this.player = player;
+                    return player;
+                case 'x': // exit
+                    return new Exit(world, x * COLUMN_WIDTH, y * ROW_HEIGHT);
+                case 'm': // metal aka unbreakable wall
+                    return new UnbreakableWall(world, x * COLUMN_WIDTH, y * ROW_HEIGHT);
+                case 'w': // wood aka breakable wall
+                    return new BreakableWall(world, x * COLUMN_WIDTH, y * ROW_HEIGHT);
+                case 'b':
+                    return new Block(world, x * COLUMN_WIDTH, y * ROW_HEIGHT);
+
+                default:
+                    return null;
+            }
 
         }
-
+        return null;
     }
 
     public Array<WorldObject> getObjects() {
@@ -105,8 +161,16 @@ public class World {
     }
 
     public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
+        WorldObject player = null;
         for (WorldObject object : getObjects()) {
             object.render(spriteBatch, shapeRenderer);
+            if (object instanceof Player) {
+                player = object;
+            }
+        }
+        // grim hack to paint the player last so we can see his massive head
+        if (player != null) {
+            player.render(spriteBatch, shapeRenderer);
         }
     }
 
