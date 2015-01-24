@@ -25,7 +25,7 @@ public class ProjectShed extends Game {
 
         GameScreen gameScreen = new GameScreen(this);
 
-        boolean useInputSetup = true;
+        boolean useInputSetup = false;
         if(useInputSetup) {
             InputSetupScreen inputSetupScreen = new InputSetupScreen(this, gameScreen);
             this.setScreen(inputSetupScreen);

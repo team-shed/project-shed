@@ -128,8 +128,16 @@ public class World {
     }
 
     public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
+        WorldObject player = null;
         for (WorldObject object : getObjects()) {
             object.render(spriteBatch, shapeRenderer);
+            if (object instanceof Player) {
+                player = object;
+            }
+        }
+        // grim hack to paint the player last so we can see his massive head
+        if (player != null) {
+            player.render(spriteBatch, shapeRenderer);
         }
     }
 
