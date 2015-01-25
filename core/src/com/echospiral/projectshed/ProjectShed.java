@@ -32,7 +32,7 @@ public class ProjectShed extends Game {
             InputSetupScreen inputSetupScreen = new InputSetupScreen(this, gameScreen);
             this.setScreen(inputSetupScreen);
         } else {
-            gameScreen.addPlayerController(new KeyboardMappedController());
+            //gameScreen.addPlayerController(new KeyboardMappedController());
             this.setScreen(splashScreen);
         }
     }
