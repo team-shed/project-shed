@@ -73,6 +73,8 @@ public class World {
         Array<String> level = new Array<>(levelString.split("\n"));
         level.reverse();
 
+        int maxWidth = 0;
+
         for (String line : level) {
             // use comma as separator
             Array<String> worldRow = new Array<>(line.split(cvsSplitBy));
@@ -83,13 +85,19 @@ public class World {
                 x++;
             }
             y++;
+            if (x > maxWidth)
+                maxWidth = x;
             x = 0;
         }
+
+        int halfW = maxWidth / 2;
+        int halfH = y / 2;
 
         Random random = new Random();
         if(numPlayers > 1) {
             builderPlayer = new BuilderPlayer(this, screen,
-                    3 + random.nextInt(3) * COLUMN_WIDTH, 3 + random.nextInt(3) * ROW_HEIGHT,
+                    (halfW * COLUMN_WIDTH) + random.nextInt(COLUMN_WIDTH * 3) - COLUMN_WIDTH,
+                    (halfH * ROW_HEIGHT) + random.nextInt(ROW_HEIGHT * 3) - ROW_HEIGHT,
                     new Animation(0.0f, new Array<TextureRegion>() {{
                         add(new TextureRegion(handBuildTexture, 4, 2, 56, 60));
                     }}),
@@ -106,7 +114,8 @@ public class World {
         }
         if(numPlayers > 2) {
             destroyerPlayer = new DestroyerPlayer(this, screen,
-                    3 + random.nextInt(3) * COLUMN_WIDTH, 3 + random.nextInt(3) * ROW_HEIGHT,
+                    (halfW * COLUMN_WIDTH) + random.nextInt(COLUMN_WIDTH * 3) - COLUMN_WIDTH,
+                    (halfH * ROW_HEIGHT) + random.nextInt(ROW_HEIGHT * 3) - ROW_HEIGHT,
                     new Animation(0.0f, new Array<TextureRegion>() {{
                         add(new TextureRegion(handDestroyTexture, 4, 2, 56, 60));
                     }}),
