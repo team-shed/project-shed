@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.echospiral.projectshed.GameSettings;
 import com.echospiral.projectshed.Role;
 import com.badlogic.gdx.math.Rectangle;
 import com.echospiral.projectshed.screen.GameScreen;
@@ -24,6 +25,8 @@ public class DestroyerPlayer extends Player {
         this.setRole(Role.DESTROYER);
 
         this.gameScreen = gameScreen;
+
+        setMovementSpeed(GameSettings.INITIAL_SPEED_DESTROYER);
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.echospiral.projectshed.Direction;
+import com.echospiral.projectshed.GameSettings;
 import com.echospiral.projectshed.Role;
 import com.echospiral.projectshed.controllers.MappedController;
 import com.echospiral.projectshed.object.item.Item;
@@ -20,8 +21,7 @@ import static java.lang.Math.signum;
 public class Player extends WorldObject {
     private MappedController controller;
 
-    // TODO: PlayTest movement speed
-    private int movementSpeed = 4;
+    private int movementSpeed;
 
     private ItemEffect currentItemEffect;
 
@@ -44,6 +44,7 @@ public class Player extends WorldObject {
         this.moveDownAnimation = moveDownAnimation;
         role = PLAYER;
 
+        this.movementSpeed = GameSettings.INITIAL_SPEED_HERO;
         currentItemEffect = null;
     }
 
