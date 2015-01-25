@@ -44,6 +44,7 @@ public class ProjectShed extends Game {
         splashScreen.dispose();
     }
 
+
     public SpriteBatch getSpriteBatch() {
         return spriteBatch;
     }
