@@ -168,12 +168,18 @@ public class GameScreen extends ScreenAdapter {
         if (creditsShown) {
             font.setColor(Color.WHITE);
             font.setScale(2);
-            font.drawMultiLine(spriteBatch, "Ross - Programming & Art\n" +
+            font.drawMultiLine(spriteBatch, "Congratulations!\n\n" +
+                            "Thanks for playing\n\n" +
+                            "Project S.H.E.D.\n\n" +
+                    "Team SHED:\n\n" +
+                    "Ross - Programming & Art\n" +
                     "Oddvar - Programming\n" +
                     "Jeff - Programming\n" +
                     "Rudi - Programming\n" +
                     "Patrick - Music\n" +
-                    "Niclas - Sound effects", camera.position.x - 128, camera.position.y + camera.viewportHeight - 8);
+                    "Niclas - Sound effects\n\n" +
+                    "Made for The Global Game Jam 2015",
+                    camera.position.x - 128, camera.position.y + (camera.viewportHeight / 2) - 8);
         }
     }
 
