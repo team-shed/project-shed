@@ -74,8 +74,16 @@ public class BuilderPlayer extends Player {
         if (null != getController() && getController().getActionButton()) {
             boolean posFree = true;
             for (WorldObject object : getWorld().getObjects()) {
-                if (object == this || object == getWorld().getBuilderGridSelection()) continue;
-                if (object instanceof BreakableWall) {
+                if (object == this || object == getWorld().getBuilderGridSelection()) continue; // SKIP those objects
+                if (object instanceof Player) {
+                    Player p = (Player) object;
+                    if (p.getRole() == Role.PLAYER &&
+                            getWorld().getBuilderGridSelection().getRelativeBounds(0,0).overlaps(p.getRelativeBounds(0,0))) {
+                        posFree = false; // Do not build on player dude
+                        break; // And just stop
+                    }
+                }
+                else if (object instanceof BreakableWall) {
                     BreakableWall wall = (BreakableWall) object;
                     if (getWorld().getBuilderGridSelection().getX() == object.getX()
                             && getWorld().getBuilderGridSelection().getY() == object.getY()) {
@@ -87,6 +95,7 @@ public class BuilderPlayer extends Player {
                 } else if (getWorld().getBuilderGridSelection().getX() == object.getX()
                         && getWorld().getBuilderGridSelection().getY() == object.getY()) {
                     posFree = false;
+                    break;
                 }
             }
             if (posFree) {

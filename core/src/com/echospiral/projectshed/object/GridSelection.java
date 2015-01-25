@@ -33,7 +33,7 @@ public class GridSelection extends WorldObject {
 
     @Override
     public Rectangle getRelativeBounds(int dx, int dy) {
-        return null;
+        return new Rectangle(getX() + dx, getY() + dy, world.COLUMN_WIDTH, world.ROW_HEIGHT);
     }
 
     @Override
