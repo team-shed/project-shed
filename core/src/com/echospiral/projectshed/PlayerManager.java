@@ -20,14 +20,20 @@ public class PlayerManager {
         return players;
     }
 
-    public void assignPlayerController(MappedController controller) {
+    /**
+     *
+     * @param controller
+     * @return id of the newly assigned player
+     */
+    public int assignPlayerController(MappedController controller) {
         for(Player player : players) {
             if(player.getController() == null) {
                 player.setController(controller);
                 participatingControllers.add(controller);
-                return;
+                return (participatingControllers.size - 1);
             }
         }
+        return -1;
     }
     
     public void addPlayer(Player player) {

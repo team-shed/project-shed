@@ -1,6 +1,7 @@
 package com.echospiral.projectshed.world;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -227,7 +228,7 @@ public class World {
         }
     }
 
-    public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
+    public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer, BitmapFont font) {
         spriteBatch.draw(backgroundTexture, 0, 0, width, height);
 
         for (WorldObject object : getObjects()) {
@@ -236,6 +237,11 @@ public class World {
         // grim hack to paint the player last so we can see his massive head
         if (player != null) {
             player.render(spriteBatch, shapeRenderer);
+            font.setColor(Color.WHITE);
+            font.setScale(1);
+            font.draw(spriteBatch,
+                    "Player " + (this.screen.getPlayerManager().getControllerId(this.getHero().getController()) + 1),
+                            player.getX() + 2, player.getY() -2);
         }
         if (builderPlayer != null) {
             builderPlayer.render(spriteBatch, shapeRenderer);
@@ -249,7 +255,7 @@ public class World {
         //music.dispose();
     }
 
-    public Player getPlayer() {
+    public Player getHero() {
         return player;
     }
 

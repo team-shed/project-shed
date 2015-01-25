@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Predicate;
 import com.echospiral.projectshed.GameSettings;
@@ -25,7 +24,6 @@ import com.echospiral.projectshed.world.World;
 
 import java.math.BigDecimal;
 
-import static com.badlogic.gdx.graphics.Color.WHITE;
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
 import static java.lang.Math.PI;
 import static java.lang.Math.round;
@@ -152,7 +150,7 @@ public class GameScreen extends ScreenAdapter {
         shapeRenderer.setAutoShapeType(true);
         shapeRenderer.begin();
         if (getWorld() != null) {
-            getWorld().render(spriteBatch, shapeRenderer);
+            getWorld().render(spriteBatch, shapeRenderer, font);
         }
 
         drawTimer(spriteBatch);
@@ -193,7 +191,7 @@ public class GameScreen extends ScreenAdapter {
         int mapHeight = getWorld().getHeight();
         int cameraWidth = (int)getCamera().viewportWidth;
         int cameraHeight = (int)getCamera().viewportHeight;
-        Player player = getWorld().getPlayer();
+        Player player = getWorld().getHero();
         Rectangle playerBounds = player.getRelativeBounds(0, 0);
         int playerX = (int)(player.getX() + playerBounds.width / 2);
         int playerY = (int)(player.getY() + playerBounds.height / 2);
@@ -233,12 +231,12 @@ public class GameScreen extends ScreenAdapter {
     public void nextLevel() {
         winScreen.resetCountdown();
         winScreen.setNextScreen(this);
-        winScreen.setWinner("Player " + getPlayerManager().getControllerId(getWorld().getPlayer().getController()));
+        winScreen.setWinner("Player " + getPlayerManager().getControllerId(getWorld().getHero().getController()));
         game.setScreen(winScreen);
         getPlayerManager().clearPlayers();
         worldIndex++;
         if (getWorld() != null) {
-            getPlayerManager().addPlayer(getWorld().getPlayer());
+            getPlayerManager().addPlayer(getWorld().getHero());
             getPlayerManager().addPlayer(getWorld().getBuilderPlayer());
             getPlayerManager().addPlayer(getWorld().getDestroyerPlayer());
             getPlayerManager().reassignPlayers();
