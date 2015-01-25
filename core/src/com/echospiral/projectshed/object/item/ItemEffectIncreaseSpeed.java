@@ -1,6 +1,7 @@
 package com.echospiral.projectshed.object.item;
 
 import com.badlogic.gdx.Gdx;
+import com.echospiral.projectshed.GameSettings;
 import com.echospiral.projectshed.object.Player;
 
 /**
@@ -24,7 +25,9 @@ public class ItemEffectIncreaseSpeed extends ItemEffectLimitedTime {
     @Override
     public boolean unApplyEffectToObject(Player player) {
         player.setMovementSpeed(player.getMovementSpeed() / speedModifier);
-        Gdx.app.log("ItemEffectIncreasedSpeed", "Finished speed effect");
+        if (GameSettings.debug) {
+            Gdx.app.log("ItemEffectIncreasedSpeed", "Finished speed effect");
+        }
         return true;
     }
 

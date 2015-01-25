@@ -119,7 +119,9 @@ public class GameScreen extends ScreenAdapter {
     public void checkSwapTimer(float delta) {
         swapTimer -= delta;
         if(swapTimer <= 0.0f || Gdx.input.isKeyJustPressed(Input.Keys.NUM_9)) {
-            Gdx.app.log("GameScreen", "Swap!");
+            if (GameSettings.debug) {
+                Gdx.app.log("GameScreen", "Swap!");
+            }
             playerManager.swapRoles();
             swapTimer += startingSwapTimer;
         }
@@ -205,12 +207,13 @@ public class GameScreen extends ScreenAdapter {
 
         camera.position.set(cameraX, cameraY, 0);
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_8)) {
-            cameraScale = (cameraScale + 1) % 6;
-            camera.setToOrtho(false, cameraScale * 200, cameraScale * 150);
-        }
-        else if(Gdx.input.isKeyJustPressed((Input.Keys.NUM_0))) {
-            nextLevel();
+        if (GameSettings.debug) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_8)) {
+                cameraScale = (cameraScale + 1) % 6;
+                camera.setToOrtho(false, cameraScale * 200, cameraScale * 150);
+            } else if (Gdx.input.isKeyJustPressed((Input.Keys.NUM_0))) {
+                nextLevel();
+            }
         }
         camera.update();
     }
