@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -124,15 +125,16 @@ public class GameScreen extends ScreenAdapter {
             getWorld().render(spriteBatch, shapeRenderer);
         }
 
-        font.setColor(0f, 1.0f, 0f, fontAlpha);
+        font.setColor(Color.WHITE);
         font.draw(spriteBatch, (round(swapTimer * 10D) / 10D) + "s", camera.position.x - (camera.viewportWidth / 2) + 8, camera.position.y + (camera.viewportHeight / 2) - 8);
+        font.setColor(0f, 1.0f, 0f, fontAlpha);
         if (fontAlpha > 0.003f) {
             fontAlpha -= 0.003f; // fadeout
         }
         else {
             fontAlpha = 0f;
         }
-        font.draw(spriteBatch, worlds.get(worldIndex).getName(), getCamera().position.x - 150, getCamera().position.y - 120);
+        font.draw(spriteBatch, worlds.get(worldIndex).getName(), getCamera().position.x - 350, getCamera().position.y - 220);
 
         spriteBatch.flush();
         shapeRenderer.end();
