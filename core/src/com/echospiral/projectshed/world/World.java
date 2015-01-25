@@ -50,8 +50,8 @@ public class World {
         items = new WorldObjectsGroup<>();
         exits = new WorldObjectsGroup<>();
         playerTexture = new Texture(Gdx.files.internal("player_spritesheet.png"));
-        handBuildTexture = new Texture(Gdx.files.internal("hand_build.png"));
-        handDestroyTexture = new Texture(Gdx.files.internal("hand_destroy.png"));
+        handBuildTexture = new Texture(Gdx.files.internal("hand_red.png"));
+        handDestroyTexture = new Texture(Gdx.files.internal("hand_green.png"));
 
         width = 1;
         height = 1;
