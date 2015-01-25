@@ -16,6 +16,8 @@ import com.badlogic.gdx.utils.Predicate;
 import com.echospiral.projectshed.GameSettings;
 import com.echospiral.projectshed.PlayerManager;
 import com.echospiral.projectshed.ProjectShed;
+import com.echospiral.projectshed.controllers.ControllerDiscoverer;
+import com.echospiral.projectshed.controllers.ControllerDiscoveryListener;
 import com.echospiral.projectshed.controllers.MappedController;
 import com.echospiral.projectshed.object.Player;
 import com.echospiral.projectshed.object.WorldObject;
@@ -37,6 +39,8 @@ public class GameScreen extends ScreenAdapter {
     private float cameraScale = 1.0f;
     private BitmapFont font;
     private float fontAlpha;
+
+    ControllerDiscoverer controllerDiscoverer;
 
     /**
      * Countdown until player roles are swapped.
@@ -78,6 +82,17 @@ public class GameScreen extends ScreenAdapter {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 600);
         winScreen = new WinScreen(game);
+
+        /*
+        listen for new controllers or keyboard input and add them to the game
+         */
+        controllerDiscoverer = new ControllerDiscoverer();
+        controllerDiscoverer.addListener(new ControllerDiscoveryListener() {
+            @Override
+            public void controllerFound(MappedController controller) {
+                addPlayerController(controller);
+            }
+        });
     }
 
     public PlayerManager getPlayerManager() {
