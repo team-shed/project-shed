@@ -79,6 +79,7 @@ public class DestroyerPlayer extends Player {
                     BreakableWall wall = (BreakableWall) object;
                     if (getWorld().getDestroyerGridSelection().getX() == object.getX()
                             && getWorld().getDestroyerGridSelection().getY() == object.getY()) {
+                        wall.setBuilding(false);
                         wall.setDestroying(true);
                     } else {
                         wall.setDestroying(false);
