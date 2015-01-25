@@ -1,7 +1,6 @@
 package com.echospiral.projectshed.object;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -10,8 +9,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.echospiral.projectshed.world.World;
-
-import static com.badlogic.gdx.graphics.Color.WHITE;
 
 public class UnbreakableWall extends Block {
 
@@ -24,7 +21,7 @@ public class UnbreakableWall extends Block {
         stateTime = 0F;
         this.metal = new Texture(Gdx.files.internal("metal.png"));
 
-        this.animation = new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(metal, 3, 0, 58, 62)); }} );
+        this.animation = new Animation(0.025f, new Array<TextureRegion>() {{ add(new TextureRegion(metal, 0, 0, 64, 64)); }} );
     }
 
     @Override
