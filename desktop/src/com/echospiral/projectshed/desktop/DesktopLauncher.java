@@ -9,7 +9,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.width = 800;
         config.height = 600;
-        config.title = "Project Shed";
+        config.title = "Project S.H.E.D.";
 		new LwjglApplication(new ProjectShed(), config);
 	}
 }

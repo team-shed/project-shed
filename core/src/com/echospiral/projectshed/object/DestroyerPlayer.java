@@ -8,6 +8,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.echospiral.projectshed.screen.GameScreen;
 import com.echospiral.projectshed.world.World;
 
+import static com.echospiral.projectshed.world.World.COLUMN_WIDTH;
+import static com.echospiral.projectshed.world.World.ROW_HEIGHT;
+
 /**
  * A Player that disables most collisions and can destroy walls.
  */
@@ -43,26 +46,27 @@ public class DestroyerPlayer extends Player {
         Rectangle bottom = new Rectangle(screen_rect.x - testMargin, screen_rect.y - testMargin,
                 screen_rect.width + 2*testMargin, testMargin);
 
-        Rectangle bounds = getRelativeBounds(0, 0);
+        int originX = getX() + (COLUMN_WIDTH / 2);
+        int originY = getY() + (ROW_HEIGHT / 2);
 
-        if(getRelativeBounds(getDx(), 0).overlaps(left)) {
+        if(left.contains(originX + getDx(), originY)) {
             freeX = false;
-            setX((int) (screen_rect.x));
+            setX((int) (screen_rect.x - (COLUMN_WIDTH / 2)));
         }
 
-        if(getRelativeBounds(getDx(), 0).overlaps(right)) {
+        if(right.contains(originX + getDx(), originY)) {
             freeX = false;
-            setX((int)(screen_rect.x + screen_rect.width - bounds.width));
+            setX((int)(screen_rect.x + screen_rect.width - (COLUMN_WIDTH / 2)));
         }
 
-        if(getRelativeBounds(0, getDy()).overlaps(top)) {
+        if(top.contains(originX, originY + getDy())) {
             freeY = false;
-            setY((int) (screen_rect.y + screen_rect.height - bounds.height));
+            setY((int) (screen_rect.y + screen_rect.height - (ROW_HEIGHT / 2)));
         }
 
-        if(getRelativeBounds(0, getDy()).overlaps(bottom)) {
+        if(bottom.contains(originX, originY + getDy())) {
             freeY = false;
-            setY((int) (screen_rect.y));
+            setY((int) (screen_rect.y - (ROW_HEIGHT / 2)));
         }
     }
 

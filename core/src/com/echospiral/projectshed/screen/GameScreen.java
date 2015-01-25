@@ -16,6 +16,8 @@ import com.badlogic.gdx.utils.Predicate;
 import com.echospiral.projectshed.GameSettings;
 import com.echospiral.projectshed.PlayerManager;
 import com.echospiral.projectshed.ProjectShed;
+import com.echospiral.projectshed.controllers.ControllerDiscoverer;
+import com.echospiral.projectshed.controllers.ControllerDiscoveryListener;
 import com.echospiral.projectshed.controllers.MappedController;
 import com.echospiral.projectshed.object.Player;
 import com.echospiral.projectshed.object.WorldObject;
@@ -41,6 +43,8 @@ public class GameScreen extends ScreenAdapter {
     private BitmapFont font;
     private float fontAlpha;
 
+    ControllerDiscoverer controllerDiscoverer;
+
     /**
      * Countdown until player roles are swapped.
      */
@@ -51,13 +55,20 @@ public class GameScreen extends ScreenAdapter {
         this.game = game;
         playerManager = new PlayerManager();
         worlds = new Array<>();
-        worlds.add(new World(this, "worlds/world1_1.csv", "Get to the exit!"));
+        worlds.add(new World(this, "worlds/world1_1.csv", "Get to the spaceship!"));
         worlds.add(new World(this, "worlds/world1_2.csv", "A longer walk"));
         worlds.add(new World(this, "worlds/world1_3.csv", "Diagonal chase"));
         worlds.add(new World(this, "worlds/world1_4.csv", "Through the S"));
         worlds.add(new World(this, "worlds/world1_5.csv", "What do we do now?"));
         worlds.add(new World(this, "worlds/world2_1.csv", "The Room"));
         worlds.add(new World(this, "worlds/world2_2.csv", "Maze X"));
+        worlds.add(new World(this, "worlds/world2_3.csv", "Labyrinth"));
+        worlds.add(new World(this, "worlds/world2_4.csv", "Wooden Maze"));
+        worlds.add(new World(this, "worlds/world2_5.csv", "Choices"));
+        worlds.add(new World(this, "worlds/world3_1.csv", "Corridors"));
+        worlds.add(new World(this, "worlds/world3_2.csv", "S revisited"));
+        worlds.add(new World(this, "worlds/world3_3.csv", "Tiny"));
+        worlds.add(new World(this, "worlds/world3_4.csv", "The Massive Maze"));
         worlds.add(new World(this, "worlds/final.csv", "Space..."));
         //worlds.add(new World(this, "worlds/protoworld.csv", "log.debug()"));
         worldIndex = 0;
@@ -82,6 +93,17 @@ public class GameScreen extends ScreenAdapter {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 600);
         winScreen = new WinScreen(game);
+
+        /*
+        listen for new controllers or keyboard input and add them to the game
+         */
+        controllerDiscoverer = new ControllerDiscoverer();
+        controllerDiscoverer.addListener(new ControllerDiscoveryListener() {
+            @Override
+            public void controllerFound(MappedController controller) {
+                addPlayerController(controller);
+            }
+        });
     }
 
     public PlayerManager getPlayerManager() {
