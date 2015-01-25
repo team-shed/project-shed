@@ -12,8 +12,6 @@ import com.badlogic.gdx.utils.Predicate;
 import com.echospiral.projectshed.PlayerManager;
 import com.echospiral.projectshed.ProjectShed;
 import com.echospiral.projectshed.controllers.MappedController;
-import com.echospiral.projectshed.object.BuilderPlayer;
-import com.echospiral.projectshed.object.DestroyerPlayer;
 import com.echospiral.projectshed.object.Player;
 import com.echospiral.projectshed.object.WorldObject;
 import com.echospiral.projectshed.world.World;
@@ -23,7 +21,8 @@ import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
 public class GameScreen extends ScreenAdapter {
 
     private ProjectShed game;
-    private World world;
+    private Array<World> worlds;
+    private int worldIndex;
     private PlayerManager playerManager;
     private Array<MappedController> playerControllers = new Array<>();
     private OrthographicCamera camera;
@@ -37,9 +36,12 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen(ProjectShed game) {
         this.game = game;
         playerManager = new PlayerManager();
-        world = new World("worlds/world1_2.csv", this);
+        worlds = new Array<>();
+        worlds.add(new World(this, "worlds/world1_1.csv"));
+        worlds.add(new World(this, "worlds/world1_2.csv"));
+        worldIndex = 0;
 
-        for(WorldObject o : world.getObjects().select(new Predicate<WorldObject>() {
+        for(WorldObject o : getWorld().getObjects().select(new Predicate<WorldObject>() {
             @Override
             public boolean evaluate(WorldObject arg0) {
                 return arg0 instanceof Player;
@@ -75,9 +77,9 @@ public class GameScreen extends ScreenAdapter {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL_COLOR_BUFFER_BIT);
-        if (world != null) {
-            world.tick(delta);
-            camera.position.set(world.getPlayer().getX(), world.getPlayer().getY(), 0);
+        if (getWorld() != null) {
+            getWorld().tick(delta);
+            camera.position.set(getWorld().getPlayer().getX(), getWorld().getPlayer().getY(), 0);
         }
 
         checkSwapTimer(delta);
@@ -90,8 +92,8 @@ public class GameScreen extends ScreenAdapter {
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.setAutoShapeType(true);
         shapeRenderer.begin();
-        if (world != null) {
-            world.render(spriteBatch, shapeRenderer);
+        if (getWorld() != null) {
+            getWorld().render(spriteBatch, shapeRenderer);
         }
         spriteBatch.flush();
         shapeRenderer.end();
@@ -100,6 +102,15 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-        world.dispose();
+        getWorld().dispose();
     }
+
+    public World getWorld() {
+        return worlds.get(worldIndex);
+    }
+
+    public void nextLevel() {
+        worldIndex++;
+    }
+
 }

@@ -1,14 +1,10 @@
 package com.echospiral.projectshed.object;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.echospiral.projectshed.Direction;
 import com.echospiral.projectshed.Role;
 import com.echospiral.projectshed.controllers.MappedController;
@@ -108,7 +104,6 @@ public class Player extends WorldObject {
     protected void doCollisions() {
         if (dx != 0 || dy != 0) {
             // Collide with blocks
-            boolean hasCollisionHappened = false;
 
             for (Block b : world.getBlocks().getGroupObjects()) {
                 if (getRelativeBounds(getDx(), 0).overlaps(b.getRelativeBounds(0, 0))) {
@@ -120,15 +115,15 @@ public class Player extends WorldObject {
             }
 
             for (Item i : world.getItems().getGroupObjects()) {
-                if (getRelativeBounds(getDx(), 0).overlaps(i.getRelativeBounds(0, 0))) {
-                    hasCollisionHappened = true;
-                }
-                else if (getRelativeBounds(0, getDy()).overlaps(i.getRelativeBounds(0, 0))) {
-                    hasCollisionHappened = true;
-                }
-                if (hasCollisionHappened) {
-                    this.pickUpItem(i);
+                if (getRelativeBounds(getDx(), 0).overlaps(i.getRelativeBounds(0, 0)) || getRelativeBounds(0, getDy()).overlaps(i.getRelativeBounds(0, 0))) {
+                    pickUpItem(i);
                     world.removeObject(i);
+                }
+            }
+
+            for (Exit exit : world.getExits().getGroupObjects()) {
+                if (getRelativeBounds(getDx(), 0).overlaps(exit.getRelativeBounds(0, 0))) {
+                    getWorld().getScreen().nextLevel();
                 }
             }
         }

@@ -20,21 +20,26 @@ public class World {
     public static final int ROW_HEIGHT = 64;
     public static final int COLUMN_WIDTH = 64;
 
+    private GameScreen screen;
+
     private Texture backgroundTexture;
     private Array<WorldObject> objects;
     private WorldObjectsGroup<Block> blocks;
     private WorldObjectsGroup<Item> items;
+    private WorldObjectsGroup<Exit> exits;
     private Texture playerTexture;
     private Player player;
     private Texture handBuildTexture;
     private Texture handDestroyTexture;
     private Sound music;
 
-    public World() {
+    public World(GameScreen screen) {
+        this.screen = screen;
         backgroundTexture = new Texture(Gdx.files.internal("background_1.png"));
         objects = new Array<>();
         blocks = new WorldObjectsGroup<>();
         items = new WorldObjectsGroup<>();
+        exits = new WorldObjectsGroup<>();
         playerTexture = new Texture(Gdx.files.internal("player_spritesheet.png"));
         handBuildTexture = new Texture(Gdx.files.internal("hand_build.png"));
         handDestroyTexture = new Texture(Gdx.files.internal("hand_destroy.png"));
@@ -44,8 +49,8 @@ public class World {
 
     }
 
-    public World(String filename, GameScreen gameScreen) { // load from .csv file
-        this();
+    public World(GameScreen screen, String filename) { // load from .csv file
+        this(screen);
         String cvsSplitBy = ",";
         int x = 0;
         int y = 0;
@@ -69,7 +74,7 @@ public class World {
 
         Random random = new Random();
         if(numPlayers > 1) {
-            BuilderPlayer player2 = new BuilderPlayer(this, gameScreen,
+            BuilderPlayer player2 = new BuilderPlayer(this, screen,
                     3 + random.nextInt(3) * COLUMN_WIDTH, 3 + random.nextInt(3) * ROW_HEIGHT,
                     new Animation(0.0f, new Array<TextureRegion>() {{
                         add(new TextureRegion(handBuildTexture, 4, 2, 56, 60));
@@ -86,7 +91,7 @@ public class World {
             addObject(player2);
         }
         if(numPlayers > 2) {
-            DestroyerPlayer player3 = new DestroyerPlayer(this, gameScreen,
+            DestroyerPlayer player3 = new DestroyerPlayer(this, screen,
                     3 + random.nextInt(3) * COLUMN_WIDTH, 3 + random.nextInt(3) * ROW_HEIGHT,
                     new Animation(0.0f, new Array<TextureRegion>() {{
                         add(new TextureRegion(handDestroyTexture, 4, 2, 56, 60));
@@ -159,17 +164,23 @@ public class World {
         return items;
     }
 
+    public WorldObjectsGroup<Exit> getExits() {
+        return exits;
+    }
+
     public void addObject(WorldObject object) {
         if (object == null) return;
         getObjects().add(object);
         if (object instanceof Block) blocks.add((Block) object);
         else if (object instanceof Item) items.add((Item) object);
+        else if (object instanceof Exit) exits.add((Exit) object);
     }
 
     public void removeObject(WorldObject object) {
         getObjects().removeValue(object, true);
         if (object instanceof Block) blocks.remove((Block) object);
         else if (object instanceof Item) items.remove((Item) object);
+        else if (object instanceof Exit) exits.remove((Exit) object);
     }
 
     public void tick(float delta) {
@@ -199,6 +210,10 @@ public class World {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public GameScreen getScreen() {
+        return screen;
     }
 
 }
