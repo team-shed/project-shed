@@ -26,6 +26,7 @@ public class GameScreen extends ScreenAdapter {
     private PlayerManager playerManager;
     private Array<MappedController> playerControllers = new Array<>();
     private OrthographicCamera camera;
+    private WinScreen winScreen;
 
     /**
      * Countdown until player roles are swapped.
@@ -55,6 +56,7 @@ public class GameScreen extends ScreenAdapter {
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 600);
+        winScreen = new WinScreen(game);
     }
 
     public PlayerManager getPlayerManager() {
@@ -82,8 +84,9 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL_COLOR_BUFFER_BIT);
         if (getWorld() != null) {
             getWorld().tick(delta);
-
-            updateCamera();
+            if (getWorld() != null) {
+                updateCamera();
+            }
         }
 
         checkSwapTimer(delta);
@@ -125,7 +128,7 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-        getWorld().dispose();
+        if (getWorld() != null) getWorld().dispose();
     }
 
     public World getWorld() {
@@ -133,13 +136,19 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void nextLevel() {
+        winScreen.resetCountdown();
+        winScreen.setNextScreen(this);
+        winScreen.setWinner("Player " + getPlayerManager().getControllerId(getWorld().getPlayer().getController()));
+        game.setScreen(winScreen);
         getPlayerManager().clearPlayers();
         worldIndex++;
-        getPlayerManager().addPlayer(getWorld().getPlayer());
-        getPlayerManager().addPlayer(getWorld().getBuilderPlayer());
-        getPlayerManager().addPlayer(getWorld().getDestroyerPlayer());
-        getPlayerManager().reassignPlayers();
-        swapTimer = startingSwapTimer; // if you win you get to start the next level
+        if (getWorld() != null) {
+            getPlayerManager().addPlayer(getWorld().getPlayer());
+            getPlayerManager().addPlayer(getWorld().getBuilderPlayer());
+            getPlayerManager().addPlayer(getWorld().getDestroyerPlayer());
+            getPlayerManager().reassignPlayers();
+            swapTimer = startingSwapTimer; // if you win you get to start the next level
+        }
     }
 
 }
