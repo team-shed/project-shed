@@ -49,7 +49,7 @@ public class WinScreen extends ScreenAdapter {
     }
 
     public void resetCountdown() {
-        countdown = 5F;
+        countdown = 3F;
     }
 
     @Override
@@ -58,8 +58,9 @@ public class WinScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL_COLOR_BUFFER_BIT);
         game.getSpriteBatch().begin();
         game.getSpriteBatch().setProjectionMatrix(camera.combined);
-        font.setColor(WHITE);
-        font.drawWrapped(game.getSpriteBatch(), getWinner() + " wins!\n(Next match starting in " + (int) ceil(countdown) + " seconds)", 16, 64, 768);
+        font.setColor(0.0f, 1.0f, 0.0f, 1.0f);
+        font.setScale(8);
+        font.drawWrapped(game.getSpriteBatch(), getWinner() + " wins!\n(Next match starting in " + (int) ceil(countdown) + " seconds)", 20, 570, 728);
         game.getSpriteBatch().end();
         countdown -= delta;
         if (countdown <= 0) game.setScreen(getNextScreen());

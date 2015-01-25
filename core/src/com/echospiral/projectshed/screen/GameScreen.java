@@ -5,9 +5,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Predicate;
 import com.echospiral.projectshed.PlayerManager;
@@ -29,6 +31,8 @@ public class GameScreen extends ScreenAdapter {
     private OrthographicCamera camera;
     private WinScreen winScreen;
     private float cameraScale = 1.0f;
+    private BitmapFont font;
+    private float fontAlpha;
 
     /**
      * Countdown until player roles are swapped.
@@ -45,6 +49,9 @@ public class GameScreen extends ScreenAdapter {
         worlds.add(new World(this, "worlds/world1_3.csv", "Diagonal chase"));
         worlds.add(new World(this, "worlds/world1_4.csv", "Through the S"));
         worlds.add(new World(this, "worlds/world1_5.csv", "What do we do now?"));
+        worlds.add(new World(this, "worlds/world2_1.csv", "The Room"));
+        worlds.add(new World(this, "worlds/world2_2.csv", "Maze X"));
+        worlds.add(new World(this, "worlds/final.csv", "Space"));
         worldIndex = 0;
 
         for(WorldObject o : getWorld().getObjects().select(new Predicate<WorldObject>() {
@@ -55,6 +62,10 @@ public class GameScreen extends ScreenAdapter {
         })) {
             playerManager.addPlayer((Player)o);
         }
+
+        font = new BitmapFont();
+        font.setScale(2);
+        fontAlpha = 1.0f;
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 600);
@@ -104,6 +115,16 @@ public class GameScreen extends ScreenAdapter {
         if (getWorld() != null) {
             getWorld().render(spriteBatch, shapeRenderer);
         }
+
+        font.setColor(0f, 1.0f, 0f, fontAlpha);
+        if (fontAlpha > 0.003f) {
+            fontAlpha -= 0.003f; // fadeout
+        }
+        else {
+            fontAlpha = 0f;
+        }
+        font.draw(spriteBatch, worlds.get(worldIndex).getName(), 0, 0);
+
         spriteBatch.flush();
         shapeRenderer.end();
         spriteBatch.end();
@@ -160,6 +181,7 @@ public class GameScreen extends ScreenAdapter {
             getPlayerManager().addPlayer(getWorld().getDestroyerPlayer());
             getPlayerManager().reassignPlayers();
             swapTimer = startingSwapTimer; // if you win you get to start the next level
+            fontAlpha = 1.0f;
         }
     }
 

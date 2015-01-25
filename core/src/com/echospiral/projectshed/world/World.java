@@ -39,9 +39,6 @@ public class World {
     private int width, height;
     private String name;
 
-    private BitmapFont font;
-    private float fontAlpha;
-
     public World(GameScreen screen) {
         this.screen = screen;
         backgroundTexture = new Texture(Gdx.files.internal("background_1.png"));
@@ -56,10 +53,6 @@ public class World {
 
         width = 1;
         height = 1;
-
-        font = new BitmapFont();
-        fontAlpha = 1.0f;
-
     }
 
     public World(GameScreen screen, String filename, String name) { // load from .csv file
@@ -209,17 +202,7 @@ public class World {
 
     public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
         spriteBatch.draw(backgroundTexture, 0, 0, width, height);
-        //batch.setColor(1.0f, 1.0f, 1.0f, fadeTimeAlpha);
-        //batch.draw();
-        font.setColor(0f, 1.0f, 0f, fontAlpha);
-        //font.setColor(Color.GREEN);
-        if (fontAlpha > 0.003f) {
-            fontAlpha -= 0.003f; // fadeout
-        }
-        else {
-            fontAlpha = 0f;
-        }
-        font.draw(spriteBatch, getName(), 220, 560);
+
         for (WorldObject object : getObjects()) {
             object.render(spriteBatch, shapeRenderer);
         }
