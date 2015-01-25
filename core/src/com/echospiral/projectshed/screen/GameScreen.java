@@ -133,7 +133,7 @@ public class GameScreen extends ScreenAdapter {
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_8)) {
             cameraScale = (cameraScale + 1) % 6;
-            camera.setToOrtho(false, cameraScale * 200, cameraScale * 200);
+            camera.setToOrtho(false, cameraScale * 200, cameraScale * 150);
         }
         camera.update();
     }
