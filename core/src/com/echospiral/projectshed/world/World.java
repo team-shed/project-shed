@@ -1,8 +1,10 @@
 package com.echospiral.projectshed.world;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -37,6 +39,10 @@ public class World {
     private Texture handDestroyTexture;
 
     private int width, height;
+    private String name;
+
+    private BitmapFont font;
+    private float fontAlpha;
 
     public World(GameScreen screen) {
         this.screen = screen;
@@ -53,10 +59,14 @@ public class World {
         width = 1;
         height = 1;
 
+        font = new BitmapFont();
+        fontAlpha = 1.0f;
+
     }
 
-    public World(GameScreen screen, String filename) { // load from .csv file
+    public World(GameScreen screen, String filename, String name) { // load from .csv file
         this(screen);
+        this.name = name;
         String cvsSplitBy = ",";
         int x = 0;
         int y = 0;
@@ -200,7 +210,17 @@ public class World {
     }
 
     public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
-        spriteBatch.draw(backgroundTexture, 0, 0, max(1, width), max(1, height));
+        //batch.setColor(1.0f, 1.0f, 1.0f, fadeTimeAlpha);
+        //batch.draw();
+        font.setColor(0f, 1.0f, 0f, fontAlpha);
+        //font.setColor(Color.GREEN);
+        if (fontAlpha > 0.003f) {
+            fontAlpha -= 0.003f; // fadeout
+        }
+        else {
+            fontAlpha = 0f;
+        }
+        font.draw(spriteBatch, getName(), 220, 560);
         for (WorldObject object : getObjects()) {
             object.render(spriteBatch, shapeRenderer);
         }
@@ -235,5 +255,7 @@ public class World {
     public GameScreen getScreen() {
         return screen;
     }
+
+    public String getName() { return name; }
 
 }

@@ -30,15 +30,17 @@ public class GameScreen extends ScreenAdapter {
     /**
      * Countdown until player roles are swapped.
      */
-    private float startingSwapTimer = 10.0f;
-    private float swapTimer = 10.0f;
+    private float startingSwapTimer = 5.0f;
+    private float swapTimer = 5.0f;
 
     public GameScreen(ProjectShed game) {
         this.game = game;
         playerManager = new PlayerManager();
         worlds = new Array<>();
-        worlds.add(new World(this, "worlds/world1_1.csv"));
-        worlds.add(new World(this, "worlds/world1_2.csv"));
+        worlds.add(new World(this, "worlds/world1_1.csv", "Get to the exit!"));
+        worlds.add(new World(this, "worlds/world1_2.csv", "A longer walk"));
+        worlds.add(new World(this, "worlds/world1_3.csv", "Diagonal chase"));
+        worlds.add(new World(this, "worlds/world1_4.csv", "Through the S"));
         worldIndex = 0;
 
         for(WorldObject o : getWorld().getObjects().select(new Predicate<WorldObject>() {
@@ -136,6 +138,7 @@ public class GameScreen extends ScreenAdapter {
         getPlayerManager().addPlayer(getWorld().getBuilderPlayer());
         getPlayerManager().addPlayer(getWorld().getDestroyerPlayer());
         getPlayerManager().reassignPlayers();
+        swapTimer = startingSwapTimer; // if you win you get to start the next level
     }
 
 }
