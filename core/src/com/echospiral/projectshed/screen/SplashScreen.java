@@ -2,6 +2,7 @@ package com.echospiral.projectshed.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.echospiral.projectshed.ProjectShed;
@@ -19,6 +20,7 @@ public class SplashScreen extends ScreenAdapter {
     private float fadeOut = 0.5f;
     private float timeout = 1.0f;
     private float elapsedTime = 0.0f;
+    private Sound music;
 
     /**
      * Sets up a splash screen to fade in, display, and fade out a sprite.
@@ -36,6 +38,9 @@ public class SplashScreen extends ScreenAdapter {
         this.fadeIn = fadeIn;
         this.fadeOut = fadeOut;
         this.timeout = duration;
+        music = Gdx.audio.newSound(Gdx.files.internal("music/gamejammy.ogg"));
+
+        music.loop();
     }
 
     //TODO: add constructor to take a {@Link Texture}, query screen size, and center a new {@Link Sprite}.
@@ -78,5 +83,10 @@ public class SplashScreen extends ScreenAdapter {
         spriteBatch.begin();
         splashImage.draw(spriteBatch);
         spriteBatch.end();
+    }
+
+    @Override
+    public void dispose() {
+        music.dispose();
     }
 }
