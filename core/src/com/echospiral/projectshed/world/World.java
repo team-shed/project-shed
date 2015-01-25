@@ -1,7 +1,6 @@
 package com.echospiral.projectshed.world;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -17,7 +16,6 @@ import com.echospiral.projectshed.screen.GameScreen;
 import java.util.Random;
 
 import static com.badlogic.gdx.graphics.Texture.TextureFilter.Linear;
-import static java.lang.Math.max;
 
 public class World {
 
@@ -210,6 +208,7 @@ public class World {
     }
 
     public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
+        spriteBatch.draw(backgroundTexture, 0, 0, width, height);
         //batch.setColor(1.0f, 1.0f, 1.0f, fadeTimeAlpha);
         //batch.draw();
         font.setColor(0f, 1.0f, 0f, fontAlpha);
