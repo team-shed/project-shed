@@ -13,8 +13,10 @@ import com.echospiral.projectshed.object.item.Item;
 import com.echospiral.projectshed.object.item.ItemEffect;
 import com.echospiral.projectshed.world.World;
 
-import static com.echospiral.projectshed.Direction.DOWN;
+import static com.badlogic.gdx.graphics.g2d.Animation.PlayMode.LOOP;
+import static com.echospiral.projectshed.Direction.*;
 import static com.echospiral.projectshed.Role.PLAYER;
+import static java.lang.Math.abs;
 import static java.lang.Math.round;
 import static java.lang.Math.signum;
 
@@ -39,9 +41,13 @@ public class Player extends WorldObject {
         stateTime = 0F;
         direction = DOWN;
         this.moveUpAnimation = moveUpAnimation;
+        moveUpAnimation.setPlayMode(LOOP);
         this.moveLeftAnimation = moveLeftAnimation;
+        moveLeftAnimation.setPlayMode(LOOP);
         this.moveRightAnimation = moveRightAnimation;
+        moveRightAnimation.setPlayMode(LOOP);
         this.moveDownAnimation = moveDownAnimation;
+        moveDownAnimation.setPlayMode(LOOP);
         role = PLAYER;
 
         this.movementSpeed = GameSettings.INITIAL_SPEED_HERO;
@@ -65,6 +71,18 @@ public class Player extends WorldObject {
 
             setDx((int) round((double)movementSpeed * signum(x)));
             setDy(-(int) round((double)movementSpeed * signum(y)));
+            if (getDx() < 0) {
+                if (abs(getDx()) >= abs(getDy())) setDirection(LEFT);
+            }
+            if (getDx() > 0) {
+                if (abs(getDx()) >= abs(getDy())) setDirection(RIGHT);
+            }
+            if (getDy() > 0) {
+                if (abs(getDy()) >= abs(getDx())) setDirection(UP);
+            }
+            if (getDy() < 0) {
+                if (abs(getDy()) >= abs(getDx())) setDirection(DOWN);
+            }
         }
     }
 
