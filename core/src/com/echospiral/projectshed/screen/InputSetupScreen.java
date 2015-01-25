@@ -17,6 +17,7 @@ import com.echospiral.projectshed.controllers.KeyboardMappedController;
 import com.echospiral.projectshed.controllers.MappedController;
 import com.echospiral.projectshed.controllers.MappedControllerFactory;
 
+import java.security.Key;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,8 +35,8 @@ public class InputSetupScreen extends ScreenAdapter implements ControllerListene
     int minSlots = 1;
     int maxSlots = 3;
     Set<Controller> controllerSet = new HashSet<>();
-    boolean hasKeyboardPlayer = false;
     Array<MappedController> addedControllers = new Array<>();
+    Array<KeyboardMappedController> keyboards;
 
     /**
      * Creates a new InputSetupScreen to discover inputs and hand them to the {@Link GameScreen}.
@@ -45,6 +46,12 @@ public class InputSetupScreen extends ScreenAdapter implements ControllerListene
     public InputSetupScreen(ProjectShed game, GameScreen gameScreen) {
         this.game = game;
         this.gameScreen = gameScreen;
+
+        keyboards = new Array<KeyboardMappedController>() {{
+            add(new KeyboardMappedController(KeyboardMappedController.ControlSet.PLAYER_ONE));
+            add(new KeyboardMappedController(KeyboardMappedController.ControlSet.PLAYER_TWO));
+            add(new KeyboardMappedController(KeyboardMappedController.ControlSet.PLAYER_THREE));
+        }};
 
         Controllers.addListener(this);
     }
@@ -82,13 +89,11 @@ public class InputSetupScreen extends ScreenAdapter implements ControllerListene
 
     @Override
     public void render(float deltaTime) {
-        if(!hasKeyboardPlayer && (
-                Gdx.input.isKeyJustPressed(Input.Keys.ENTER) ||
-                Gdx.input.isKeyJustPressed(Input.Keys.E) ||
-                Gdx.input.isKeyJustPressed(Input.Keys.SPACE)
-                )) {
-            addPlayer(new KeyboardMappedController());
-            hasKeyboardPlayer = true;
+        for(KeyboardMappedController keyboardController : keyboards) {
+            if(keyboardController.getAnyInput()) {
+                addPlayer(keyboardController);
+                keyboards.removeValue(keyboardController, true);
+            }
         }
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
