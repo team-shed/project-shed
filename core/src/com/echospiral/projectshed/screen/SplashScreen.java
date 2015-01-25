@@ -39,7 +39,6 @@ public class SplashScreen extends ScreenAdapter {
         this.fadeOut = fadeOut;
         this.timeout = duration;
         music = Gdx.audio.newSound(Gdx.files.internal("music/gamejam.ogg"));
-
         music.loop();
     }
 
