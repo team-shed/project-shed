@@ -59,6 +59,13 @@ public class GameScreen extends ScreenAdapter {
         worlds.add(new World(this, "worlds/world1_5.csv", "What do we do now?"));
         worlds.add(new World(this, "worlds/world2_1.csv", "The Room"));
         worlds.add(new World(this, "worlds/world2_2.csv", "Maze X"));
+        worlds.add(new World(this, "worlds/world2_3.csv", "Labyrinth"));
+        worlds.add(new World(this, "worlds/world2_4.csv", "Wooden Maze"));
+        worlds.add(new World(this, "worlds/world2_5.csv", "Choices"));
+        worlds.add(new World(this, "worlds/world3_1.csv", "Corridors"));
+        worlds.add(new World(this, "worlds/world3_2.csv", "S revisited"));
+        worlds.add(new World(this, "worlds/world3_3.csv", "Tiny"));
+        worlds.add(new World(this, "worlds/world3_4.csv", "The Massive Maze"));
         worlds.add(new World(this, "worlds/final.csv", "Space..."));
         //worlds.add(new World(this, "worlds/protoworld.csv", "log.debug()"));
         worldIndex = 0;
