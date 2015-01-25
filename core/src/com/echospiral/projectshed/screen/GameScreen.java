@@ -52,7 +52,7 @@ public class GameScreen extends ScreenAdapter {
         this.game = game;
         playerManager = new PlayerManager();
         worlds = new Array<>();
-        worlds.add(new World(this, "worlds/world1_1.csv", "Get to the exit!"));
+        worlds.add(new World(this, "worlds/world1_1.csv", "Get to the spaceship!"));
         worlds.add(new World(this, "worlds/world1_2.csv", "A longer walk"));
         worlds.add(new World(this, "worlds/world1_3.csv", "Diagonal chase"));
         worlds.add(new World(this, "worlds/world1_4.csv", "Through the S"));
