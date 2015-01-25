@@ -54,6 +54,8 @@ public class GameScreen extends ScreenAdapter {
         worlds.add(new World(this, "worlds/world1_5.csv", "What do we do now?"));
         worlds.add(new World(this, "worlds/world2_1.csv", "The Room"));
         worlds.add(new World(this, "worlds/world2_2.csv", "Maze X"));
+//        worlds.add(new World(this, "worlds/final.csv", "Space"));
+        worlds.add(new World(this, "worlds/protoworld.csv", "log.debug()"));
         worlds.add(new World(this, "worlds/final.csv", "Space"));
         worldIndex = 0;
 
@@ -130,7 +132,7 @@ public class GameScreen extends ScreenAdapter {
         else {
             fontAlpha = 0f;
         }
-        font.draw(spriteBatch, worlds.get(worldIndex).getName(), 0, 0);
+        font.draw(spriteBatch, worlds.get(worldIndex).getName(), getCamera().position.x - 150, getCamera().position.y - 120);
 
         spriteBatch.flush();
         shapeRenderer.end();
@@ -162,6 +164,9 @@ public class GameScreen extends ScreenAdapter {
         if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_8)) {
             cameraScale = (cameraScale + 1) % 6;
             camera.setToOrtho(false, cameraScale * 200, cameraScale * 150);
+        }
+        else if(Gdx.input.isKeyJustPressed((Input.Keys.NUM_0))) {
+            nextLevel();
         }
         camera.update();
     }
