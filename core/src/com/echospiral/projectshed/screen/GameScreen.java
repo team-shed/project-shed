@@ -118,10 +118,13 @@ public class GameScreen extends ScreenAdapter {
 
     public void checkSwapTimer(float delta) {
         swapTimer -= delta;
-        if(swapTimer <= 0.0f || Gdx.input.isKeyJustPressed(Input.Keys.NUM_9)) {
-            if (GameSettings.debug) {
-                Gdx.app.log("GameScreen", "Swap!");
-            }
+        if (swapTimer <= 0.0f) {
+            playerManager.swapRoles();
+            swapTimer += startingSwapTimer;
+
+        }
+        else if (GameSettings.debug && Gdx.input.isKeyJustPressed(Input.Keys.NUM_9)) {
+            Gdx.app.log("GameScreen", "Swap!");
             playerManager.swapRoles();
             swapTimer += startingSwapTimer;
         }
