@@ -134,17 +134,29 @@ public class World {
                 // tiles/rooms/chars/environment:
                 case 'o': // our player
                     Player player = new Player(world, x * COLUMN_WIDTH, y * ROW_HEIGHT,
-                            new Animation(0.025f, new Array<TextureRegion>() {{
-                                add(new TextureRegion(playerTexture, 4, 2, 56, 60));
+                            new Animation(0.5f, new Array<TextureRegion>() {{
+                                add(new TextureRegion(playerTexture, 0, 64, 64, 64));
+                                add(new TextureRegion(playerTexture, 64, 64, 64, 64));
+                                add(new TextureRegion(playerTexture, 128, 64, 64, 64));
+                                add(new TextureRegion(playerTexture, 192, 64, 64, 64));
                             }}),
-                            new Animation(0.025f, new Array<TextureRegion>() {{
-                                add(new TextureRegion(playerTexture, 4, 2, 56, 60));
+                            new Animation(0.5f, new Array<TextureRegion>() {{
+                                add(new TextureRegion(playerTexture, 0, 128, 64, 64));
+                                add(new TextureRegion(playerTexture, 64, 128, 64, 64));
+                                add(new TextureRegion(playerTexture, 128, 128, 64, 64));
+                                add(new TextureRegion(playerTexture, 192, 128, 64, 64));
                             }}),
-                            new Animation(0.025f, new Array<TextureRegion>() {{
-                                add(new TextureRegion(playerTexture, 4, 2, 56, 60));
+                            new Animation(0.5f, new Array<TextureRegion>() {{
+                                add(new TextureRegion(playerTexture, 0, 192, 64, 64));
+                                add(new TextureRegion(playerTexture, 64, 192, 64, 64));
+                                add(new TextureRegion(playerTexture, 128, 192, 64, 64));
+                                add(new TextureRegion(playerTexture, 192, 192, 64, 64));
                             }}),
-                            new Animation(0.025f, new Array<TextureRegion>() {{
-                                add(new TextureRegion(playerTexture, 4, 2, 56, 60));
+                            new Animation(0.5f, new Array<TextureRegion>() {{
+                                add(new TextureRegion(playerTexture, 0, 0, 64, 64));
+                                add(new TextureRegion(playerTexture, 64, 0, 64, 64));
+                                add(new TextureRegion(playerTexture, 128, 0, 64, 64));
+                                add(new TextureRegion(playerTexture, 192, 0, 64, 64));
                             }}));
                     //player.setController(new KeyboardMappedController());
                     this.player = player;
