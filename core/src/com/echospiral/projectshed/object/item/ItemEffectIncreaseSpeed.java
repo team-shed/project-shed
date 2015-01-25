@@ -23,7 +23,7 @@ public class ItemEffectIncreaseSpeed extends ItemEffectLimitedTime {
     @Override
     public boolean unApplyEffectToObject(Player player) {
         player.setMovementSpeed(player.getMovementSpeed() / speedModifier);
-        System.out.println("Finished speed effect");
+        Gdx.app.log("Finished speed effect");
         return true;
     }
 
