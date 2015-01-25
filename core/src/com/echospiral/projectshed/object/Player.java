@@ -58,6 +58,7 @@ public class Player extends WorldObject {
 
     public void handleInput() {
         if (controller != null) {
+
             float x = controller.getLeftAxisX();
             float y = controller.getLeftAxisY();
 

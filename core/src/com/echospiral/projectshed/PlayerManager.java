@@ -39,37 +39,45 @@ public class PlayerManager {
         getPlayers().removeValue(player, true);
     }
 
-    public void setupInitialRoles() {
+    public void swapRoles() {
         Role currentRole = PLAYER;
+        MappedController currentPlayerController = null;
+        MappedController currentBuilderController = null;
+        MappedController currentDestroyerController = null;
+
         for (Player player : getPlayers()) {
-            player.setRole(currentRole);
+            currentRole = player.getRole();
             switch (currentRole) {
                 case PLAYER:
-                    currentRole = BUILDER;
+                    currentPlayerController = player.getController();
                     break;
                 case BUILDER:
-                    currentRole = DESTROYER;
+                    currentBuilderController = player.getController();
                     break;
                 case DESTROYER:
-                    currentRole = PLAYER;
+                    currentDestroyerController = player.getController();
                     break;
             }
         }
-    }
-
-    public void swapRoles() {
-        for(Player player : getPlayers()) {
-            player.setController(null);
-            player.setDx(0); player.setDy(0);
-        }
-
-        Array<Player> players = new Array<Player>(getPlayers());
-        for (MappedController controller : participatingControllers) {
-            Player player = players.random();
-            if(player == null) break;
-            players.removeValue(player, true);
-
-            player.setController(controller);
+        for (Player player : getPlayers()) {
+            currentRole = player.getRole();
+            switch (currentRole) {
+                case PLAYER:
+                    player.setController(currentDestroyerController);
+                    player.setDx(0);
+                    player.setDy(0);
+                    break;
+                case BUILDER:
+                    player.setController(currentPlayerController);
+                    player.setDx(0);
+                    player.setDy(0);
+                    break;
+                case DESTROYER:
+                    player.setController(currentBuilderController);
+                    player.setDx(0);
+                    player.setDy(0);
+                    break;
+            }
         }
     }
 }

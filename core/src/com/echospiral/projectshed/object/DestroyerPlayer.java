@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.echospiral.projectshed.Role;
 import com.badlogic.gdx.math.Rectangle;
 import com.echospiral.projectshed.screen.GameScreen;
 import com.echospiral.projectshed.world.World;
@@ -20,6 +21,7 @@ public class DestroyerPlayer extends Player {
     public DestroyerPlayer(World world, GameScreen gameScreen, int x, int y, Animation moveUpAnimation, Animation moveLeftAnimation,
                          Animation moveRightAnimation, Animation moveDownAnimation) {
         super(world, x, y, moveUpAnimation, moveLeftAnimation, moveRightAnimation, moveDownAnimation);
+        this.setRole(Role.DESTROYER);
 
         this.gameScreen = gameScreen;
     }

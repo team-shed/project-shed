@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.echospiral.projectshed.Role;
 import com.badlogic.gdx.math.Rectangle;
 import com.echospiral.projectshed.screen.GameScreen;
 import com.echospiral.projectshed.world.World;
@@ -21,6 +22,7 @@ public class BuilderPlayer extends Player {
                   Animation moveRightAnimation, Animation moveDownAnimation) {
         super(world, x, y, moveUpAnimation, moveLeftAnimation, moveRightAnimation, moveDownAnimation);
         this.gameScreen = gameScreen;
+        this.setRole(Role.BUILDER);
     }
 
     @Override
