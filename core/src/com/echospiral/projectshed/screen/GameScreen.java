@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -18,7 +19,9 @@ import com.echospiral.projectshed.object.Player;
 import com.echospiral.projectshed.object.WorldObject;
 import com.echospiral.projectshed.world.World;
 
+import static com.badlogic.gdx.graphics.Color.WHITE;
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
+import static java.lang.Math.round;
 
 public class GameScreen extends ScreenAdapter {
 
@@ -30,6 +33,7 @@ public class GameScreen extends ScreenAdapter {
     private OrthographicCamera camera;
     private WinScreen winScreen;
     private float cameraScale = 1.0f;
+    private BitmapFont font;
 
     /**
      * Countdown until player roles are swapped.
@@ -40,6 +44,7 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen(ProjectShed game) {
         this.game = game;
         playerManager = new PlayerManager();
+        font = new BitmapFont();
         worlds = new Array<>();
         worlds.add(new World(this, "worlds/world1_1.csv", "Get to the exit!"));
         worlds.add(new World(this, "worlds/world1_2.csv", "A longer walk"));
@@ -108,6 +113,8 @@ public class GameScreen extends ScreenAdapter {
         if (getWorld() != null) {
             getWorld().render(spriteBatch, shapeRenderer);
         }
+        font.setColor(WHITE);
+        font.draw(spriteBatch, (round(swapTimer * 10D) / 10D) + "s", camera.position.x - (camera.viewportWidth / 2) + 8, camera.position.y + (camera.viewportHeight / 2) - 8);
         spriteBatch.flush();
         shapeRenderer.end();
         spriteBatch.end();
