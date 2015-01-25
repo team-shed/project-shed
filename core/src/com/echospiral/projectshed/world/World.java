@@ -258,4 +258,6 @@ public class World {
 
     public String getName() { return name; }
 
+    public int getWidth() { return width; }
+    public int getHeight() { return height; }
 }

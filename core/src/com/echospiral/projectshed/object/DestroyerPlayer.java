@@ -32,13 +32,18 @@ public class DestroyerPlayer extends Player {
 
         Camera c = gameScreen.getCamera();
         Rectangle screen_rect = new Rectangle(0, 0, c.viewportWidth, c.viewportHeight);
-        Player mainPlayer = world.getPlayer();
-        screen_rect.setCenter(mainPlayer.getX(), mainPlayer.getY());
+        screen_rect.x = c.position.x - screen_rect.width / 2;
+        screen_rect.y = c.position.y - screen_rect.height / 2;
 
-        Rectangle left = new Rectangle(screen_rect.x - 100, screen_rect.y - 100, 100, screen_rect.height + 200);
-        Rectangle right = new Rectangle(screen_rect.x + screen_rect.width, screen_rect.y - 100, 100, screen_rect.height + 200);
-        Rectangle top = new Rectangle(screen_rect.x - 100, screen_rect.y + screen_rect.height, screen_rect.width + 200, 100);
-        Rectangle bottom = new Rectangle(screen_rect.x - 100, screen_rect.y - 100, screen_rect.width + 200, 100);
+        int testMargin = 1000;
+        Rectangle left = new Rectangle(screen_rect.x - testMargin, screen_rect.y - testMargin,
+                testMargin, screen_rect.height + 2*testMargin);
+        Rectangle right = new Rectangle(screen_rect.x + screen_rect.width, screen_rect.y - testMargin,
+                testMargin, screen_rect.height + 2*testMargin);
+        Rectangle top = new Rectangle(screen_rect.x - testMargin, screen_rect.y + screen_rect.height,
+                screen_rect.width + 2*testMargin, testMargin);
+        Rectangle bottom = new Rectangle(screen_rect.x - testMargin, screen_rect.y - testMargin,
+                screen_rect.width + 2*testMargin, testMargin);
 
         Rectangle bounds = getRelativeBounds(0, 0);
 

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Predicate;
 import com.echospiral.projectshed.PlayerManager;
@@ -26,6 +27,7 @@ public class GameScreen extends ScreenAdapter {
     private PlayerManager playerManager;
     private Array<MappedController> playerControllers = new Array<>();
     private OrthographicCamera camera;
+    private float cameraScale = 1.0f;
 
     /**
      * Countdown until player roles are swapped.
@@ -54,7 +56,7 @@ public class GameScreen extends ScreenAdapter {
         }
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 600);
+        camera.setToOrtho(false, 800, 800);
     }
 
     public PlayerManager getPlayerManager() {
@@ -105,22 +107,32 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void updateCamera() {
-        int mapWidth = 9 * 64;
-        int mapHeight = 9 * 64;
+        int mapWidth = getWorld().getWidth();
+        int mapHeight = getWorld().getHeight();
         int cameraWidth = (int)getCamera().viewportWidth;
         int cameraHeight = (int)getCamera().viewportHeight;
+        Player player = getWorld().getPlayer();
+        Rectangle playerBounds = player.getRelativeBounds(0, 0);
+        int playerX = (int)(player.getX() + playerBounds.width / 2);
+        int playerY = (int)(player.getY() + playerBounds.height / 2);
 
-        int scale = getWorld().getPlayer().getX() / mapWidth; // player as 0 to 1
-        int travel = Math.max(0, mapWidth - cameraWidth); // scale this
+        float scale = (float)playerX / mapWidth; // player as 0 to 1
+        int travel = (int)(Math.max(0, mapWidth - cameraWidth) * 1.5f); // scale with this
         int from = (mapWidth - travel) / 2;
-        int cameraX = from + scale * travel;
+        int cameraX = from + (int)(scale * travel);
 
-        scale = getWorld().getPlayer().getY() / mapHeight; // player as 0 to 1
-        travel = Math.max(0, mapHeight - cameraHeight); // scale this
+        scale = (float)playerY / mapHeight; // player as 0 to 1
+        travel = (int)(Math.max(0, mapHeight - cameraHeight) * 1.5f); // scale with this
         from = (mapHeight - travel) / 2;
-        int cameraY = from + scale * travel;
+        int cameraY = from + (int)(scale * travel);
 
         camera.position.set(cameraX, cameraY, 0);
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_8)) {
+            cameraScale = (cameraScale + 1) % 6;
+            camera.setToOrtho(false, cameraScale * 200, cameraScale * 200);
+        }
+        camera.update();
     }
 
     @Override
