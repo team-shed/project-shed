@@ -55,9 +55,8 @@ public class GameScreen extends ScreenAdapter {
         worlds.add(new World(this, "worlds/world1_5.csv", "What do we do now?"));
         worlds.add(new World(this, "worlds/world2_1.csv", "The Room"));
         worlds.add(new World(this, "worlds/world2_2.csv", "Maze X"));
-//        worlds.add(new World(this, "worlds/final.csv", "Space"));
-        worlds.add(new World(this, "worlds/protoworld.csv", "log.debug()"));
-        worlds.add(new World(this, "worlds/final.csv", "Space"));
+        worlds.add(new World(this, "worlds/final.csv", "Space..."));
+        //worlds.add(new World(this, "worlds/protoworld.csv", "log.debug()"));
         worldIndex = 0;
 
         startingSwapTimer = GameSettings.INITIAL_SWAP_INTERVAL;
