@@ -21,8 +21,11 @@ import com.echospiral.projectshed.object.Player;
 import com.echospiral.projectshed.object.WorldObject;
 import com.echospiral.projectshed.world.World;
 
+import java.math.BigDecimal;
+
 import static com.badlogic.gdx.graphics.Color.WHITE;
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
+import static java.lang.Math.PI;
 import static java.lang.Math.round;
 
 public class GameScreen extends ScreenAdapter {
@@ -71,8 +74,9 @@ public class GameScreen extends ScreenAdapter {
             playerManager.addPlayer((Player)o);
         }
 
-        font = new BitmapFont();
+        font = new BitmapFont(false);
         font.setScale(2);
+
         fontAlpha = 1.0f;
 
         camera = new OrthographicCamera();
@@ -124,20 +128,37 @@ public class GameScreen extends ScreenAdapter {
             getWorld().render(spriteBatch, shapeRenderer);
         }
 
-        font.setColor(Color.WHITE);
-        font.draw(spriteBatch, (round(swapTimer * 10D) / 10D) + "s", camera.position.x - (camera.viewportWidth / 2) + 8, camera.position.y + (camera.viewportHeight / 2) - 8);
+        drawTimer(spriteBatch);
+        drawLevelName(spriteBatch);
+
+        spriteBatch.flush();
+        shapeRenderer.end();
+        spriteBatch.end();
+    }
+
+    private void drawTimer(SpriteBatch s) {
+        if (swapTimer < 4.0) {
+            font.setColor(Color.RED.r, Color.RED.g, Color.RED.b, 0.75f);
+            font.setScale(12 + (int) (3.0 * (Math.cos(8.0 * 0.5 * PI * new BigDecimal(swapTimer).doubleValue()))));
+            font.draw(s, (int) swapTimer + "", camera.position.x - 40, camera.position.y + 110);
+        }
+        else {
+            font.setColor(Color.WHITE);
+            font.setScale(2);
+            font.draw(s, (round(swapTimer * 10D) / 10D) + "s", camera.position.x - 30, camera.position.y + (camera.viewportHeight / 2) - 8);
+        }
+    }
+
+    private void drawLevelName(SpriteBatch s) {
         font.setColor(0f, 1.0f, 0f, fontAlpha);
+        font.setScale(2);
         if (fontAlpha > 0.003f) {
             fontAlpha -= 0.003f; // fadeout
         }
         else {
             fontAlpha = 0f;
         }
-        font.draw(spriteBatch, worlds.get(worldIndex).getName(), getCamera().position.x - 350, getCamera().position.y - 220);
-
-        spriteBatch.flush();
-        shapeRenderer.end();
-        spriteBatch.end();
+        font.draw(s, worlds.get(worldIndex).getName(), getCamera().position.x - 350, getCamera().position.y - 220);
     }
 
     private void updateCamera() {
