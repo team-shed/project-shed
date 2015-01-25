@@ -1,11 +1,10 @@
 package com.echospiral.projectshed;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.echospiral.projectshed.controllers.MappedController;
 import com.echospiral.projectshed.object.Player;
 
-import static com.echospiral.projectshed.Role.*;
+import static com.echospiral.projectshed.Role.PLAYER;
 
 public class PlayerManager {
 
@@ -80,4 +79,19 @@ public class PlayerManager {
             }
         }
     }
+
+    public void clearPlayers() {
+        getPlayers().clear();
+    }
+
+    public void reassignPlayers() {
+        Array<Player> unassignedPlayers = new Array<>(players);
+        int i = 0;
+        for (MappedController controller : participatingControllers) {
+            if (unassignedPlayers.size != 0) {
+                unassignedPlayers.removeIndex(i).setController(controller);
+            }
+        }
+    }
+
 }

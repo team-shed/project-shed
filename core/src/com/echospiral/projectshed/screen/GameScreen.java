@@ -106,11 +106,16 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public World getWorld() {
-        return worlds.get(worldIndex);
+        return worlds.size > worldIndex ? worlds.get(worldIndex) : null;
     }
 
     public void nextLevel() {
+        getPlayerManager().clearPlayers();
         worldIndex++;
+        getPlayerManager().addPlayer(getWorld().getPlayer());
+        getPlayerManager().addPlayer(getWorld().getBuilderPlayer());
+        getPlayerManager().addPlayer(getWorld().getDestroyerPlayer());
+        getPlayerManager().reassignPlayers();
     }
 
 }

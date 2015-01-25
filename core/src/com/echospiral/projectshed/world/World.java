@@ -29,6 +29,8 @@ public class World {
     private WorldObjectsGroup<Exit> exits;
     private Texture playerTexture;
     private Player player;
+    private BuilderPlayer builderPlayer;
+    private DestroyerPlayer destroyerPlayer;
     private Texture handBuildTexture;
     private Texture handDestroyTexture;
     private Sound music;
@@ -74,7 +76,7 @@ public class World {
 
         Random random = new Random();
         if(numPlayers > 1) {
-            BuilderPlayer player2 = new BuilderPlayer(this, screen,
+            builderPlayer = new BuilderPlayer(this, screen,
                     3 + random.nextInt(3) * COLUMN_WIDTH, 3 + random.nextInt(3) * ROW_HEIGHT,
                     new Animation(0.0f, new Array<TextureRegion>() {{
                         add(new TextureRegion(handBuildTexture, 4, 2, 56, 60));
@@ -88,10 +90,10 @@ public class World {
                     new Animation(0.0f, new Array<TextureRegion>() {{
                         add(new TextureRegion(handBuildTexture, 4, 2, 56, 60));
                     }}));
-            addObject(player2);
+            addObject(builderPlayer);
         }
         if(numPlayers > 2) {
-            DestroyerPlayer player3 = new DestroyerPlayer(this, screen,
+            destroyerPlayer = new DestroyerPlayer(this, screen,
                     3 + random.nextInt(3) * COLUMN_WIDTH, 3 + random.nextInt(3) * ROW_HEIGHT,
                     new Animation(0.0f, new Array<TextureRegion>() {{
                         add(new TextureRegion(handDestroyTexture, 4, 2, 56, 60));
@@ -105,7 +107,7 @@ public class World {
                     new Animation(0.0f, new Array<TextureRegion>() {{
                         add(new TextureRegion(handDestroyTexture, 4, 2, 56, 60));
                     }}));
-            addObject(player3);
+            addObject(destroyerPlayer);
         }
     }
 
@@ -210,6 +212,14 @@ public class World {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public BuilderPlayer getBuilderPlayer() {
+        return builderPlayer;
+    }
+
+    public DestroyerPlayer getDestroyerPlayer() {
+        return destroyerPlayer;
     }
 
     public GameScreen getScreen() {
