@@ -3,6 +3,7 @@ package com.echospiral.projectshed.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.echospiral.projectshed.ProjectShed;
@@ -17,6 +18,7 @@ public class WinScreen extends ScreenAdapter {
 
     private String winner;
     private BitmapFont font;
+    private Sound music;
 
     private float countdown;
 
@@ -30,6 +32,13 @@ public class WinScreen extends ScreenAdapter {
         winner = "No one";
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 600);
+        music = Gdx.audio.newSound(Gdx.files.internal("music/winscreen.ogg"));
+
+    }
+
+    public void playSound() {
+        music.play();
+
     }
 
     public String getWinner() {
@@ -50,6 +59,10 @@ public class WinScreen extends ScreenAdapter {
 
     public void resetCountdown() {
         countdown = 3F;
+    }
+
+    public void dispose() {
+        music.dispose();
     }
 
     @Override

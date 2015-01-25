@@ -1,6 +1,7 @@
 package com.echospiral.projectshed.object;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -20,6 +21,8 @@ public class BreakableWall extends Block {
     private Animation animation;
     private float stateTime;
     private boolean building, destroying;
+    private Sound buildingSound;
+    private Sound destroyingSound;
 
     public BreakableWall(World world, int x, int y) {
         this(world, x, y, 7);
@@ -41,6 +44,8 @@ public class BreakableWall extends Block {
             add(new TextureRegion(wood, 448, 0, 64, 64));
         }} );
         animation.setPlayMode(NORMAL);
+        buildingSound = Gdx.audio.newSound(Gdx.files.internal("music/build.ogg"));
+        destroyingSound = Gdx.audio.newSound(Gdx.files.internal("music/destruct.ogg"));
     }
 
     @Override
@@ -77,7 +82,19 @@ public class BreakableWall extends Block {
 
     public void setBuilding(boolean building) {
         this.building = building;
+        if (building) {
+            playBuildingSound();
+        }
     }
+
+    public void playBuildingSound() {
+        buildingSound.play();
+    }
+
+    public void playDestroyingSound() {
+        destroyingSound.play();
+    }
+
 
     public boolean isDestroying() {
         return destroying;
@@ -85,6 +102,9 @@ public class BreakableWall extends Block {
 
     public void setDestroying(boolean destroying) {
         this.destroying = destroying;
+        if (destroying) {
+            playDestroyingSound();
+        }
     }
 
 }

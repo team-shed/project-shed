@@ -246,6 +246,11 @@ public class World {
     }
 
     public void dispose() {
+        for (WorldObject item: items.getGroupObjects()) {
+            if (item instanceof Item) {
+                ((Item)item).dispose();
+            }
+        }
         //music.dispose();
     }
 

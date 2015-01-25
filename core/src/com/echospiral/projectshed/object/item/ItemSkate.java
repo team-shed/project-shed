@@ -1,6 +1,7 @@
 package com.echospiral.projectshed.object.item;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -19,6 +20,7 @@ public class ItemSkate extends Item {
 
     private Texture skate;
     private Animation animation;
+    private Sound sound;
 
     public ItemSkate(World world, int x, int y) {
         super(world, x, y, new Animation(0.025f, new Array<TextureRegion>() {{
@@ -31,12 +33,12 @@ public class ItemSkate extends Item {
         this.setItemEffect(
                 new ItemEffectIncreaseSpeed(3, 5)
         );
-
+        sound = Gdx.audio.newSound(Gdx.files.internal("music/SpeedUp.ogg"));
     }
 
     @Override
     public void activate() {
-        return;
+        sound.play();
     }
 
     @Override
@@ -46,6 +48,10 @@ public class ItemSkate extends Item {
 
     public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
         spriteBatch.draw(getAnimation().getKeyFrame(stateTime), getX(), getY(), world.COLUMN_WIDTH, world.ROW_HEIGHT);
+    }
+
+    public void dispose() {
+        sound.dispose();
     }
 
 

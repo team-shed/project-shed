@@ -233,6 +233,7 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         if (getWorld() != null) getWorld().dispose();
+        winScreen.dispose();
     }
 
     public World getWorld() {
@@ -244,6 +245,7 @@ public class GameScreen extends ScreenAdapter {
         winScreen.setNextScreen(this);
         winScreen.setWinner("Player " + getPlayerManager().getControllerId(getWorld().getPlayer().getController()));
         game.setScreen(winScreen);
+        winScreen.playSound();
         getPlayerManager().clearPlayers();
         worldIndex++;
         if (getWorld() != null) {
