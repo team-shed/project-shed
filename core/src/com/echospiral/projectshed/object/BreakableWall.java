@@ -49,7 +49,7 @@ public class BreakableWall extends Block {
         if (isBuilding() && stateTime < 7F) stateTime += Math.min(delta, 7F - stateTime);
         if (isDestroying()) {
             if (stateTime > 0F) {
-                stateTime -= Math.min(delta, stateTime);
+                stateTime -= Math.min(delta*3, stateTime);
             } else {
                 getWorld().removeObject(this);
             }

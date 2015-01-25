@@ -4,10 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Predicate;
 import com.echospiral.projectshed.GameSettings;
@@ -18,7 +21,9 @@ import com.echospiral.projectshed.object.Player;
 import com.echospiral.projectshed.object.WorldObject;
 import com.echospiral.projectshed.world.World;
 
+import static com.badlogic.gdx.graphics.Color.WHITE;
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
+import static java.lang.Math.round;
 
 public class GameScreen extends ScreenAdapter {
 
@@ -30,6 +35,8 @@ public class GameScreen extends ScreenAdapter {
     private OrthographicCamera camera;
     private WinScreen winScreen;
     private float cameraScale = 1.0f;
+    private BitmapFont font;
+    private float fontAlpha;
 
     /**
      * Countdown until player roles are swapped.
@@ -46,6 +53,10 @@ public class GameScreen extends ScreenAdapter {
         worlds.add(new World(this, "worlds/world1_3.csv", "Diagonal chase"));
         worlds.add(new World(this, "worlds/world1_4.csv", "Through the S"));
         worlds.add(new World(this, "worlds/world1_5.csv", "What do we do now?"));
+        worlds.add(new World(this, "worlds/world2_1.csv", "The Room"));
+        worlds.add(new World(this, "worlds/world2_2.csv", "Maze X"));
+        worlds.add(new World(this, "worlds/final.csv", "Space..."));
+        //worlds.add(new World(this, "worlds/protoworld.csv", "log.debug()"));
         worldIndex = 0;
 
         startingSwapTimer = GameSettings.INITIAL_SWAP_INTERVAL;
@@ -59,6 +70,10 @@ public class GameScreen extends ScreenAdapter {
         })) {
             playerManager.addPlayer((Player)o);
         }
+
+        font = new BitmapFont();
+        font.setScale(2);
+        fontAlpha = 1.0f;
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 600);
@@ -108,6 +123,18 @@ public class GameScreen extends ScreenAdapter {
         if (getWorld() != null) {
             getWorld().render(spriteBatch, shapeRenderer);
         }
+
+        font.setColor(Color.WHITE);
+        font.draw(spriteBatch, (round(swapTimer * 10D) / 10D) + "s", camera.position.x - (camera.viewportWidth / 2) + 8, camera.position.y + (camera.viewportHeight / 2) - 8);
+        font.setColor(0f, 1.0f, 0f, fontAlpha);
+        if (fontAlpha > 0.003f) {
+            fontAlpha -= 0.003f; // fadeout
+        }
+        else {
+            fontAlpha = 0f;
+        }
+        font.draw(spriteBatch, worlds.get(worldIndex).getName(), getCamera().position.x - 350, getCamera().position.y - 220);
+
         spriteBatch.flush();
         shapeRenderer.end();
         spriteBatch.end();
@@ -139,6 +166,9 @@ public class GameScreen extends ScreenAdapter {
             cameraScale = (cameraScale + 1) % 6;
             camera.setToOrtho(false, cameraScale * 200, cameraScale * 150);
         }
+        else if(Gdx.input.isKeyJustPressed((Input.Keys.NUM_0))) {
+            nextLevel();
+        }
         camera.update();
     }
 
@@ -164,6 +194,7 @@ public class GameScreen extends ScreenAdapter {
             getPlayerManager().addPlayer(getWorld().getDestroyerPlayer());
             getPlayerManager().reassignPlayers();
             swapTimer = startingSwapTimer; // if you win you get to start the next level
+            fontAlpha = 1.0f;
         }
     }
 

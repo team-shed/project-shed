@@ -15,6 +15,7 @@ public class ProjectShed extends Game {
 	private SpriteBatch spriteBatch;
     private ShapeRenderer shapeRenderer;
     private GameScreen gameScreen;
+    private SplashScreen splashScreen;
 	
 	@Override
 	public void create () {
@@ -25,6 +26,7 @@ public class ProjectShed extends Game {
         splashImage.setCenter(400, 300);
 
         gameScreen = new GameScreen(this);
+        splashScreen = new SplashScreen(this, gameScreen, splashImage, 0.5f, 1.5f, 2.0f);
 
         boolean useInputSetup = false;
         if(useInputSetup) {
@@ -32,14 +34,14 @@ public class ProjectShed extends Game {
             this.setScreen(inputSetupScreen);
         } else {
             gameScreen.addPlayerController(new KeyboardMappedController());
-            //this.setScreen(gameScreen);
-            this.setScreen(new SplashScreen(this, gameScreen, splashImage, 0.5f, 1.5f, 2.0f));
+            this.setScreen(splashScreen);
         }
     }
 
     @Override
     public void dispose() {
         gameScreen.dispose();
+        splashScreen.dispose();
     }
 
     public SpriteBatch getSpriteBatch() {
