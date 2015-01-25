@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Predicate;
+import com.echospiral.projectshed.GameSettings;
 import com.echospiral.projectshed.PlayerManager;
 import com.echospiral.projectshed.ProjectShed;
 import com.echospiral.projectshed.controllers.MappedController;
@@ -37,8 +38,8 @@ public class GameScreen extends ScreenAdapter {
     /**
      * Countdown until player roles are swapped.
      */
-    private float startingSwapTimer = 5.0f;
-    private float swapTimer = 5.0f;
+    private float startingSwapTimer;
+    private float swapTimer;
 
     public GameScreen(ProjectShed game) {
         this.game = game;
@@ -53,6 +54,9 @@ public class GameScreen extends ScreenAdapter {
         worlds.add(new World(this, "worlds/world2_2.csv", "Maze X"));
         worlds.add(new World(this, "worlds/final.csv", "Space"));
         worldIndex = 0;
+
+        startingSwapTimer = GameSettings.INITIAL_SWAP_INTERVAL;
+        swapTimer = startingSwapTimer;
 
         for(WorldObject o : getWorld().getObjects().select(new Predicate<WorldObject>() {
             @Override
@@ -87,7 +91,7 @@ public class GameScreen extends ScreenAdapter {
         if(swapTimer <= 0.0f || Gdx.input.isKeyJustPressed(Input.Keys.NUM_9)) {
             Gdx.app.log("GameScreen", "Swap!");
             playerManager.swapRoles();
-            swapTimer = startingSwapTimer;
+            swapTimer += startingSwapTimer;
         }
     }
 

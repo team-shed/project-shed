@@ -1,16 +1,12 @@
 package com.echospiral.projectshed.object;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.echospiral.projectshed.GameSettings;
 import com.echospiral.projectshed.Role;
 import com.badlogic.gdx.math.Rectangle;
 import com.echospiral.projectshed.screen.GameScreen;
 import com.echospiral.projectshed.world.World;
-
-import static com.echospiral.projectshed.world.World.COLUMN_WIDTH;
-import static com.echospiral.projectshed.world.World.ROW_HEIGHT;
 
 /**
  * A Player that disables most collisions and can destroy walls.
@@ -24,6 +20,8 @@ public class DestroyerPlayer extends Player {
         this.setRole(Role.DESTROYER);
 
         this.gameScreen = gameScreen;
+
+        setMovementSpeed(GameSettings.INITIAL_SPEED_DESTROYER);
     }
 
     @Override
@@ -75,10 +73,8 @@ public class DestroyerPlayer extends Player {
             for (WorldObject object : getWorld().getObjects()) {
                 if (object instanceof BreakableWall) {
                     BreakableWall wall = (BreakableWall) object;
-                    if (getX() + (ROW_HEIGHT / 2) > object.getX()
-                            && getY() + (COLUMN_WIDTH / 2) > object.getY()
-                            && getX() < object.getX() + COLUMN_WIDTH
-                            && getY() < object.getY() + ROW_HEIGHT) {
+                    if (getWorld().getDestroyerGridSelection().getX() == object.getX()
+                            && getWorld().getDestroyerGridSelection().getY() == object.getY()) {
                         wall.setDestroying(true);
                     } else {
                         wall.setDestroying(false);

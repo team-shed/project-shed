@@ -32,7 +32,9 @@ public class World {
     private Texture playerTexture;
     private Player player;
     private BuilderPlayer builderPlayer;
+    private BuilderGridSelection builderGridSelection;
     private DestroyerPlayer destroyerPlayer;
+    private DestroyerGridSelection destroyerGridSelection;
     private Texture handBuildTexture;
     private Texture handDestroyTexture;
 
@@ -66,6 +68,8 @@ public class World {
         Array<String> level = new Array<>(levelString.split("\n"));
         level.reverse();
 
+        int maxWidth = 0;
+
         for (String line : level) {
             // use comma as separator
             Array<String> worldRow = new Array<>(line.split(cvsSplitBy));
@@ -76,13 +80,19 @@ public class World {
                 x++;
             }
             y++;
+            if (x > maxWidth)
+                maxWidth = x;
             x = 0;
         }
+
+        int halfW = maxWidth / 2;
+        int halfH = y / 2;
 
         Random random = new Random();
         if(numPlayers > 1) {
             builderPlayer = new BuilderPlayer(this, screen,
-                    3 + random.nextInt(3) * COLUMN_WIDTH, 3 + random.nextInt(3) * ROW_HEIGHT,
+                    (halfW * COLUMN_WIDTH) + random.nextInt(COLUMN_WIDTH * 3) - COLUMN_WIDTH,
+                    (halfH * ROW_HEIGHT) + random.nextInt(ROW_HEIGHT * 3) - ROW_HEIGHT,
                     new Animation(0.0f, new Array<TextureRegion>() {{
                         add(new TextureRegion(handBuildTexture, 4, 2, 56, 60));
                     }}),
@@ -96,10 +106,13 @@ public class World {
                         add(new TextureRegion(handBuildTexture, 4, 2, 56, 60));
                     }}));
             addObject(builderPlayer);
+            builderGridSelection = new BuilderGridSelection(this, builderPlayer);
+            addObject(builderGridSelection);
         }
         if(numPlayers > 2) {
             destroyerPlayer = new DestroyerPlayer(this, screen,
-                    3 + random.nextInt(3) * COLUMN_WIDTH, 3 + random.nextInt(3) * ROW_HEIGHT,
+                    (halfW * COLUMN_WIDTH) + random.nextInt(COLUMN_WIDTH * 3) - COLUMN_WIDTH,
+                    (halfH * ROW_HEIGHT) + random.nextInt(ROW_HEIGHT * 3) - ROW_HEIGHT,
                     new Animation(0.0f, new Array<TextureRegion>() {{
                         add(new TextureRegion(handDestroyTexture, 4, 2, 56, 60));
                     }}),
@@ -113,6 +126,8 @@ public class World {
                         add(new TextureRegion(handDestroyTexture, 4, 2, 56, 60));
                     }}));
             addObject(destroyerPlayer);
+            destroyerGridSelection = new DestroyerGridSelection(this, destroyerPlayer);
+            addObject(destroyerGridSelection);
         }
     }
 
@@ -127,17 +142,29 @@ public class World {
                 // tiles/rooms/chars/environment:
                 case 'o': // our player
                     Player player = new Player(world, x * COLUMN_WIDTH, y * ROW_HEIGHT,
-                            new Animation(0.025f, new Array<TextureRegion>() {{
-                                add(new TextureRegion(playerTexture, 4, 2, 56, 60));
+                            new Animation(0.5f, new Array<TextureRegion>() {{
+                                add(new TextureRegion(playerTexture, 0, 64, 64, 64));
+                                add(new TextureRegion(playerTexture, 64, 64, 64, 64));
+                                add(new TextureRegion(playerTexture, 128, 64, 64, 64));
+                                add(new TextureRegion(playerTexture, 192, 64, 64, 64));
                             }}),
-                            new Animation(0.025f, new Array<TextureRegion>() {{
-                                add(new TextureRegion(playerTexture, 4, 2, 56, 60));
+                            new Animation(0.5f, new Array<TextureRegion>() {{
+                                add(new TextureRegion(playerTexture, 0, 128, 64, 64));
+                                add(new TextureRegion(playerTexture, 64, 128, 64, 64));
+                                add(new TextureRegion(playerTexture, 128, 128, 64, 64));
+                                add(new TextureRegion(playerTexture, 192, 128, 64, 64));
                             }}),
-                            new Animation(0.025f, new Array<TextureRegion>() {{
-                                add(new TextureRegion(playerTexture, 4, 2, 56, 60));
+                            new Animation(0.5f, new Array<TextureRegion>() {{
+                                add(new TextureRegion(playerTexture, 0, 192, 64, 64));
+                                add(new TextureRegion(playerTexture, 64, 192, 64, 64));
+                                add(new TextureRegion(playerTexture, 128, 192, 64, 64));
+                                add(new TextureRegion(playerTexture, 192, 192, 64, 64));
                             }}),
-                            new Animation(0.025f, new Array<TextureRegion>() {{
-                                add(new TextureRegion(playerTexture, 4, 2, 56, 60));
+                            new Animation(0.5f, new Array<TextureRegion>() {{
+                                add(new TextureRegion(playerTexture, 0, 0, 64, 64));
+                                add(new TextureRegion(playerTexture, 64, 0, 64, 64));
+                                add(new TextureRegion(playerTexture, 128, 0, 64, 64));
+                                add(new TextureRegion(playerTexture, 192, 0, 64, 64));
                             }}));
                     //player.setController(new KeyboardMappedController());
                     this.player = player;
@@ -230,8 +257,16 @@ public class World {
         return builderPlayer;
     }
 
+    public BuilderGridSelection getBuilderGridSelection() {
+        return builderGridSelection;
+    }
+
     public DestroyerPlayer getDestroyerPlayer() {
         return destroyerPlayer;
+    }
+
+    public DestroyerGridSelection getDestroyerGridSelection() {
+        return destroyerGridSelection;
     }
 
     public GameScreen getScreen() {
