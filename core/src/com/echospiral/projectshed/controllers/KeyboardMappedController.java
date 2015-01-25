@@ -100,7 +100,7 @@ public class KeyboardMappedController implements MappedController {
 
     @Override
     public boolean getActionButton() {
-        switch(ControlSet.PLAYER_ONE) {
+        switch(controls) {
             case PLAYER_ONE:
                 return Gdx.input.isKeyJustPressed(Input.Keys.E);
             case PLAYER_TWO:
