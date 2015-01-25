@@ -94,4 +94,8 @@ public class PlayerManager {
         }
     }
 
+    public int getControllerId(MappedController controller) {
+        return participatingControllers.indexOf(controller, true) + 1;
+    }
+
 }
