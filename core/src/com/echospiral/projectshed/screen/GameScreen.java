@@ -79,7 +79,8 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL_COLOR_BUFFER_BIT);
         if (getWorld() != null) {
             getWorld().tick(delta);
-            camera.position.set(getWorld().getPlayer().getX(), getWorld().getPlayer().getY(), 0);
+
+            updateCamera();
         }
 
         checkSwapTimer(delta);
@@ -98,6 +99,25 @@ public class GameScreen extends ScreenAdapter {
         spriteBatch.flush();
         shapeRenderer.end();
         spriteBatch.end();
+    }
+
+    private void updateCamera() {
+        int mapWidth = 9 * 64;
+        int mapHeight = 9 * 64;
+        int cameraWidth = (int)getCamera().viewportWidth;
+        int cameraHeight = (int)getCamera().viewportHeight;
+
+        int scale = getWorld().getPlayer().getX() / mapWidth; // player as 0 to 1
+        int travel = Math.max(0, mapWidth - cameraWidth); // scale this
+        int from = (mapWidth - travel) / 2;
+        int cameraX = from + scale * travel;
+
+        scale = getWorld().getPlayer().getY() / mapHeight; // player as 0 to 1
+        travel = Math.max(0, mapHeight - cameraHeight); // scale this
+        from = (mapHeight - travel) / 2;
+        int cameraY = from + scale * travel;
+
+        camera.position.set(cameraX, cameraY, 0);
     }
 
     @Override
