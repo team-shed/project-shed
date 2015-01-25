@@ -32,7 +32,9 @@ public class World {
     private Texture playerTexture;
     private Player player;
     private BuilderPlayer builderPlayer;
+    private BuilderGridSelection builderGridSelection;
     private DestroyerPlayer destroyerPlayer;
+    private DestroyerGridSelection destroyerGridSelection;
     private Texture handBuildTexture;
     private Texture handDestroyTexture;
 
@@ -103,6 +105,8 @@ public class World {
                         add(new TextureRegion(handBuildTexture, 4, 2, 56, 60));
                     }}));
             addObject(builderPlayer);
+            builderGridSelection = new BuilderGridSelection(this, builderPlayer);
+            addObject(builderGridSelection);
         }
         if(numPlayers > 2) {
             destroyerPlayer = new DestroyerPlayer(this, screen,
@@ -120,6 +124,8 @@ public class World {
                         add(new TextureRegion(handDestroyTexture, 4, 2, 56, 60));
                     }}));
             addObject(destroyerPlayer);
+            destroyerGridSelection = new DestroyerGridSelection(this, destroyerPlayer);
+            addObject(destroyerGridSelection);
         }
     }
 
@@ -259,8 +265,16 @@ public class World {
         return builderPlayer;
     }
 
+    public BuilderGridSelection getBuilderGridSelection() {
+        return builderGridSelection;
+    }
+
     public DestroyerPlayer getDestroyerPlayer() {
         return destroyerPlayer;
+    }
+
+    public DestroyerGridSelection getDestroyerGridSelection() {
+        return destroyerGridSelection;
     }
 
     public GameScreen getScreen() {

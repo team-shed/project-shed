@@ -1,11 +1,9 @@
 package com.echospiral.projectshed.object;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.echospiral.projectshed.Role;
 import com.badlogic.gdx.math.Rectangle;
+import com.echospiral.projectshed.Role;
 import com.echospiral.projectshed.screen.GameScreen;
 import com.echospiral.projectshed.world.World;
 
@@ -73,22 +71,18 @@ public class BuilderPlayer extends Player {
         if (null != getController() && getController().getActionButton()) {
             boolean posFree = true;
             for (WorldObject object : getWorld().getObjects()) {
-                if (object == this) continue;
+                if (object == this || object == getWorld().getBuilderGridSelection()) continue;
                 if (object instanceof BreakableWall) {
                     BreakableWall wall = (BreakableWall) object;
-                    if (getX() + (COLUMN_WIDTH / 2) > object.getX()
-                            && getY() + (ROW_HEIGHT / 2) > object.getY()
-                            && getX() < object.getX() + COLUMN_WIDTH
-                            && getY() < object.getY() + ROW_HEIGHT) {
+                    if (getWorld().getBuilderGridSelection().getX() == object.getX()
+                            && getWorld().getBuilderGridSelection().getY() == object.getY()) {
                         wall.setBuilding(true);
                         posFree = false;
                     } else {
                         wall.setBuilding(false);
                     }
-                } else if (getX() + (COLUMN_WIDTH / 2) > object.getX()
-                        && getY() + (ROW_HEIGHT / 2) > object.getY()
-                        && getX() < object.getX() + COLUMN_WIDTH
-                        && getY() < object.getY() + ROW_HEIGHT) {
+                } else if (getWorld().getBuilderGridSelection().getX() == object.getX()
+                        && getWorld().getBuilderGridSelection().getY() == object.getY()) {
                     posFree = false;
                 }
             }
