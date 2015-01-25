@@ -91,6 +91,7 @@ public class Player extends WorldObject {
         dropCurrentItem();
         if (i.effect != null) {
             currentItemEffect = i.effect;
+            i.activate();
             return currentItemEffect.applyEffectToObject(this);
         }
         return false;

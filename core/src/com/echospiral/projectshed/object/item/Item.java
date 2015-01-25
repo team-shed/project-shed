@@ -51,4 +51,5 @@ public abstract class Item extends WorldObject {
 
     public abstract void activate();
 
+    public void dispose() { return; }
 }

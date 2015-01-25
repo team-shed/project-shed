@@ -15,6 +15,6 @@ public class GameSettings {
 
     public static float INITIAL_SWAP_INTERVAL = 8.0f;
 
-    public static boolean debug = false;
+    public static boolean debug = true;
 
 }
