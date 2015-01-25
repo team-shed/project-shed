@@ -2,6 +2,7 @@ package com.echospiral.projectshed.controllers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.controllers.Controller;
 
 public class KeyboardMappedController implements MappedController {
     public enum ControlSet { PLAYER_ONE, PLAYER_TWO, PLAYER_THREE}
@@ -27,6 +28,8 @@ public class KeyboardMappedController implements MappedController {
         this.movementMagnitude = magnitude;
         this.controls = controls;
     }
+
+    public ControlSet getControls() { return controls; }
 
     @Override
     public float getLeftAxisX() {
@@ -115,5 +118,22 @@ public class KeyboardMappedController implements MappedController {
 
     public boolean getAnyInput() {
         return getActionButton() || getLeftAxisX() != 0 || getLeftAxisY() != 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        KeyboardMappedController that = (KeyboardMappedController) o;
+
+        if (controls != that.controls) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return controls.hashCode();
     }
 }

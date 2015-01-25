@@ -13,9 +13,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.echospiral.projectshed.ProjectShed;
-import com.echospiral.projectshed.controllers.KeyboardMappedController;
-import com.echospiral.projectshed.controllers.MappedController;
-import com.echospiral.projectshed.controllers.MappedControllerFactory;
+import com.echospiral.projectshed.controllers.*;
 
 import java.security.Key;
 import java.util.HashSet;
@@ -36,7 +34,8 @@ public class InputSetupScreen extends ScreenAdapter implements ControllerListene
     int maxSlots = 3;
     Set<Controller> controllerSet = new HashSet<>();
     Array<MappedController> addedControllers = new Array<>();
-    Array<KeyboardMappedController> keyboards;
+
+    ControllerDiscoverer controllerDiscoverer;
 
     /**
      * Creates a new InputSetupScreen to discover inputs and hand them to the {@Link GameScreen}.
@@ -47,13 +46,13 @@ public class InputSetupScreen extends ScreenAdapter implements ControllerListene
         this.game = game;
         this.gameScreen = gameScreen;
 
-        keyboards = new Array<KeyboardMappedController>() {{
-            add(new KeyboardMappedController(KeyboardMappedController.ControlSet.PLAYER_ONE));
-            add(new KeyboardMappedController(KeyboardMappedController.ControlSet.PLAYER_TWO));
-            add(new KeyboardMappedController(KeyboardMappedController.ControlSet.PLAYER_THREE));
-        }};
-
-        Controllers.addListener(this);
+        controllerDiscoverer = new ControllerDiscoverer();
+        controllerDiscoverer.addListener(new ControllerDiscoveryListener() {
+            @Override
+            public void controllerFound(MappedController controller) {
+                addPlayer(controller);
+            }
+        });
     }
 
     /**
@@ -89,13 +88,6 @@ public class InputSetupScreen extends ScreenAdapter implements ControllerListene
 
     @Override
     public void render(float deltaTime) {
-        for(KeyboardMappedController keyboardController : keyboards) {
-            if(keyboardController.getAnyInput()) {
-                addPlayer(keyboardController);
-                keyboards.removeValue(keyboardController, true);
-            }
-        }
-
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL_COLOR_BUFFER_BIT);
         SpriteBatch spriteBatch = game.getSpriteBatch();

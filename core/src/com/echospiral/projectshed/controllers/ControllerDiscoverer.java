@@ -15,11 +15,7 @@ import java.util.Set;
 
 public class ControllerDiscoverer implements ControllerListener, InputProcessor {
     Array<ControllerDiscoveryListener> listeners;
-    Set<Controller> controllerSet = new HashSet<>();
-    Array<MappedController> addedControllers = new Array<>();
-    boolean keyboardOneAdded = false;
-    boolean keyboardTwoAdded = false;
-    boolean keyboardThreeAdded = false;
+    Set<MappedController> controllerSet = new HashSet<>();
 
     public ControllerDiscoverer() {
         listeners = new Array<>();
@@ -33,19 +29,19 @@ public class ControllerDiscoverer implements ControllerListener, InputProcessor 
     }
 
     private void addMappedController(MappedController mappedController) {
-        for(ControllerDiscoveryListener listener : this.listeners) {
-            listener.controllerFound(mappedController);
+        if(!controllerSet.contains(mappedController)) {
+            controllerSet.add(mappedController);
+            Gdx.app.log("controllerDiscovery", "Found controller: " + mappedController);
+            for (ControllerDiscoveryListener listener : this.listeners) {
+                listener.controllerFound(mappedController);
+            }
         }
     }
 
     private void foundGamepad(Controller controller) {
-        if(!controllerSet.contains(controller)) {
-            Gdx.app.log("InputSetup", "Adding controller " + controller.hashCode() + ": " + controller.getName());
-            controllerSet.add(controller);
-            MappedController mc = MappedControllerFactory.getController(controller);
-            if(mc != null) {
-                addMappedController(mc);
-            }
+        MappedController mc = MappedControllerFactory.getController(controller);
+        if(mc != null) {
+            addMappedController(mc);
         }
     }
 
@@ -58,7 +54,6 @@ public class ControllerDiscoverer implements ControllerListener, InputProcessor 
             case Input.Keys.S:
             case Input.Keys.D:
             case Input.Keys.E:
-                keyboardOneAdded = true;
                 mc = new KeyboardMappedController(KeyboardMappedController.ControlSet.PLAYER_ONE);
                 break;
             case Input.Keys.J:
@@ -66,7 +61,6 @@ public class ControllerDiscoverer implements ControllerListener, InputProcessor 
             case Input.Keys.L:
             case Input.Keys.I:
             case Input.Keys.O:
-                keyboardOneAdded = true;
                 mc = new KeyboardMappedController(KeyboardMappedController.ControlSet.PLAYER_TWO);
                 break;
             case Input.Keys.UP:
@@ -74,8 +68,7 @@ public class ControllerDiscoverer implements ControllerListener, InputProcessor 
             case Input.Keys.LEFT:
             case Input.Keys.RIGHT:
             case Input.Keys.SHIFT_RIGHT:
-                keyboardOneAdded = true;
-                mc = new KeyboardMappedController(KeyboardMappedController.ControlSet.PLAYER_ONE);
+                mc = new KeyboardMappedController(KeyboardMappedController.ControlSet.PLAYER_THREE);
                 break;
         }
 
