@@ -36,37 +36,49 @@ public class DestroyerPlayer extends Player {
         screen_rect.x = c.position.x - screen_rect.width / 2;
         screen_rect.y = c.position.y - screen_rect.height / 2;
 
+        Rectangle playArea = new Rectangle(0, 0, getWorld().getWidth(), getWorld().getHeight());
+
+        float minx = Math.max(screen_rect.x, playArea.x);
+        float miny = Math.max(screen_rect.y, playArea.y);
+        float maxx = Math.min(screen_rect.x + screen_rect.width, playArea.x + playArea.width);
+        float maxy = Math.min(screen_rect.y + screen_rect.height, playArea.y + playArea.height);
+
+        playArea.x = minx + 5;
+        playArea.y = miny + 5;
+        playArea.width = maxx - minx - 10;
+        playArea.height = maxy - miny - 10;
+
         int testMargin = 1000;
-        Rectangle left = new Rectangle(screen_rect.x - testMargin, screen_rect.y - testMargin,
-                testMargin, screen_rect.height + 2*testMargin);
-        Rectangle right = new Rectangle(screen_rect.x + screen_rect.width, screen_rect.y - testMargin,
-                testMargin, screen_rect.height + 2*testMargin);
-        Rectangle top = new Rectangle(screen_rect.x - testMargin, screen_rect.y + screen_rect.height,
-                screen_rect.width + 2*testMargin, testMargin);
-        Rectangle bottom = new Rectangle(screen_rect.x - testMargin, screen_rect.y - testMargin,
-                screen_rect.width + 2*testMargin, testMargin);
+        Rectangle left = new Rectangle(playArea.x - testMargin, playArea.y - testMargin,
+                testMargin, playArea.height + 2*testMargin);
+        Rectangle right = new Rectangle(playArea.x + playArea.width, playArea.y - testMargin,
+                testMargin, playArea.height + 2*testMargin);
+        Rectangle top = new Rectangle(playArea.x - testMargin, playArea.y + playArea.height,
+                playArea.width + 2*testMargin, testMargin);
+        Rectangle bottom = new Rectangle(playArea.x - testMargin, playArea.y - testMargin,
+                playArea.width + 2*testMargin, testMargin);
 
         int originX = getX() + (COLUMN_WIDTH / 2);
         int originY = getY() + (ROW_HEIGHT / 2);
 
         if(left.contains(originX + getDx(), originY)) {
             freeX = false;
-            setX((int) (screen_rect.x - (COLUMN_WIDTH / 2)));
+            setX((int) (playArea.x - (COLUMN_WIDTH / 2)));
         }
 
         if(right.contains(originX + getDx(), originY)) {
             freeX = false;
-            setX((int)(screen_rect.x + screen_rect.width - (COLUMN_WIDTH / 2)));
+            setX((int)(playArea.x + playArea.width - (COLUMN_WIDTH / 2)));
         }
 
         if(top.contains(originX, originY + getDy())) {
             freeY = false;
-            setY((int) (screen_rect.y + screen_rect.height - (ROW_HEIGHT / 2)));
+            setY((int) (playArea.y + playArea.height - (ROW_HEIGHT / 2)));
         }
 
         if(bottom.contains(originX, originY + getDy())) {
             freeY = false;
-            setY((int) (screen_rect.y - (ROW_HEIGHT / 2)));
+            setY((int) (playArea.y - (ROW_HEIGHT / 2)));
         }
     }
 
@@ -79,6 +91,7 @@ public class DestroyerPlayer extends Player {
                     BreakableWall wall = (BreakableWall) object;
                     if (getWorld().getDestroyerGridSelection().getX() == object.getX()
                             && getWorld().getDestroyerGridSelection().getY() == object.getY()) {
+                        wall.setBuilding(false);
                         wall.setDestroying(true);
                     } else {
                         wall.setDestroying(false);

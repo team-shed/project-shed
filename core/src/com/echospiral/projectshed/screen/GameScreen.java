@@ -41,6 +41,8 @@ public class GameScreen extends ScreenAdapter {
     private BitmapFont font;
     private float fontAlpha;
 
+    private boolean creditsShown;
+
     ControllerDiscoverer controllerDiscoverer;
 
     /**
@@ -155,10 +157,30 @@ public class GameScreen extends ScreenAdapter {
 
         drawTimer(spriteBatch);
         drawLevelName(spriteBatch);
+        possiblyDrawCredits(spriteBatch);
 
         spriteBatch.flush();
         shapeRenderer.end();
         spriteBatch.end();
+    }
+
+    private void possiblyDrawCredits(SpriteBatch spriteBatch) {
+        if (creditsShown) {
+            font.setColor(Color.WHITE);
+            font.setScale(2);
+            font.drawMultiLine(spriteBatch, "Congratulations!\n\n" +
+                            "Thanks for playing\n\n" +
+                            "Project S.H.E.D.\n\n" +
+                    "Team SHED:\n\n" +
+                    "Ross - Programming & Art\n" +
+                    "Oddvar - Programming\n" +
+                    "Jeff - Programming\n" +
+                    "Rudi - Programming\n" +
+                    "Patrick - Music\n" +
+                    "Niclas - Sound effects\n\n" +
+                    "Made for The Global Game Jam 2015",
+                    camera.position.x - 128, camera.position.y + (camera.viewportHeight / 2) - 8);
+        }
     }
 
     private void drawTimer(SpriteBatch s) {
@@ -222,6 +244,7 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         if (getWorld() != null) getWorld().dispose();
+        winScreen.dispose();
     }
 
     public World getWorld() {
@@ -233,6 +256,7 @@ public class GameScreen extends ScreenAdapter {
         winScreen.setNextScreen(this);
         winScreen.setWinner("Player " + getPlayerManager().getControllerId(getWorld().getHero().getController()));
         game.setScreen(winScreen);
+        winScreen.playSound();
         getPlayerManager().clearPlayers();
         worldIndex++;
         if (getWorld() != null) {
@@ -243,6 +267,14 @@ public class GameScreen extends ScreenAdapter {
             swapTimer = startingSwapTimer; // if you win you get to start the next level
             fontAlpha = 1.0f;
         }
+    }
+
+    public boolean isOnLastLevel() {
+        return worldIndex == worlds.size - 1;
+    }
+
+    public void showCredits() {
+        creditsShown = true;
     }
 
 }
