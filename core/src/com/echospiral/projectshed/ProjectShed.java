@@ -28,8 +28,7 @@ public class ProjectShed extends Game {
         gameScreen = new GameScreen(this);
         splashScreen = new SplashScreen(this, gameScreen, splashImage, 0.5f, 1.5f, 2.0f);
 
-        boolean useInputSetup = false;
-        if(useInputSetup) {
+        if(GameSettings.GAMEPAD_INPUT_SETTING) {
             InputSetupScreen inputSetupScreen = new InputSetupScreen(this, gameScreen);
             this.setScreen(inputSetupScreen);
         } else {

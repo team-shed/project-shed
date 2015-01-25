@@ -5,6 +5,8 @@ package com.echospiral.projectshed;
  */
 public class GameSettings {
 
+    public static boolean GAMEPAD_INPUT_SETTING = false;
+
     public static int INITIAL_SPEED_HERO = 4;
 
     public static int INITIAL_SPEED_DESTROYER = 8;
