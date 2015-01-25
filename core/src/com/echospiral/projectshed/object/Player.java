@@ -117,6 +117,11 @@ public class Player extends WorldObject {
         handleInput();
         handleAnimations(delta);
         super.tick(delta);
+        if (getWorld().getScreen().isOnLastLevel()) {
+            if (getX() > getWorld().getWidth() || getY() > getWorld().getHeight() || getX() < 0 || getY() < 0) {
+                getWorld().getScreen().showCredits();
+            }
+        }
     }
 
     @Override

@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Predicate;
 import com.echospiral.projectshed.GameSettings;
@@ -25,7 +24,6 @@ import com.echospiral.projectshed.world.World;
 
 import java.math.BigDecimal;
 
-import static com.badlogic.gdx.graphics.Color.WHITE;
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
 import static java.lang.Math.PI;
 import static java.lang.Math.round;
@@ -42,6 +40,8 @@ public class GameScreen extends ScreenAdapter {
     private float cameraScale = 1.0f;
     private BitmapFont font;
     private float fontAlpha;
+
+    private boolean creditsShown;
 
     ControllerDiscoverer controllerDiscoverer;
 
@@ -157,10 +157,19 @@ public class GameScreen extends ScreenAdapter {
 
         drawTimer(spriteBatch);
         drawLevelName(spriteBatch);
+        possiblyDrawCredits(spriteBatch);
 
         spriteBatch.flush();
         shapeRenderer.end();
         spriteBatch.end();
+    }
+
+    private void possiblyDrawCredits(SpriteBatch spriteBatch) {
+        if (creditsShown) {
+            font.setColor(Color.WHITE);
+            font.setScale(2);
+            font.drawMultiLine(spriteBatch, "", camera.position.x - 128, camera.position.y + camera.viewportHeight - 8);
+        }
     }
 
     private void drawTimer(SpriteBatch s) {
@@ -245,6 +254,14 @@ public class GameScreen extends ScreenAdapter {
             swapTimer = startingSwapTimer; // if you win you get to start the next level
             fontAlpha = 1.0f;
         }
+    }
+
+    public boolean isOnLastLevel() {
+        return worldIndex == worlds.size - 1;
+    }
+
+    public void showCredits() {
+        creditsShown = true;
     }
 
 }
