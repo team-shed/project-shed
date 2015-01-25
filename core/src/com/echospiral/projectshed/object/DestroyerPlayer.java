@@ -1,6 +1,7 @@
 package com.echospiral.projectshed.object;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.echospiral.projectshed.Role;
 import com.echospiral.projectshed.world.World;
 
 import static com.echospiral.projectshed.world.World.COLUMN_WIDTH;
@@ -13,6 +14,7 @@ public class DestroyerPlayer extends Player {
     public DestroyerPlayer(World world, int x, int y, Animation moveUpAnimation, Animation moveLeftAnimation,
                          Animation moveRightAnimation, Animation moveDownAnimation) {
         super(world, x, y, moveUpAnimation, moveLeftAnimation, moveRightAnimation, moveDownAnimation);
+        this.setRole(Role.DESTROYER);
     }
 
     @Override

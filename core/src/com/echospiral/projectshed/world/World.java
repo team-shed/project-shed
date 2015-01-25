@@ -36,7 +36,8 @@ public class World {
         handBuildTexture = new Texture(Gdx.files.internal("hand_build.png"));
         handDestroyTexture = new Texture(Gdx.files.internal("hand_destroy.png"));
         music = Gdx.audio.newSound(Gdx.files.internal("music/gamejammy.ogg"));
-        music.play();
+
+        music.loop();
 
     }
 
