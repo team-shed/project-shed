@@ -41,6 +41,7 @@ public class GameScreen extends ScreenAdapter {
         worlds.add(new World(this, "worlds/world1_2.csv", "A longer walk"));
         worlds.add(new World(this, "worlds/world1_3.csv", "Diagonal chase"));
         worlds.add(new World(this, "worlds/world1_4.csv", "Through the S"));
+        worlds.add(new World(this, "worlds/world1_5.csv", "What do we do now?"));
         worldIndex = 0;
 
         for(WorldObject o : getWorld().getObjects().select(new Predicate<WorldObject>() {
