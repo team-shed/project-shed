@@ -1,7 +1,6 @@
 package com.echospiral.projectshed.world;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -14,6 +13,9 @@ import com.echospiral.projectshed.object.item.ItemSkate;
 import com.echospiral.projectshed.screen.GameScreen;
 
 import java.util.Random;
+
+import static com.badlogic.gdx.graphics.Texture.TextureFilter.Linear;
+import static java.lang.Math.max;
 
 public class World {
 
@@ -33,11 +35,13 @@ public class World {
     private DestroyerPlayer destroyerPlayer;
     private Texture handBuildTexture;
     private Texture handDestroyTexture;
-    private Sound music;
+
+    private int width, height;
 
     public World(GameScreen screen) {
         this.screen = screen;
         backgroundTexture = new Texture(Gdx.files.internal("background_1.png"));
+        backgroundTexture.setFilter(Linear, Linear);
         objects = new Array<>();
         blocks = new WorldObjectsGroup<>();
         items = new WorldObjectsGroup<>();
@@ -45,9 +49,9 @@ public class World {
         playerTexture = new Texture(Gdx.files.internal("player_spritesheet.png"));
         handBuildTexture = new Texture(Gdx.files.internal("hand_build.png"));
         handDestroyTexture = new Texture(Gdx.files.internal("hand_destroy.png"));
-        music = Gdx.audio.newSound(Gdx.files.internal("music/gamejammy.ogg"));
 
-        music.loop();
+        width = 1;
+        height = 1;
 
     }
 
@@ -172,6 +176,10 @@ public class World {
 
     public void addObject(WorldObject object) {
         if (object == null) return;
+        if (object.getX() >= width)
+            width = object.getX() + (int) object.getRelativeBounds(0, 0).getWidth();
+        if (object.getY() >= height)
+            height = object.getY() + (int) object.getRelativeBounds(0, 0).getHeight();
         getObjects().add(object);
         if (object instanceof Block) blocks.add((Block) object);
         else if (object instanceof Item) items.add((Item) object);
@@ -192,22 +200,24 @@ public class World {
     }
 
     public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
-        spriteBatch.draw(backgroundTexture, 0, 0);
-        WorldObject player = null;
+        spriteBatch.draw(backgroundTexture, 0, 0, max(1, width), max(1, height));
         for (WorldObject object : getObjects()) {
             object.render(spriteBatch, shapeRenderer);
-            if (object instanceof Player) {
-                player = object;
-            }
         }
         // grim hack to paint the player last so we can see his massive head
         if (player != null) {
             player.render(spriteBatch, shapeRenderer);
         }
+        if (builderPlayer != null) {
+            builderPlayer.render(spriteBatch, shapeRenderer);
+        }
+        if (destroyerPlayer != null) {
+            destroyerPlayer.render(spriteBatch, shapeRenderer);
+        }
     }
 
     public void dispose() {
-        music.dispose();
+        //music.dispose();
     }
 
     public Player getPlayer() {
