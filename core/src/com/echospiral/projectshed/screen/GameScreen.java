@@ -20,7 +20,9 @@ import com.echospiral.projectshed.object.Player;
 import com.echospiral.projectshed.object.WorldObject;
 import com.echospiral.projectshed.world.World;
 
+import static com.badlogic.gdx.graphics.Color.WHITE;
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
+import static java.lang.Math.round;
 
 public class GameScreen extends ScreenAdapter {
 
@@ -121,6 +123,7 @@ public class GameScreen extends ScreenAdapter {
         }
 
         font.setColor(0f, 1.0f, 0f, fontAlpha);
+        font.draw(spriteBatch, (round(swapTimer * 10D) / 10D) + "s", camera.position.x - (camera.viewportWidth / 2) + 8, camera.position.y + (camera.viewportHeight / 2) - 8);
         if (fontAlpha > 0.003f) {
             fontAlpha -= 0.003f; // fadeout
         }
