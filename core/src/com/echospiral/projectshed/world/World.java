@@ -239,9 +239,10 @@ public class World {
             player.render(spriteBatch, shapeRenderer);
             font.setColor(Color.WHITE);
             font.setScale(1);
-            font.draw(spriteBatch,
-                    "Player " + (this.screen.getPlayerManager().getControllerId(this.getHero().getController()) + 1),
-                            player.getX() + 2, player.getY() -2);
+            int currentController = this.screen.getPlayerManager().getControllerId(this.getHero().getController());
+            if (currentController != 0) {
+                font.draw(spriteBatch, "Player " + currentController, player.getX() + 2, player.getY() - 2);
+            }
         }
         if (builderPlayer != null) {
             builderPlayer.render(spriteBatch, shapeRenderer);
